@@ -1,0 +1,431 @@
+@import 'tailwindcss';
+@import '../../vendor/wirechat/wirechat/resources/css/app.css';
+@import '../../vendor/livewire/flux/dist/flux.css';
+
+@source '../views';
+@source '../../vendor/laravel/framework/src/Illuminate/Pagination/resources/views/*.blade.php';
+@source '../../vendor/livewire/flux-pro/stubs/**/*.blade.php';
+@source '../../vendor/livewire/flux/stubs/**/*.blade.php';
+
+@custom-variant dark (&:where(.dark, .dark *));
+
+/* Sidebar brand logo: wordmark when expanded, square short logo when
+   collapsed (desktop rail or mobile drawer) — black in light mode, white in
+   dark mode. */
+[data-flux-sidebar-brand] .app-logo-wordmark-black,
+[data-flux-sidebar-brand] .app-logo-wordmark-white,
+[data-flux-sidebar-brand] .app-logo-short-black,
+[data-flux-sidebar-brand] .app-logo-short-white {
+    display: none;
+}
+
+html:not(.dark) [data-flux-sidebar]:not([data-flux-sidebar-collapsed-desktop]):not([data-flux-sidebar-on-mobile][data-flux-sidebar-collapsed-mobile]) [data-flux-sidebar-brand] .app-logo-wordmark-black {
+    display: block;
+}
+
+html.dark [data-flux-sidebar]:not([data-flux-sidebar-collapsed-desktop]):not([data-flux-sidebar-on-mobile][data-flux-sidebar-collapsed-mobile]) [data-flux-sidebar-brand] .app-logo-wordmark-white {
+    display: block;
+}
+
+html:not(.dark) [data-flux-sidebar]:is([data-flux-sidebar-collapsed-desktop], [data-flux-sidebar-on-mobile][data-flux-sidebar-collapsed-mobile]) [data-flux-sidebar-brand] .app-logo-short-black {
+    display: block;
+}
+
+html.dark [data-flux-sidebar]:is([data-flux-sidebar-collapsed-desktop], [data-flux-sidebar-on-mobile][data-flux-sidebar-collapsed-mobile]) [data-flux-sidebar-brand] .app-logo-short-white {
+    display: block;
+}
+
+/* Header brand logo: wordmark on wide screens, square short icon on narrow
+   screens — black in light mode, white in dark mode. */
+[data-flux-brand] .app-logo-wordmark-black,
+[data-flux-brand] .app-logo-wordmark-white,
+[data-flux-brand] .app-logo-short-black,
+[data-flux-brand] .app-logo-short-white {
+    display: none;
+}
+
+@media (min-width: 640px) {
+    html:not(.dark) [data-flux-brand] .app-logo-wordmark-black {
+        display: block;
+    }
+
+    html.dark [data-flux-brand] .app-logo-wordmark-white {
+        display: block;
+    }
+}
+
+@media (max-width: 639.98px) {
+    html:not(.dark) [data-flux-brand] .app-logo-short-black {
+        display: block;
+    }
+
+    html.dark [data-flux-brand] .app-logo-short-white {
+        display: block;
+    }
+}
+
+@theme {
+    --font-sans: 'Inter', ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
+
+    --color-zinc-50: #fafafa;
+    --color-zinc-100: #f5f5f5;
+    --color-zinc-200: #e5e5e5;
+    --color-zinc-300: #d4d4d4;
+    --color-zinc-400: #a3a3a3;
+    --color-zinc-500: #737373;
+    --color-zinc-600: #525252;
+    --color-zinc-700: #404040;
+    --color-zinc-800: #262626;
+    --color-zinc-900: #171717;
+    --color-zinc-950: #0a0a0a;
+
+    --color-accent: #3750eb;
+    --color-accent-content: #3750eb;
+    --color-accent-foreground: var(--color-white);
+}
+
+@layer theme {
+    .dark {
+        --color-accent: #3750eb;
+        --color-accent-content: #6f84ff;
+        --color-accent-foreground: var(--color-white);
+    }
+}
+
+@layer base {
+
+    *,
+    ::after,
+    ::before,
+    ::backdrop,
+    ::file-selector-button {
+        border-color: var(--color-gray-200, currentColor);
+    }
+}
+
+/* Reduced general page padding */
+[data-flux-main] {
+    padding: calc(var(--spacing) * 3);
+}
+
+.p-5 {
+    padding: calc(var(--spacing) * 3);
+}
+
+/* Frosted backdrop for Flux modals/flyouts */
+[data-flux-modal] > dialog::backdrop {
+    background-color: rgb(9 9 11 / 0.35);
+    backdrop-filter: blur(6px);
+    -webkit-backdrop-filter: blur(6px);
+}
+
+:where(.dark) [data-flux-modal] > dialog::backdrop {
+    background-color: rgb(0 0 0 / 0.6);
+}
+
+[data-flux-field]:not(ui-radio, ui-checkbox) {
+    @apply grid gap-2;
+}
+
+[data-flux-label] {
+    @apply  !mb-0 !leading-tight;
+}
+
+input:focus[data-flux-control],
+textarea:focus[data-flux-control],
+select:focus[data-flux-control] {
+    @apply outline-hidden ring-2 ring-accent ring-offset-2 ring-offset-accent-foreground;
+}
+
+/* \[:where(&)\]:size-4 {
+    @apply size-4;
+} */
+
+/* Landing-style ambient utilities shared by auth & app layouts */
+.bg-grid {
+    background-image:
+        linear-gradient(to right, rgb(255 255 255 / 0.05) 1px, transparent 1px),
+        linear-gradient(to bottom, rgb(255 255 255 / 0.05) 1px, transparent 1px);
+    background-size: 48px 48px;
+}
+
+.glow {
+    background: radial-gradient(60rem 28rem at 50% -10%, rgb(124 58 237 / 0.35), transparent 60%),
+        radial-gradient(40rem 20rem at 80% 10%, rgb(34 211 238 / 0.16), transparent 55%);
+}
+
+.text-gradient {
+    background: linear-gradient(100deg, #a5b4fc, #e9d5ff 45%, #67e8f9);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+}
+
+/* Flux wraps icon + text children of a button in a <span>; Tailwind's preflight
+   makes <svg> display:block, which stacks the label below the icon. Keep them on one row. */
+[data-flux-button] > span {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.375rem;
+}
+
+/* Uniform buttons: identical padding & radius everywhere, black text in light
+   mode and white text in dark mode. Filled variants (primary/danger) keep
+   their high-contrast foreground so labels stay readable on colored fills.
+   Square/icon-only buttons (w-6/w-8/w-10/w-12) are excluded so small
+   controls like the password eye-toggle keep their compact size. */
+[data-flux-button]:not(.w-6):not(.w-8):not(.w-10):not(.w-12) {
+    padding: 0.45rem 1.25rem !important;
+    border-radius: 0.35rem !important;
+    height: auto !important;
+}
+
+html:not(.dark) [data-flux-button]:not(.w-6):not(.w-8):not(.w-10):not(.w-12) {
+    color: #000;
+}
+
+html.dark [data-flux-button]:not(.w-6):not(.w-8):not(.w-10):not(.w-12) {
+    color: #fff;
+}
+
+html:not(.dark) [data-flux-button].text-\[var\(--color-accent-foreground\)\],
+html:not(.dark) [data-flux-button].text-white,
+html.dark [data-flux-button].text-\[var\(--color-accent-foreground\)\],
+html.dark [data-flux-button].text-white {
+    color: var(--color-accent-foreground);
+}
+
+/* Uniform buttons on the landing page (custom markup, outside Flux): same
+   padding & radius as the app's Flux buttons, black text in light mode and
+   white in dark. Filled CTAs (text-white on accent/dark fills) keep white. */
+.page-landing a.inline-flex:not([class*="size-"]) {
+    padding: 0.45rem 1.25rem !important;
+    border-radius: 0.35rem !important;
+}
+
+html:not(.dark) .page-landing a.inline-flex:not([class*="size-"]) {
+    color: #000;
+}
+
+html.dark .page-landing a.inline-flex:not([class*="size-"]) {
+    color: #fff;
+}
+
+html:not(.dark) .page-landing a.inline-flex.text-white:not([class*="size-"]),
+html.dark .page-landing a.inline-flex.text-white:not([class*="size-"]) {
+    color: #fff;
+}
+
+[data-flux-button] svg {
+    display: inline-block;
+    vertical-align: middle;
+}
+
+[x-cloak] {
+    display: none !important;
+}
+
+/* Get Verified sidebar banner: slow moving gradient + soft pulsing glow. */
+@keyframes verify-shift {
+    0%, 100% {
+        background-position: 0% 50%;
+    }
+    50% {
+        background-position: 100% 50%;
+    }
+}
+
+@keyframes verify-glow {
+    0%, 100% {
+        box-shadow: 0 0 0 0 rgb(96 165 250 / 0);
+    }
+    50% {
+        box-shadow: 0 0 22px 2px rgb(96 165 250 / 0.35);
+    }
+}
+
+.verify-promo {
+    background-image: linear-gradient(120deg, #1e3a8a, #3750eb 45%, #7c3aed 75%, #1e3a8a);
+    background-size: 220% 220%;
+    animation: verify-shift 8s ease-in-out infinite, verify-glow 3.5s ease-in-out infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .verify-promo {
+        animation: none;
+    }
+}
+
+/* Top Engineers vertical ticker: scrolls bottom-to-top with faded edges. */
+@keyframes ticker-up {
+    from {
+        transform: translateY(0);
+    }
+    to {
+        transform: translateY(-50%);
+    }
+}
+
+.ticker-fade {
+    -webkit-mask-image: linear-gradient(to bottom, transparent 0%, black 8%, black 92%, transparent 100%);
+    mask-image: linear-gradient(to bottom, transparent 0%, black 8%, black 92%, transparent 100%);
+}
+
+.ticker-track {
+    animation: ticker-up 30s linear infinite;
+    will-change: transform;
+}
+
+.ticker-group:hover .ticker-track,
+.ticker-track:hover {
+    animation-play-state: paused;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .ticker-track {
+        animation: none;
+    }
+}
+
+/* Keep heading-groups visible when the sidebar collapses to its icon rail;
+   hide the section heading and let the item styles collapse to icons. */
+:where([data-flux-sidebar-collapsed-desktop]) [data-flux-sidebar-group] {
+    display: flex;
+}
+
+:where([data-flux-sidebar-collapsed-desktop]) [data-flux-sidebar-group] > div:first-child {
+    display: none;
+}
+
+/* Smooth sidebar collapse/expand. Flux ships a default `transition-transform`
+   class on the sidebar that appears after Tailwind's `transition-[width,padding]`
+   in the compiled CSS, so the cascade drops width/padding and the rail snaps.
+   Enforce the full property set here (width/padding for the rail, transform/
+   translate for the mobile drawer). */
+[data-flux-sidebar] {
+    transition-property: width, padding, transform, translate, scale, rotate;
+    transition-duration: 300ms;
+    transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+@media (prefers-reduced-motion: reduce) {
+    [data-flux-sidebar] {
+        transition: none;
+    }
+}
+
+/* Pure-black surfaces and deep borders for dark mode */
+.dark\:bg-zinc-800:where(.dark, .dark *) {
+    background-color: #000000;
+}
+
+.dark\:border-zinc-700:where(.dark, .dark *) {
+    border-color: #1a1a1a;
+}
+
+/* Slick gray scrollbars that adapt to dark and light mode */
+* {
+    scrollbar-width: thin;
+    scrollbar-color: rgb(0 0 0 / 0.25) transparent;
+}
+
+.dark * {
+    scrollbar-color: rgb(255 255 255 / 0.22) transparent;
+}
+
+::-webkit-scrollbar {
+    width: 10px;
+    height: 10px;
+}
+
+::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+    background-color: rgb(0 0 0 / 0.22);
+    border: 3px solid transparent;
+    border-radius: 9999px;
+    background-clip: padding-box;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background-color: rgb(0 0 0 / 0.35);
+    border: 3px solid transparent;
+    border-radius: 9999px;
+    background-clip: padding-box;
+}
+
+.dark ::-webkit-scrollbar-thumb {
+    background-color: rgb(255 255 255 / 0.22);
+    border: 3px solid transparent;
+    border-radius: 9999px;
+    background-clip: padding-box;
+}
+
+.dark ::-webkit-scrollbar-thumb:hover {
+    background-color: rgb(255 255 255 / 0.35);
+    border: 3px solid transparent;
+    border-radius: 9999px;
+    background-clip: padding-box;
+}
+
+/* The dark-mode border-white/10 utility resolves to a color-mix() value that
+   renders as a hard white edge on some elements. Per design, those dark-mode
+   card borders should be transparent, so neutralise the utility wherever it is
+   generated (both dev and production builds). */
+.dark [class*="border-white/10"] {
+    border-color: transparent;
+}
+
+/* Default initials avatars (the data-URI SVG from User::initialsAvatar): black
+   plate with white initials in light mode, flipped to a white plate with black
+   initials in dark mode, with a 2px solid border that defines the shape. The
+   border color is set to the light-mode zinc-200 so the dark-mode invert()
+   turns it into a dark edge on the white plate. */
+img[src^="data:image/svg+xml"] {
+    border: 2px solid var(--color-zinc-200);
+}
+
+.dark img[src^="data:image/svg+xml"] {
+    filter: invert(1);
+}
+
+/* All blue (accent) filled buttons become black with white text in light mode
+   and white with dark text in dark mode, throughout the site. This covers
+   Flux primary buttons and custom `<a>`/`<button>` CTAs that use the blue
+   `bg-[#3750eb]` or `bg-accent` fills. Non-button blue accents (logo chips,
+   progress bars, badges, online dots) are intentionally left alone. */
+html:not(.dark) [data-flux-button].bg-\[var\(--color-accent\)\],
+html:not(.dark) a.bg-\[\#3750eb\],
+html:not(.dark) button.bg-\[\#3750eb\],
+html:not(.dark) a.bg-accent,
+html:not(.dark) button.bg-accent {
+    background-color: #000 !important;
+    color: #fff !important;
+}
+
+html:not(.dark) [data-flux-button].bg-\[var\(--color-accent\)\]:hover,
+html:not(.dark) a.bg-\[\#3750eb\]:hover,
+html:not(.dark) button.bg-\[\#3750eb\]:hover,
+html:not(.dark) a.bg-accent:hover,
+html:not(.dark) button.bg-accent:hover {
+    background-color: #262626 !important;
+}
+
+html.dark [data-flux-button].bg-\[var\(--color-accent\)\],
+html.dark a.bg-\[\#3750eb\],
+html.dark button.bg-\[\#3750eb\],
+html.dark a.bg-accent,
+html.dark button.bg-accent {
+    background-color: #fff !important;
+    color: #000 !important;
+}
+
+html.dark [data-flux-button].bg-\[var\(--color-accent\)\]:hover,
+html.dark a.bg-\[\#3750eb\]:hover,
+html.dark button.bg-\[\#3750eb\]:hover,
+html.dark a.bg-accent:hover,
+html.dark button.bg-accent:hover {
+    background-color: #e5e5e5 !important;
+}

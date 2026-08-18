@@ -1,0 +1,21 @@
+{
+    "agents": [
+        "opencode"
+    ],
+    "cloud": false,
+    "packages": [
+        "livewire/blaze"
+    ],
+    "skills": [
+        "fortify-development",
+        "laravel-best-practices",
+        "pennant-development",
+        "socialite-development",
+        "fluxui-development",
+        "livewire-development",
+        "pest-testing",
+        "echo-development",
+        "tailwindcss-development",
+        "blaze-optimize"
+    ]
+}
