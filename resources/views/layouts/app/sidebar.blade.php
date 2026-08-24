@@ -209,12 +209,6 @@
 
             <flux:spacer />
 
-            @auth
-                @if (\App\Support\FeatureFlags::active('verification') && ! auth()->user()->isAdmin() && ! auth()->user()->isRecruiterOrCompanyAccount() && ! auth()->user()->isVerified())
-                    <x-verify-promo-banner />
-                @endif
-            @endauth
-
             <flux:sidebar.nav>
                 @auth
                     <flux:sidebar.group :heading="__('Settings')" class="grid">
@@ -236,17 +230,22 @@
                             <flux:sidebar.item icon="building-office" :href="route(auth()->user()->hasWorkspaceAccess() ? 'workspaces' : 'subscription')" :current="request()->routeIs('workspaces')" wire:navigate>
                                 {{ auth()->user()->hasWorkspaceAccess() ? __('Manage Workspaces') : __('Upgrade for Workspaces') }}
                             </flux:sidebar.item>
-                        @endif
+                        @else
+                            <flux:sidebar.item icon="currency-dollar" :href="route('credits')" :current="request()->routeIs('credits', 'auto-scan')" wire:navigate>
+                                {{ __('Credits & Auto-Scan') }}
+                            </flux:sidebar.item>
+                            @if (\App\Support\FeatureFlags::active('verification'))
+                                <flux:sidebar.item icon="check-badge" :href="route('verify')" :current="request()->routeIs('verify')" wire:navigate>
+                                    {{ __('Verification') }}
+                                </flux:sidebar.item>
+                            @endif
+                        @endunless
+                    </flux:sidebar.group>
 
-                        <flux:sidebar.item icon="currency-dollar" :href="route('credits')" :current="request()->routeIs('credits', 'auto-scan')" wire:navigate>
-                            {{ __('Credits & Auto-Scan') }}
-                                    </flux:sidebar.item>
-                                    @if (\App\Support\FeatureFlags::active('verification'))
-                                        <flux:sidebar.item icon="check-badge" :href="route('verify')" :current="request()->routeIs('verify')" wire:navigate>
-                                            {{ __('Verification') }}
-                                        </flux:sidebar.item>
-                                    @endif
-                        </flux:sidebar.group>
+                    @if (\App\Support\FeatureFlags::active('verification') && ! auth()->user()->isAdmin() && ! auth()->user()->isRecruiterOrCompanyAccount() && ! auth()->user()->isVerified())
+                        <x-verify-promo-banner />
+                    @endif
+
 
                 
 

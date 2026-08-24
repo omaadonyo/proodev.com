@@ -29,13 +29,13 @@ new #[Title('Company')] class extends Component
 
     public function buyJobPosts(int $posts): void
     {
-        app(BillingService::class)->createJobPostsPayment($this->company, $posts);
+        $payment = app(BillingService::class)->createJobPostsPayment($this->company, $posts);
 
         unset($this->pendingJobPosts);
 
-        Flux::toast(variant: 'success', text: 'Job post credits checkout created — credits unlock once payment is confirmed.');
+        Flux::toast(variant: 'success', text: 'Checkout created — credits unlock once payment is confirmed.');
 
-        $this->redirectRoute('companies.manage', $this->company, navigate: true);
+        $this->redirectRoute('checkout', $payment, navigate: true);
     }
 
     public function upgrade(string $plan): void
@@ -44,24 +44,24 @@ new #[Title('Company')] class extends Component
 
         abort_unless(in_array($planEnum, [CompanyPlan::Recruiter, CompanyPlan::Intelligence], true), 403);
 
-        app(BillingService::class)->createSubscriptionPayment($this->company, $planEnum);
+        $payment = app(BillingService::class)->createSubscriptionPayment($this->company, $planEnum);
 
         unset($this->pendingPayments);
 
-        Flux::toast(variant: 'success', text: 'Upgrade checkout created — your plan activates once payment is confirmed.');
+        Flux::toast(variant: 'success', text: 'Checkout created — your plan activates once payment is confirmed.');
 
-        $this->redirectRoute('companies.manage', $this->company, navigate: true);
+        $this->redirectRoute('checkout', $payment, navigate: true);
     }
 
     public function verifyCompany(): void
     {
-        app(BillingService::class)->createCompanyVerificationPayment($this->company);
+        $payment = app(BillingService::class)->createCompanyVerificationPayment($this->company);
 
         unset($this->pendingVerification);
 
-        Flux::toast(variant: 'success', text: 'Company verification checkout created — your verified badge unlocks once payment is confirmed.');
+        Flux::toast(variant: 'success', text: 'Verification checkout created — your verified badge unlocks once payment is confirmed.');
 
-        $this->redirectRoute('companies.manage', $this->company, navigate: true);
+        $this->redirectRoute('checkout', $payment, navigate: true);
     }
 
     public function toggleJob(int $jobId): void

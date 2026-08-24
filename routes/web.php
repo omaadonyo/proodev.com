@@ -302,8 +302,13 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::livewire('/applications', 'pages::applications.index')->name('applications.index');
     Route::get('/applications/{application}/resume', ApplicationResumeController::class)->name('applications.resume');
 
-    Route::livewire('/credits', 'pages::credits')->name('credits');
-    Route::livewire('/verify', 'pages::verify')->name('verify');
+    // Developer-only monetization pages — recruiters/companies are redirected
+    // to their subscription management instead.
+    Route::middleware(\App\Http\Middleware\RedirectRecruiterAccounts::class)->group(function () {
+        Route::livewire('/credits', 'pages::credits')->name('credits');
+        Route::livewire('/verify', 'pages::verify')->name('verify');
+    });
+
     Route::livewire('/billing', 'pages::billing')->name('billing');
 
     Route::get('/billing/export/csv', [BillingExportController::class, 'csv'])->name('billing.export.csv');
