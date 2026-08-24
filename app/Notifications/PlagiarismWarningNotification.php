@@ -28,7 +28,7 @@ class PlagiarismWarningNotification extends Notification implements ShouldQueue
             'title' => 'Plagiarism warning',
             'body' => 'Your claim on '.$this->strike->repo_url.' was removed — that repository is not your work. A second violation leads to a ban.',
             'icon' => 'exclamation-triangle',
-            'url' => $offender ? route('passport', $offender->handle(), absolute: false) : null,
+            'url' => $offender ? route('devid', $offender->handle(), absolute: false) : null,
         ];
     }
 }

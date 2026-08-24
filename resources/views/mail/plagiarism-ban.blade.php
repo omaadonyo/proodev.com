@@ -1,7 +1,7 @@
 <x-mail.layout :subject="'Your ProoDev account has been banned for plagiarism' " docLabel="ACCOUNT BANNED">
     <h1>Your account has been banned</h1>
     <p class="lead">
-        After a second plagiarism violation, your ProoDev account has been banned. A public notice now appears on your passport.
+        After a second plagiarism violation, your ProoDev account has been banned. A public notice now appears on your DevID.
     </p>
 
     <div class="card">

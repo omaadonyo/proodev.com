@@ -114,7 +114,7 @@ new #[Title('Project')] class extends Component
                 @endif
 
                 <div class="mt-3 flex flex-wrap items-center gap-x-4 gap-y-1 text-sm text-zinc-500">
-                    <a href="{{ route('passport', $this->project->user->handle()) }}" wire:navigate class="flex items-center gap-1.5 font-medium hover:underline">
+                    <a href="{{ route('devid', $this->project->user->handle()) }}" wire:navigate class="flex items-center gap-1.5 font-medium hover:underline">
                         <flux:avatar :src="$this->project->user->avatarUrl()" :alt="$this->project->user->name" circle class="size-5" />
                         {{ $this->project->user->name }}
                     </a>

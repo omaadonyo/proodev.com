@@ -12,12 +12,12 @@
 
     <div class="space-y-3">
         <h2 class="text-lg font-semibold text-zinc-900 dark:text-white">2. How we use your information</h2>
-        <p>We use your information to run and improve the service: to create and authenticate your account, to analyze the evidence you submit, to compute your Engineering Magnitude score, to show your public passport to others, and to communicate with you about the platform. We never sell your personal information.</p>
+        <p>We use your information to run and improve the service: to create and authenticate your account, to analyze the evidence you submit, to compute your Engineering Magnitude score, to show your public DevID to others, and to communicate with you about the platform. We never sell your personal information.</p>
     </div>
 
     <div class="space-y-3">
-        <h2 class="text-lg font-semibold text-zinc-900 dark:text-white">3. Public evidence and passports</h2>
-        <p>Passports are public by default so the community can verify work and find collaborators. You control what appears on your passport, and every piece of evidence, project, and journal entry can be public or private. Only public evidence powers your discoverability on the platform.</p>
+        <h2 class="text-lg font-semibold text-zinc-900 dark:text-white">3. Public evidence and DevIDs</h2>
+        <p>DevIDs are public by default so the community can verify work and find collaborators. You control what appears on your DevID, and every piece of evidence, project, and journal entry can be public or private. Only public evidence powers your discoverability on the platform.</p>
     </div>
 
     <div class="space-y-3">

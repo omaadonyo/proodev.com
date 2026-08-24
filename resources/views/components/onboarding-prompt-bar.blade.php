@@ -3,7 +3,7 @@
 @php
     $percent = app(\App\Services\ProfileCompletionService::class)->percentage($user);
     $finished = $user->hasCompletedOnboarding();
-    $target = $finished ? route('passport', $user->handle()) : route('onboarding');
+    $target = $finished ? route('devid', $user->handle()) : route('onboarding');
     $ctaLabel = $finished ? 'Complete profile' : 'Finish setup';
 @endphp
 
@@ -24,7 +24,7 @@
 
             <div class="mt-1 flex items-center gap-2">
                 <div class="h-1.5 w-24 overflow-hidden rounded-full bg-zinc-200/80 sm:w-44 dark:bg-zinc-700/70">
-                    <div class="h-full rounded-full bg-accent transition-all duration-500" style="width: {{ $percent }}%"></div>
+                    <div class="h-full rounded-full bg-zinc-900 transition-all duration-500 dark:bg-white" style="width: {{ $percent }}%"></div>
                 </div>
                 <span class="text-[10px] font-bold tabular-nums text-accent">{{ $percent }}%</span>
             </div>

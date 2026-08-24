@@ -297,7 +297,7 @@ test('the growth sections render on the own passport', function () {
     $user = User::factory()->create(['public_passport' => true]);
 
     $this->actingAs($user)
-        ->get(route('passport', $user->handle()))
+        ->get(route('devid', $user->handle()))
         ->assertOk()
         ->assertSee('Current Level')
         ->assertSee('Engineering Streak')
@@ -308,7 +308,7 @@ test('the passport renders for a user', function () {
     $user = User::factory()->create(['username' => 'passport-test', 'public_passport' => true]);
 
     $this->actingAs($user)
-        ->get(route('passport', $user->handle()))
+        ->get(route('devid', $user->handle()))
         ->assertOk();
 });
 
@@ -326,7 +326,7 @@ test('the passport mirrors the scout profile layout', function () {
     $user->skills()->attach($skill->id, ['level' => 5, 'verified_at' => now()]);
 
     $this->actingAs($user)
-        ->get(route('passport', $user->handle()))
+        ->get(route('devid', $user->handle()))
         ->assertOk()
         ->assertSee('Public passport')
         ->assertSee('Summary')

@@ -10,7 +10,7 @@ test('the passport renders the evidence library for the owner', function () {
     $user = User::factory()->create(['public_passport' => true]);
 
     Livewire::actingAs($user)
-        ->test('pages::passport', ['user' => $user])
+        ->test('pages::devid', ['user' => $user])
         ->assertOk()
         ->assertSee('Add evidence');
 });
@@ -19,7 +19,7 @@ test('adding evidence through the passport form dispatches the action', function
     $user = User::factory()->create(['public_passport' => true]);
 
     Livewire::actingAs($user)
-        ->test('pages::passport', ['user' => $user])
+        ->test('pages::devid', ['user' => $user])
         ->set('url', 'https://github.com/laravel/framework')
         ->call('addEvidence');
 
@@ -110,7 +110,7 @@ test('evidence pages are private to the owner', function () {
 test('evidence pages are wired into the passport route', function () {
     $user = User::factory()->create(['public_passport' => true]);
 
-    $response = $this->actingAs($user)->get(route('passport', $user->handle()));
+    $response = $this->actingAs($user)->get(route('devid', $user->handle()));
 
     $response->assertOk();
 });
@@ -131,7 +131,7 @@ test('the passport renders repository evidence without icon errors', function ()
     }
 
     $this->actingAs($user)
-        ->get(route('passport', $user->handle()))
+        ->get(route('devid', $user->handle()))
         ->assertOk()
         ->assertSee('framework')
         ->assertSee('notes');

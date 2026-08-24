@@ -8,7 +8,7 @@
 
         <meta name="description" content="ProoDev doesn't measure how active a developer is. It discovers how meaningful their engineering work is. Paste a repo or project, AI reads the real work, and you get an evidence-backed Engineering Magnitude score.">
 
-        <meta name="keywords" content="engineering personality, career evidence, developer portfolio, engineer, ai engineering analysis, engineering magnitude, prove your skills">
+        <meta name="keywords" content="{{ ($metaKeywords ?? null) ?: app(\App\Services\SiteSettings::class)->metaKeywords() }}">
 
         <link rel="canonical" href="{{ url()->current() }}">
 

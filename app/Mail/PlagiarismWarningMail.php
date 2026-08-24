@@ -34,7 +34,7 @@ class PlagiarismWarningMail extends Mailable implements ShouldQueue
                 'repoOwner' => $this->strike->repo_owner,
                 'repoName' => $this->strike->repo_name,
                 'strikeNumber' => $this->strike->strike_number,
-                'passportUrl' => $offender ? route('passport', $offender->handle()) : null,
+                'passportUrl' => $offender ? route('devid', $offender->handle()) : null,
             ],
         );
     }

@@ -5,7 +5,7 @@ use App\Models\Project;
 use App\Models\Skill;
 use App\Models\User;
 use App\Models\WeeklyReport;
-use App\Services\PassportViewService;
+use App\Services\DevIDViewService;
 use Livewire\Livewire;
 use Wirechat\Wirechat\Models\Conversation;
 
@@ -13,7 +13,7 @@ test('viewing a public passport records a view', function () {
     $owner = User::factory()->create(['public_passport' => true]);
     $viewer = User::factory()->create();
 
-    $this->actingAs($viewer)->get(route('passport', $owner->handle()));
+    $this->actingAs($viewer)->get(route('devid', $owner->handle()));
 
     expect(PassportView::where('passport_owner_id', $owner->id)->count())->toBe(1)
         ->and(PassportView::where('viewer_id', $viewer->id)->exists())->toBeTrue();
@@ -22,7 +22,7 @@ test('viewing a public passport records a view', function () {
 test('viewing your own passport does not record a view', function () {
     $user = User::factory()->create(['public_passport' => true]);
 
-    $this->actingAs($user)->get(route('passport', $user->handle()));
+    $this->actingAs($user)->get(route('devid', $user->handle()));
 
     expect(PassportView::where('passport_owner_id', $user->id)->count())->toBe(0);
 });
@@ -30,7 +30,7 @@ test('viewing your own passport does not record a view', function () {
 test('the same viewer only counts once per day', function () {
     $owner = User::factory()->create(['public_passport' => true]);
     $viewer = User::factory()->create();
-    $service = app(PassportViewService::class);
+    $service = app(DevIDViewService::class);
 
     expect($service->record($owner, $viewer))->toBeTrue()
         ->and($service->record($owner, $viewer))->toBeFalse()
@@ -41,7 +41,7 @@ test('the same viewer only counts once per day', function () {
 
 test('a guest view is recorded with an ip address', function () {
     $owner = User::factory()->create(['public_passport' => true]);
-    $service = app(PassportViewService::class);
+    $service = app(DevIDViewService::class);
 
     expect($service->record($owner, null, '127.0.0.1'))->toBeTrue();
 
@@ -60,7 +60,7 @@ test('the passport links out to the developer socials and website', function () 
         'website_url' => 'https://mia.dev',
     ]);
 
-    $this->get(route('passport', $owner->handle()))
+    $this->get(route('devid', $owner->handle()))
         ->assertOk()
         ->assertSee('GitHub')
         ->assertSee('https://github.com/mia-chen')
@@ -73,7 +73,7 @@ test('the passport links out to the developer socials and website', function () 
 test('the passport hides socials when none are set', function () {
     $owner = User::factory()->create(['public_passport' => true]);
 
-    $this->get(route('passport', $owner->handle()))
+    $this->get(route('devid', $owner->handle()))
         ->assertOk()
         ->assertDontSee('https://github.com');
 });
@@ -83,7 +83,7 @@ test('verified users see the connect button on a passport', function () {
     $viewer = User::factory()->create(['is_verified' => true, 'verified_at' => now()]);
 
     Livewire::actingAs($viewer)
-        ->test('pages::passport', ['user' => $owner])
+        ->test('pages::devid', ['user' => $owner])
         ->assertOk()
         ->assertSee('Connect');
 });
@@ -93,7 +93,7 @@ test('unverified users do not see the connect button', function () {
     $viewer = User::factory()->create();
 
     Livewire::actingAs($viewer)
-        ->test('pages::passport', ['user' => $owner])
+        ->test('pages::devid', ['user' => $owner])
         ->assertOk()
         ->assertDontSee('Connect');
 });
@@ -103,7 +103,7 @@ test('connecting creates a private conversation and redirects to the chat', func
     $viewer = User::factory()->create(['is_verified' => true, 'verified_at' => now()]);
 
     Livewire::actingAs($viewer)
-        ->test('pages::passport', ['user' => $owner])
+        ->test('pages::devid', ['user' => $owner])
         ->call('connect')
         ->assertRedirect(route('wirechat.chats.chat', Conversation::firstOrFail()));
 
@@ -122,7 +122,7 @@ test('the passport tolerates weekly reports with legacy data keys', function () 
     ]);
 
     $this->actingAs($owner)
-        ->get(route('passport', $owner->handle()))
+        ->get(route('devid', $owner->handle()))
         ->assertOk()
         ->assertSee('Latest Weekly Report')
         ->assertSee('XP gained');
@@ -147,11 +147,11 @@ test('connecting twice reuses the same private conversation', function () {
     $viewer = User::factory()->create(['is_verified' => true, 'verified_at' => now()]);
 
     Livewire::actingAs($viewer)
-        ->test('pages::passport', ['user' => $owner])
+        ->test('pages::devid', ['user' => $owner])
         ->call('connect');
 
     Livewire::actingAs($viewer)
-        ->test('pages::passport', ['user' => $owner])
+        ->test('pages::devid', ['user' => $owner])
         ->call('connect');
 
     expect(Conversation::count())->toBe(1);
@@ -194,7 +194,7 @@ test('connecting from the flyout creates a conversation and redirects to the cha
 test('private passports do not record views', function () {
     $owner = User::factory()->create(['public_passport' => false]);
     $viewer = User::factory()->create();
-    $service = app(PassportViewService::class);
+    $service = app(DevIDViewService::class);
 
     expect($service->record($owner, $viewer))->toBeFalse();
 
@@ -205,7 +205,7 @@ test('the view count and recent viewers reflect recorded views', function () {
     $owner = User::factory()->create(['public_passport' => true]);
     $viewerA = User::factory()->create();
     $viewerB = User::factory()->create();
-    $service = app(PassportViewService::class);
+    $service = app(DevIDViewService::class);
 
     $service->record($owner, $viewerA);
     $service->record($owner, $viewerB);
@@ -223,7 +223,7 @@ test('the view count and recent viewers reflect recorded views', function () {
 test('the feed right panel no longer shows the passport views card', function () {
     $owner = User::factory()->create(['public_passport' => true]);
     $viewer = User::factory()->create();
-    $service = app(PassportViewService::class);
+    $service = app(DevIDViewService::class);
     $service->record($owner, $viewer);
 
     Livewire::actingAs($owner)
@@ -235,23 +235,23 @@ test('the feed right panel no longer shows the passport views card', function ()
 test('the passport page shows the total view count', function () {
     $owner = User::factory()->create(['public_passport' => true]);
     $viewer = User::factory()->create();
-    $service = app(PassportViewService::class);
+    $service = app(DevIDViewService::class);
     $service->record($owner, $viewer);
 
     $this->actingAs($owner)
-        ->get(route('passport', $owner->handle()))
+        ->get(route('devid', $owner->handle()))
         ->assertOk()
-        ->assertSee('Passport views', false)
+        ->assertSee('DevID views', false)
         ->assertSee('1', false);
 });
 
 test('verified owners see a compact viewer strip on the passport header', function () {
     $owner = User::factory()->create(['public_passport' => true, 'is_verified' => true, 'verified_at' => now()]);
     $viewer = User::factory()->create(['name' => 'Curious Casey']);
-    app(PassportViewService::class)->record($owner, $viewer);
+    app(DevIDViewService::class)->record($owner, $viewer);
 
     $this->actingAs($owner)
-        ->get(route('passport', $owner->handle()))
+        ->get(route('devid', $owner->handle()))
         ->assertOk()
         ->assertSee('Who viewed your profile')
         ->assertSee('Curious Casey')
@@ -261,10 +261,10 @@ test('verified owners see a compact viewer strip on the passport header', functi
 test('unverified owners see blurred viewers and a verify prompt in the header', function () {
     $owner = User::factory()->create(['public_passport' => true]);
     $viewer = User::factory()->create(['name' => 'Secret Searcher']);
-    app(PassportViewService::class)->record($owner, $viewer);
+    app(DevIDViewService::class)->record($owner, $viewer);
 
     $this->actingAs($owner)
-        ->get(route('passport', $owner->handle()))
+        ->get(route('devid', $owner->handle()))
         ->assertOk()
         ->assertSee('Who viewed your profile')
         ->assertDontSee('Secret Searcher')
@@ -275,7 +275,7 @@ test('the viewer strip is hidden when the passport has no recorded viewers', fun
     $owner = User::factory()->create(['public_passport' => true, 'is_verified' => true, 'verified_at' => now()]);
 
     $this->actingAs($owner)
-        ->get(route('passport', $owner->handle()))
+        ->get(route('devid', $owner->handle()))
         ->assertOk()
         ->assertDontSee('Who viewed your profile');
 });
@@ -283,10 +283,10 @@ test('the viewer strip is hidden when the passport has no recorded viewers', fun
 test('visitors never see the viewer strip on someone elses passport', function () {
     $owner = User::factory()->create(['public_passport' => true, 'is_verified' => true, 'verified_at' => now()]);
     $viewer = User::factory()->create(['name' => 'Snooping Sam', 'is_verified' => true, 'verified_at' => now()]);
-    app(PassportViewService::class)->record($owner, $viewer);
+    app(DevIDViewService::class)->record($owner, $viewer);
 
     $this->actingAs($viewer)
-        ->get(route('passport', $owner->handle()))
+        ->get(route('devid', $owner->handle()))
         ->assertOk()
         ->assertDontSee('Who viewed your profile');
 });
@@ -306,7 +306,7 @@ test('passport capabilities and projects render skill logos', function () {
         'published_at' => now(),
     ]);
 
-    $this->get(route('passport', $owner->handle()))
+    $this->get(route('devid', $owner->handle()))
         ->assertOk()
         ->assertSee('Capabilities')
         ->assertSee('Payment Rails')

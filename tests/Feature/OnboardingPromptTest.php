@@ -20,7 +20,7 @@ test('developers with an incomplete profile see the profile progress prompt', fu
     $user = User::factory()->withoutOnboarding()->create(); // empty profile
 
     $this->actingAs($user)
-        ->get(route('passport', $user->handle()))
+        ->get(route('devid', $user->handle()))
         ->assertOk()
         ->assertSee('Add your project links and GitHub repo')
         ->assertSee('Finish setup');
@@ -54,7 +54,7 @@ test('users who skipped onboarding still see the prompt until their profile is c
     $user = User::factory()->create(); // onboarding_completed_at = now (e.g. skipped), empty profile
 
     $this->actingAs($user)
-        ->get(route('passport', $user->handle()))
+        ->get(route('devid', $user->handle()))
         ->assertOk()
         ->assertSee('Add your project links and GitHub repo')
         ->assertDontSee('Finish setup')
@@ -76,7 +76,7 @@ test('the prompt is hidden once the profile is complete', function () {
     ]);
 
     $this->actingAs($user)
-        ->get(route('passport', $user->handle()))
+        ->get(route('devid', $user->handle()))
         ->assertOk()
         ->assertDontSee('Add your project links and GitHub repo');
 });
@@ -85,7 +85,7 @@ test('admins never see the onboarding prompt, even without onboarding', function
     $admin = User::factory()->withoutOnboarding()->create(['is_admin' => true]);
 
     $this->actingAs($admin)
-        ->get(route('passport', $admin->handle()))
+        ->get(route('devid', $admin->handle()))
         ->assertOk()
         ->assertDontSee('Add your project links and GitHub repo');
 });
@@ -94,7 +94,7 @@ test('recruiter and company accounts never see the onboarding prompt, even witho
     $company = User::factory()->company()->withoutOnboarding()->create();
 
     $this->actingAs($company)
-        ->get(route('passport', $company->handle()))
+        ->get(route('devid', $company->handle()))
         ->assertOk()
         ->assertDontSee('Add your project links and GitHub repo');
 });
@@ -103,7 +103,7 @@ test('the prompt shows the profile completion percentage in the header', functio
     $user = onboardingReadyProfile(); // 4 of 6 checks → 67%
 
     $this->actingAs($user)
-        ->get(route('passport', $user->handle()))
+        ->get(route('devid', $user->handle()))
         ->assertOk()
         ->assertSee('Add your project links and GitHub repo')
         ->assertSee('67%');
@@ -116,7 +116,7 @@ test('the prompt disappears once the profile exceeds 75%', function () {
     $user->skills()->attach($skill); // 5 of 6 → 83%
 
     $this->actingAs($user)
-        ->get(route('passport', $user->handle()))
+        ->get(route('devid', $user->handle()))
         ->assertOk()
         ->assertDontSee('Add your project links and GitHub repo');
 });

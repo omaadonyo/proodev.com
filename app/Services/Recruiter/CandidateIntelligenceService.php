@@ -64,7 +64,7 @@ class CandidateIntelligenceService
                 'location' => $candidate->location,
                 'timezone' => $candidate->timezone,
                 'avatar' => $candidate->avatarUrl(),
-                'passport_url' => route('passport', $candidate->handle()),
+                'passport_url' => route('devid', $candidate->handle()),
                 'reputation' => (int) $candidate->reputation_score,
             ],
             'summary' => $this->buildSummary($candidate, $magnitude, $evidence),

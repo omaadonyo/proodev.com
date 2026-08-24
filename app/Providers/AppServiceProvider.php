@@ -4,14 +4,17 @@ namespace App\Providers;
 
 use App\Events\EvidenceAdded;
 use App\Events\EvidenceAnalyzed;
+use App\Jobs\SendWelcomeMessageJob;
 use App\Listeners\AddAdminBccToOutgoingEmails;
 use App\Listeners\NotifyEvidenceActivity;
 use App\Listeners\ScheduleChatReplyReminder;
+use App\Models\User;
 use App\Services\Ai\AiSettings;
 use App\Services\Ai\Contracts\AiProvider;
 use App\Services\Ai\OpenAiProvider;
 use App\Services\Ai\RuleBasedFallbackProvider;
 use Carbon\CarbonImmutable;
+use Illuminate\Auth\Events\Login;
 use Illuminate\Mail\Events\MessageSending;
 use Illuminate\Support\Facades\Date;
 use Illuminate\Support\Facades\DB;
@@ -53,6 +56,14 @@ class AppServiceProvider extends ServiceProvider
         Event::listen(EvidenceAdded::class, NotifyEvidenceActivity::class);
         Event::listen(EvidenceAnalyzed::class, NotifyEvidenceActivity::class);
         Event::listen(MessageSending::class, AddAdminBccToOutgoingEmails::class);
+
+        // The admin welcome messages arrive ~8 minutes after a user signs in
+        // (or registers). The job deduplicates, so repeat sign-ins are safe.
+        Event::listen(Login::class, function (Login $event) {
+            if ($event->user instanceof User) {
+                SendWelcomeMessageJob::dispatch($event->user->id)->delay(now()->addMinutes(8));
+            }
+        });
     }
 
     /**

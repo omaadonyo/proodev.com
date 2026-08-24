@@ -28,11 +28,11 @@ class DatabaseSeeder extends Seeder
         $skills = Skill::pluck('id', 'slug')->all();
 
         $admin = User::firstOrCreate(
-            ['email' => 'adonyo@proodev.com'],
+            ['email' => config('platform.admin_email')],
             [
                 'name' => 'ProoDev Admin',
                 'username' => 'proodev-admin',
-                'password' => Hash::make('O+256M777007531A'),
+                'password' => Hash::make(config('platform.admin_password')),
                 'email_verified_at' => now(),
                 'is_admin' => true,
             ],
@@ -43,7 +43,7 @@ class DatabaseSeeder extends Seeder
         User::where('is_admin', true)->where('id', '!=', $admin->id)->update(['is_admin' => false]);
 
         $demo = User::firstOrCreate(
-            ['email' => 'demo@engineeringos.test'],
+            ['email' => config('platform.demo_email')],
             [
                 'name' => 'Demo Engineer',
                 'username' => 'demo-engineer',

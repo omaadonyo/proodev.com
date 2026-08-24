@@ -5,10 +5,13 @@ namespace App\Services;
 use App\Enums\CompanyPlan;
 use App\Enums\CompanyStatus;
 use App\Enums\CreditTransactionType;
+use App\Enums\JobStatus;
 use App\Enums\PaymentPurpose;
 use App\Enums\PaymentStatus;
+use App\Enums\UserRole;
 use App\Enums\VerificationStatus;
 use App\Models\Company;
+use App\Models\Job;
 use App\Models\Payment;
 use App\Models\User;
 use App\Models\UserVerification;
@@ -18,18 +21,29 @@ use InvalidArgumentException;
 class BillingService
 {
     /**
-     * Create a pending $8 developer verification payment.
+     * Create a pending developer verification payment.
+     *
+     * @param  string  $cycle  'one_time' ($17 lifetime) or 'monthly' ($8/mo)
      */
-    public function createVerificationPayment(User $user, ?string $shortName = null): Payment
+    public function createVerificationPayment(User $user, ?string $shortName = null, string $cycle = 'one_time'): Payment
     {
+        $cycle = $cycle === 'monthly' ? 'monthly' : 'one_time';
+
+        $amount = $cycle === 'monthly'
+            ? (float) config('billing.developer.verification.monthly_price', 8)
+            : (float) config('billing.developer.verification.price', 17);
+
         return Payment::create([
             'user_id' => $user->id,
             'purpose' => PaymentPurpose::Verification,
-            'amount' => (float) config('billing.developer.verification.price', 8),
+            'amount' => $amount,
             'currency' => (string) config('billing.currency', 'USD'),
             'status' => PaymentStatus::Pending,
             'provider' => 'manual',
-            'metadata' => ['short_name' => $shortName],
+            'metadata' => [
+                'short_name' => $shortName,
+                'billing_cycle' => $cycle,
+            ],
         ]);
     }
 
@@ -126,7 +140,7 @@ class BillingService
      */
     public function createCompanyVerificationPayment(Company $company): Payment
     {
-        return Payment::create([
+        $payment = Payment::create([
             'user_id' => $company->owner_id,
             'company_id' => $company->id,
             'purpose' => PaymentPurpose::Verification,
@@ -136,6 +150,10 @@ class BillingService
             'provider' => 'manual',
             'metadata' => ['company_verification' => true],
         ]);
+
+        app(NotificationService::class)->hiringVerificationPending($payment);
+
+        return $payment;
     }
 
     /**
@@ -173,10 +191,35 @@ class BillingService
     private function fulfillVerification(Payment $payment): void
     {
         if (($payment->metadata['company_verification'] ?? false) && $payment->company) {
-            $payment->company->update([
+            $company = $payment->company;
+
+            $company->update([
                 'status' => CompanyStatus::Approved,
-                'approved_at' => $payment->company->approved_at ?? now(),
+                'approved_at' => $company->approved_at ?? now(),
             ]);
+
+            // Unlock full recruiter/company tools: promote a developer
+            // account that registered a company.
+            $owner = $company->owner;
+
+            if ($owner && $owner->role?->value === UserRole::Developer->value) {
+                $owner->update(['role' => UserRole::Company]);
+            }
+
+            // A job held during posting publishes automatically once the
+            // hiring verification is approved and credits allow it.
+            $heldJobId = $payment->metadata['held_job_id'] ?? null;
+
+            if ($heldJobId && $company->fresh()->canPostJobs()) {
+                $job = Job::find($heldJobId);
+
+                if ($job && $job->status === JobStatus::Draft) {
+                    $job->update(['status' => JobStatus::Open, 'published_at' => now()]);
+                    app(NotificationService::class)->jobPublished($job);
+                }
+            }
+
+            app(NotificationService::class)->hiringVerificationApproved($payment);
 
             return;
         }
@@ -197,6 +240,13 @@ class BillingService
             'verified_at' => now(),
             'short_domain' => $shortName,
         ]);
+
+        $this->sendWelcomeMessage($user);
+    }
+
+    private function sendWelcomeMessage(User $user): void
+    {
+        app(WelcomeMessageService::class)->sendTo($user);
     }
 
     private function fulfillCredits(Payment $payment): void

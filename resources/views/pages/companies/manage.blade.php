@@ -229,6 +229,43 @@ new #[Title('Company')] class extends Component
 
 <div class="mx-auto w-full max-w-5xl">
     <div class="grid gap-6">
+        {{-- Hiring verification invoice --}}
+        @php
+            $pendingVerification = $company->payments()
+                ->where('purpose', 'verification')
+                ->where('status', 'pending')
+                ->latest()
+                ->first();
+        @endphp
+
+        @unless ($company->hasHiringVerification())
+            @if ($pendingVerification)
+                <div class="flex flex-wrap items-center justify-between gap-4 rounded-xl border-[3px] border-blue-600/70 p-4 dark:border-teal-400/60">
+                    <div class="min-w-0">
+                        <div class="flex items-center gap-2 text-sm font-semibold text-zinc-900 dark:text-white">
+                            <flux:icon name="receipt-percent" variant="micro" class="text-amber-500" />
+                            Pending invoice #{{ $pendingVerification->id }} — ${{ number_format((float) $pendingVerification->amount, 0) }} {{ $pendingVerification->currency }}
+                        </div>
+                        <p class="mt-1 text-xs leading-relaxed text-zinc-500 dark:text-zinc-400">
+                            Pay this invoice to verify {{ $company->name }} and activate your job post. Held job posts go live automatically once the payment is approved.
+                        </p>
+                    </div>
+                    <flux:button variant="primary" :href="route('checkout', $pendingVerification)">
+                        <flux:icon name="banknotes" variant="micro" />
+                        Pay invoice
+                    </flux:button>
+                </div>
+            @else
+                <div class="flex flex-wrap items-center justify-between gap-4 rounded-xl border-[3px] border-blue-600/70 p-4 dark:border-teal-400/60">
+                    <div class="min-w-0">
+                        <div class="text-sm font-semibold text-zinc-900 dark:text-white">Hiring verification required</div>
+                        <p class="mt-1 text-xs leading-relaxed text-zinc-500 dark:text-zinc-400">
+                            A one-time $299 verification unlocks posting, chat, hiring tools and your full pipeline. You'll be charged when you post your first job.
+                        </p>
+                    </div>
+                </div>
+            @endif
+        @endunless
         <div class="flex flex-wrap items-center justify-between gap-4">
             <div>
                 <div class="flex flex-wrap items-center gap-2">
@@ -340,7 +377,7 @@ new #[Title('Company')] class extends Component
                 </div>
 
                 <div class="mt-3 h-2 overflow-hidden rounded-full bg-zinc-100 dark:bg-zinc-900">
-                    <div class="h-full rounded-full bg-accent transition-all" style="width: {{ min(100, ($company->usedJobPosts() / max(1, $company->jobPostCredits())) * 100) }}%"></div>
+                    <div class="h-full rounded-full bg-zinc-900 transition-all dark:bg-white" style="width: {{ min(100, ($company->usedJobPosts() / max(1, $company->jobPostCredits())) * 100) }}%"></div>
                 </div>
 
                 <div class="mt-5 grid gap-4 md:grid-cols-2">
@@ -435,7 +472,7 @@ new #[Title('Company')] class extends Component
                                                             default => 'zinc',
                                                         }">{{ $application->status->label() }}</flux:badge>
                                                     </div>
-                                                    <a href="{{ route('passport', $application->user->handle()) }}" wire:navigate class="text-xs text-accent hover:underline">{{ $application->user->handle() }}</a>
+                                                    <a href="{{ route('devid', $application->user->handle()) }}" wire:navigate class="text-xs text-accent hover:underline">{{ $application->user->handle() }}</a>
                                                 </div>
                                                 <div class="flex flex-wrap gap-2">
                                                     <flux:button size="sm" variant="subtle" wire:click="setApplicationStatus({{ $application->id }}, 'shortlisted')">Shortlist</flux:button>

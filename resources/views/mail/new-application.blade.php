@@ -41,7 +41,7 @@
         @if ($copy)
             This is an admin copy of the application alert sent to the hiring company.
         @else
-            Open the applicant's passport to review evidence before reaching out.
+            Open the applicant's DevID to review evidence before reaching out.
         @endif
     </p>
 </x-mail.layout>

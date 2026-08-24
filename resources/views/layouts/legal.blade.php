@@ -8,7 +8,7 @@
 
         <meta name="description" content="@yield('meta_description', 'Legal policies for ' . config('app.name', 'ProoDev'))">
 
-        <meta name="keywords" content="proodev, legal, privacy policy, terms of service, cookie policy, engineering platform">
+        <meta name="keywords" content="{{ ($metaKeywords ?? null) ?: app(\App\Services\SiteSettings::class)->metaKeywords() }}">
 
         <link rel="canonical" href="{{ url()->current() }}">
 

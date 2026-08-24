@@ -374,7 +374,7 @@ class EmailPreviewController extends Controller
             'mode' => 'video',
         ]);
 
-        $chatPreview = 'Hi Ava — we saw your Senior Laravel Engineer passport and it matches a role we\'re hiring for at ProoDev Labs. Would you be open to a quick call this week? The role is fully remote and the team ships fast.';
+        $chatPreview = 'Hi Ava — we saw your Senior Laravel Engineer DevID and it matches a role we\'re hiring for at ProoDev Labs. Would you be open to a quick call this week? The role is fully remote and the team ships fast.';
 
         $plagiarismStrike = PlagiarismStrike::create([
             'offender_id' => $secondDeveloper->id,
@@ -405,7 +405,7 @@ class EmailPreviewController extends Controller
                 'verified' => $index === 0 ? 'Yes' : 'No',
                 'email' => $user->email,
                 'skills' => 'Laravel, PHP, Livewire, MySQL, Redis',
-                'passport_url' => route('passport', $user->username),
+                'passport_url' => route('devid', $user->username),
                 'avatar' => $user->avatarUrl(),
             ];
         })->all();

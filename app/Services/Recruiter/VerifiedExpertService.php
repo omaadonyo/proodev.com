@@ -49,7 +49,7 @@ class VerifiedExpertService
                     'headline' => $user->headline,
                     'location' => $user->location,
                     'avatar' => $user->avatarUrl(),
-                    'passport_url' => route('passport', $user->handle()),
+                    'passport_url' => route('devid', $user->handle()),
                     'evidence_count' => $user->evidence_count,
                     'is_verified' => $user->isVerified(),
                 ],

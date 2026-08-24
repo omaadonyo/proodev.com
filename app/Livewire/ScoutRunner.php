@@ -2,6 +2,7 @@
 
 namespace App\Livewire;
 
+use App\Jobs\ImportScoutedReposJob;
 use App\Models\Project;
 use App\Models\User;
 use App\Services\AvatarImportService;
@@ -11,6 +12,7 @@ use App\Services\ExperienceService;
 use App\Services\LevelService;
 use App\Services\OnboardingImportService;
 use App\Services\ProfileScoutService;
+use App\Services\RepoScanService;
 use Illuminate\Support\Str;
 use Livewire\Attributes\Computed;
 use Livewire\Component;
@@ -53,6 +55,8 @@ class ScoutRunner extends Component
     /** @var array{evidence: int, projects: int, journal: int} */
     public array $added = ['evidence' => 0, 'projects' => 0, 'journal' => 0];
 
+    public int $queued = 0;
+
     /** @var array<string, mixed>|null */
     public ?array $result = null;
 
@@ -78,7 +82,7 @@ class ScoutRunner extends Component
 
     public function mount(): void
     {
-        $this->primePassport();
+        $this->primeDevID();
     }
 
     public function begin(): void
@@ -105,6 +109,7 @@ class ScoutRunner extends Component
         $this->singleRepo = null;
         $this->xp = 0;
         $this->summary = null;
+        $this->queued = 0;
         $this->added = ['evidence' => 0, 'projects' => 0, 'journal' => 0];
 
         if ($this->mode === 'profile') {
@@ -171,7 +176,7 @@ class ScoutRunner extends Component
         $this->summary = null;
         $this->added = ['evidence' => 0, 'projects' => 0, 'journal' => 0];
 
-        $this->primePassport();
+        $this->primeDevID();
     }
 
     #[Computed]
@@ -333,20 +338,69 @@ class ScoutRunner extends Component
         $repos = (array) ($this->scan['repos'] ?? []);
         $this->passport['stats']['sources'] = count($repos);
 
-        if (($this->scan['failed'] ?? false) || $repos === []) {
-            $this->log[] = $this->term('warn', 'No public repositories found — nothing to import.');
-        } else {
-            $names = collect($repos)->pluck('name')->take(6)->implode(' · ');
-            $this->log[] = $this->term('ok', 'Scanned '.count($repos).' public repositories', '+'.count($repos).' repos');
-            $this->log[] = $this->term('dim', '→ '.$names.(count($repos) > 6 ? ' …' : ''));
+        // Pull requests are collaboration evidence repo scans miss.
+        try {
+            $pullRequests = app(RepoScanService::class)->pullRequests($this->result['handle']);
+        } catch (\Throwable) {
+            $pullRequests = [];
         }
 
-        $evidenceRepos = $import->evidenceRepos($repos);
+        if (($this->scan['failed'] ?? false) || ($repos === [] && $pullRequests === [])) {
+            $this->log[] = $this->term('warn', 'No public repositories found — nothing to import.');
+        } else {
+            if ($repos !== []) {
+                $this->log[] = $this->term('ok', 'Scanned '.count($repos).' public repositories', '+'.count($repos).' repos');
+
+                foreach (collect($repos)->pluck('name')->chunk(3) as $chunk) {
+                    $this->log[] = $this->term('dim', '→ '.$chunk->implode(' · '));
+                }
+            }
+
+            if ($pullRequests !== []) {
+                $this->log[] = $this->term('ok', 'Found '.count($pullRequests).' pull request'.(count($pullRequests) === 1 ? '' : 's').' across the ecosystem');
+
+                foreach (collect($pullRequests)->pluck('name')->take(5) as $title) {
+                    $this->log[] = $this->term('dim', '  → '.$title);
+                }
+            }
+        }
+
+        $evidenceRepos = array_merge(
+            $pullRequests,
+            $import->evidenceRepos($repos),
+        );
         $projectRepos = $import->projectRepos($repos);
         $journalRepos = $import->journalRepos($repos);
 
-        $evidenceChunks = array_chunk($evidenceRepos, 3);
-        $journalChunks = array_chunk($journalRepos, 2);
+        // Import a first batch inline; everything else is queued so very
+        // large accounts are fully captured without blocking the scan.
+        $inlineEvidence = array_slice($evidenceRepos, 0, OnboardingImportService::INLINE_EVIDENCE);
+        $inlineProjects = array_slice($projectRepos, 0, OnboardingImportService::INLINE_PROJECTS);
+        $inlineJournal = array_slice($journalRepos, 0, OnboardingImportService::INLINE_JOURNAL);
+
+        $queuedEvidence = array_slice($evidenceRepos, OnboardingImportService::INLINE_EVIDENCE);
+        $queuedProjects = array_slice($projectRepos, OnboardingImportService::INLINE_PROJECTS);
+        $queuedJournal = array_slice($journalRepos, OnboardingImportService::INLINE_JOURNAL);
+
+        $this->queued = count($queuedEvidence) + count($queuedProjects) + count($queuedJournal);
+
+        if ($this->queued > 0 && auth()->user()) {
+            ImportScoutedReposJob::dispatch(
+                auth()->id(),
+                $queuedEvidence,
+                $queuedProjects,
+                $queuedJournal,
+                'profile_scan',
+            );
+
+            $this->log[] = $this->term(
+                'info',
+                'Queued '.number_format($this->queued).' item'.($this->queued === 1 ? '' : 's').' for background scanning — they will appear on your DevID shortly.',
+            );
+        }
+
+        $evidenceChunks = array_chunk($inlineEvidence, 3);
+        $journalChunks = array_chunk($inlineJournal, 2);
 
         $plan = [];
 
@@ -354,8 +408,8 @@ class ScoutRunner extends Component
             $plan[] = ['kind' => 'evidence', 'repos' => $chunk, 'label' => 'Evidence', 'index' => $i + 1, 'total' => count($evidenceChunks)];
         }
 
-        foreach ($projectRepos as $i => $repo) {
-            $plan[] = ['kind' => 'project', 'repo' => $repo, 'label' => 'Projects', 'index' => $i + 1, 'total' => count($projectRepos)];
+        foreach ($inlineProjects as $i => $repo) {
+            $plan[] = ['kind' => 'project', 'repo' => $repo, 'label' => 'Projects', 'index' => $i + 1, 'total' => count($inlineProjects)];
         }
 
         foreach ($journalChunks as $i => $chunk) {
@@ -415,7 +469,11 @@ class ScoutRunner extends Component
                 continue;
             }
 
-            $evidence = $import->createEvidence($user, $repo, ($step['mode'] ?? null) === 'single' ? 'single_scout' : 'profile_scan');
+            try {
+                $evidence = $import->createEvidence($user, $repo, ($step['mode'] ?? null) === 'single' ? 'single_scout' : 'profile_scan');
+            } catch (\Throwable) {
+                continue;
+            }
 
             if (! $evidence->wasRecentlyCreated) {
                 continue;
@@ -428,7 +486,7 @@ class ScoutRunner extends Component
             $this->passport['evidence'] = array_values(array_unique(array_merge([$evidence->title], $this->passport['evidence'])));
         }
 
-        $this->refreshPassportSkills($user);
+        $this->refreshDevIDSkills($user);
         $this->passport['factors'] = $this->passportFactors();
 
         if ($titles !== []) {
@@ -459,7 +517,11 @@ class ScoutRunner extends Component
         $repo = ($step['mode'] ?? null) === 'single' ? $this->singleRepo : ($step['repo'] ?? null);
 
         if ($repo) {
-            $project = $import->createProject($user, $repo);
+            try {
+                $project = $import->createProject($user, $repo);
+            } catch (\Throwable) {
+                $project = null;
+            }
 
             if ($project) {
                 $this->xp += OnboardingImportService::XP_PROJECT_PUBLISHED;
@@ -491,7 +553,12 @@ class ScoutRunner extends Component
         $titles = [];
 
         foreach ($step['repos'] as $repo) {
-            $entry = $import->createJournalEntry($user, $repo);
+            try {
+                $entry = $import->createJournalEntry($user, $repo);
+            } catch (\Throwable) {
+                continue;
+            }
+
             $titles[] = $entry->title;
             $this->xp += OnboardingImportService::XP_JOURNAL_ENTRY;
             $this->added['journal']++;
@@ -520,6 +587,35 @@ class ScoutRunner extends Component
     {
         $user = auth()->user();
 
+        // Fill the profile from the scanned evidence (profile scans only).
+        if ($this->mode === 'profile' && ($this->result['source'] ?? null) === 'github') {
+            $updates = [];
+
+            foreach ([
+                'github_url' => $this->result['profile_url'] ?? null,
+                'headline' => $this->result['headline'] ?? null,
+                'location' => $this->result['location'] ?? null,
+                'bio' => $this->result['bio'] ?? null,
+            ] as $field => $value) {
+                if (blank($fresh = $user->$field) && filled($value)) {
+                    $updates[$field] = $value;
+                }
+            }
+
+            if (blank($user->website_url) && ! empty($this->result['blog'])) {
+                $blog = $this->result['blog'];
+                $updates['website_url'] = str_starts_with($blog, 'http') ? $blog : 'https://'.$blog;
+            }
+
+            if ($updates !== []) {
+                $user->forceFill($updates)->save();
+            }
+
+            if (blank($user->avatar_path) && ! empty($this->result['avatar_url'])) {
+                app(AvatarImportService::class)->import($user, $this->result['avatar_url']);
+            }
+        }
+
         if ($this->xp > 0) {
             app(ExperienceService::class)->award($user, $this->xp, 'Scout — work imported from '.$this->url);
         }
@@ -535,10 +631,15 @@ class ScoutRunner extends Component
             'evidence' => $this->added['evidence'],
             'projects' => $this->added['projects'],
             'journal' => $this->added['journal'],
+            'queued' => $this->queued,
             'xp' => $this->xp,
             'level' => $this->passport['level'],
             'magnitude' => $this->passport['magnitude'],
         ];
+
+        if ($this->queued > 0) {
+            $this->log[] = $this->term('info', number_format($this->queued).' item'.($this->queued === 1 ? '' : 's').' importing in the background — your DevID keeps updating.');
+        }
 
         $this->log[] = $this->term(
             'ok',
@@ -550,7 +651,7 @@ class ScoutRunner extends Component
         $this->phase = 'done';
     }
 
-    private function primePassport(): void
+    private function primeDevID(): void
     {
         $user = auth()->user();
 
@@ -577,7 +678,7 @@ class ScoutRunner extends Component
         $this->passport['factors'] = $this->passportFactors();
     }
 
-    private function refreshPassportSkills(User $user): void
+    private function refreshDevIDSkills(User $user): void
     {
         $names = $user->fresh()->skills()->orderByPivot('level', 'desc')->pluck('name')->all();
 

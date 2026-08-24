@@ -10,7 +10,7 @@ class VouchPolicy
 {
     public function create(User $user): bool
     {
-        return $user->vouch_credits > 0;
+        return $user->isVerified() && $user->vouch_credits > 0;
     }
 
     public function approve(User $user, ?Vouch $vouch = null): bool

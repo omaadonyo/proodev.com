@@ -30,7 +30,7 @@ class PlagiarismAlertNotification extends Notification implements ShouldQueue
             'body' => 'Someone tried to claim '.$this->strike->repo_url.' as their own proof. Our plagiarism guard removed it and warned the account'
                 .($offender ? ' ('.$offender->name.')' : '').'.',
             'icon' => 'shield-check',
-            'url' => $owner ? route('passport', $owner->handle(), absolute: false) : null,
+            'url' => $owner ? route('devid', $owner->handle(), absolute: false) : null,
         ];
     }
 }

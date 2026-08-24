@@ -11,16 +11,23 @@ new #[Title('Verify Your Identity')] class extends Component
 {
     public string $shortName = '';
 
+    public string $cycle = 'one_time';
+
     public function mount(): void
     {
         $this->shortName = auth()->user()->handle();
+    }
+
+    public function chooseCycle(string $cycle): void
+    {
+        $this->cycle = in_array($cycle, ['one_time', 'monthly'], true) ? $cycle : 'one_time';
     }
 
     public function purchase(): void
     {
         $this->validate(['shortName' => ['required', 'string', 'regex:/^[a-zA-Z0-9\-_]+$/', 'min:3', 'max:30']]);
 
-        $payment = app(BillingService::class)->createVerificationPayment(auth()->user(), strtolower($this->shortName));
+        $payment = app(BillingService::class)->createVerificationPayment(auth()->user(), strtolower($this->shortName), $this->cycle);
 
         $this->redirectRoute('checkout', $payment, navigate: true);
     }
@@ -34,7 +41,13 @@ new #[Title('Verify Your Identity')] class extends Component
     #[Computed]
     public function price(): float
     {
-        return (float) config('billing.developer.verification.price', 8);
+        return (float) config('billing.developer.verification.price', 17);
+    }
+
+    #[Computed]
+    public function monthlyPrice(): float
+    {
+        return (float) config('billing.developer.verification.monthly_price', 8);
     }
 
     #[Computed]
@@ -67,10 +80,9 @@ new #[Title('Verify Your Identity')] class extends Component
 
         return [
             ['label' => 'Profile & bio filled out', 'done' => filled($user->headline) && filled($user->bio)],
-            ['label' => 'Skills on your passport', 'done' => $user->skills()->exists()],
+            ['label' => 'Skills on your DevID', 'done' => $user->skills()->exists()],
             ['label' => 'Shipped projects', 'done' => $user->projects()->whereNotNull('published_at')->exists()],
             ['label' => 'Analyzed evidence', 'done' => $user->evidence()->where('status', EvidenceStatus::Ready)->exists()],
-            ['label' => 'Community vouches', 'done' => $user->approvedVouchesReceived()->exists()],
         ];
     }
 
@@ -89,7 +101,7 @@ new #[Title('Verify Your Identity')] class extends Component
         <div>
             <flux:heading size="xl">Developer Verification</flux:heading>
             <flux:text>
-                A one-time {{ number_format($this->price, 0) }} purchase that proves you're a real person behind your work.
+                Prove you're a real person behind your work. Choose a one-time or monthly plan below.
             </flux:text>
         </div>
 
@@ -100,7 +112,7 @@ new #[Title('Verify Your Identity')] class extends Component
                 </div>
                 <flux:heading class="mt-4">You're verified</flux:heading>
                 <flux:text class="mt-2">
-                    Your badge is live on your passport, and your short shareable link is ready.
+                    Your badge is live on your DevID, and your short shareable link is ready.
                 </flux:text>
                 <div class="mx-auto mt-4 max-w-md">
                     @php($short = auth()->user()->shortLink())
@@ -110,31 +122,31 @@ new #[Title('Verify Your Identity')] class extends Component
                     >
                         <flux:icon name="link" variant="micro" class="size-4 shrink-0 text-accent" />
                         <a
-                            href="{{ $short ?: route('passport', auth()->user()->handle()) }}"
+                            href="{{ $short ?: route('devid', auth()->user()->handle()) }}"
                             wire:navigate
                             class="min-w-0 flex-1 truncate text-sm font-semibold text-accent hover:underline"
                         >
-                            {{ $short ?: route('passport', auth()->user()->handle()) }}
+                            {{ $short ?: route('devid', auth()->user()->handle()) }}
                         </a>
                         <button
                             type="button"
-                            @click="navigator.clipboard.writeText('{{ $short ?: route('passport', auth()->user()->handle()) }}').then(() => { copied = true; setTimeout(() => copied = false, 2000); })"
+                            @click="navigator.clipboard.writeText('{{ $short ?: route('devid', auth()->user()->handle()) }}').then(() => { copied = true; setTimeout(() => copied = false, 2000); })"
                             class="inline-flex shrink-0 items-center gap-1 rounded-lg bg-zinc-900 px-3 py-1.5 text-xs font-semibold text-white transition hover:bg-zinc-700 dark:bg-white dark:text-zinc-900 dark:hover:bg-zinc-200"
                         >
                             <flux:icon name="{{ $short ? 'clipboard' : 'link' }}" variant="micro" class="size-3.5" />
                             <span x-text="copied ? 'Copied!' : 'Copy link'"></span>
                         </button>
                     </div>
-                    <p class="mt-2 text-xs text-zinc-500">Share this link anywhere — it opens your public passport.</p>
+                    <p class="mt-2 text-xs text-zinc-500">Share this link anywhere — it opens your public DevID.</p>
                 </div>
 
                 <div class="mx-auto mt-8 max-w-md">
                     <div class="mb-1 flex items-center justify-between text-[11px] text-zinc-500">
-                        <span>Passport strength</span>
+                        <span>DevID strength</span>
                         <span class="tabular-nums">{{ $this->completion }}% complete</span>
                     </div>
-                    <flux:progress :value="$this->completion" color="emerald" />
-                    <p class="mt-2 text-xs text-zinc-500">A complete passport helps recruiters trust your verified badge even more.</p>
+                    <flux:progress :value="$this->completion" />
+                    <p class="mt-2 text-xs text-zinc-500">A complete DevID helps recruiters trust your verified badge even more.</p>
                 </div>
             </div>
         @else
@@ -149,7 +161,7 @@ new #[Title('Verify Your Identity')] class extends Component
 
                         <div class="mt-6 grid gap-3">
                             @foreach ([
-                                ['icon' => 'check-badge', 'title' => 'Verified badge', 'text' => 'A check badge on your passport, profile, and feed entries.'],
+                                ['icon' => 'check-badge', 'title' => 'Verified badge', 'text' => 'A check badge on your DevID, profile, and feed entries.'],
                                 ['icon' => 'link', 'title' => 'Your own short link', 'text' => 'Reserve '.$this->shortDomain.'/<your-name> and link it anywhere.'],
                                 ['icon' => 'shield-check', 'title' => 'Trust signal', 'text' => 'Recruiters and the community can see you\'re human at a glance.'],
                             ] as $benefit)
@@ -167,7 +179,47 @@ new #[Title('Verify Your Identity')] class extends Component
                     </div>
 
                     <div class="rounded-xl border border-zinc-200 bg-zinc-50 p-6 dark:border-zinc-700 dark:bg-zinc-900/50">
-                        <flux:heading size="sm">Checkout</flux:heading>
+                        <flux:heading size="sm">Choose your plan</flux:heading>
+
+                        {{-- Plan selector --}}
+                        <div class="mt-4 grid grid-cols-2 gap-3">
+                            <button
+                                type="button"
+                                wire:click="chooseCycle('one_time')"
+                                @class([
+                                    'relative rounded-xl border-[3px] p-4 text-left transition',
+                                    'border-blue-600 bg-blue-50/60 dark:border-teal-400 dark:bg-teal-400/5' => $cycle === 'one_time',
+                                    'border-zinc-200 bg-white hover:border-zinc-300 dark:border-zinc-700 dark:bg-zinc-900/60 dark:hover:border-zinc-600' => $cycle !== 'one_time',
+                                ])
+                            >
+                                @if ($cycle === 'one_time')
+                                    <span class="absolute -top-2.5 end-3 rounded-full bg-blue-600 px-2 py-0.5 text-[9px] font-bold uppercase tracking-wider text-white">Best value</span>
+                                @endif
+                                <div class="flex items-baseline gap-1">
+                                    <span class="text-2xl font-bold tabular-nums text-zinc-900 dark:text-white">${{ number_format($this->price, 0) }}</span>
+                                    <span class="text-xs text-zinc-500">once</span>
+                                </div>
+                                <div class="mt-0.5 text-[11px] font-medium text-zinc-500">Lifetime verification</div>
+                            </button>
+
+                            <button
+                                type="button"
+                                wire:click="chooseCycle('monthly')"
+                                @class([
+                                    'relative rounded-xl border-[3px] p-4 text-left transition',
+                                    'border-teal-500 bg-teal-50/60 dark:border-teal-400 dark:bg-teal-400/5' => $cycle === 'monthly',
+                                    'border-zinc-200 bg-white hover:border-zinc-300 dark:border-zinc-700 dark:bg-zinc-900/60 dark:hover:border-zinc-600' => $cycle !== 'monthly',
+                                ])
+                            >
+                                <div class="flex items-baseline gap-1">
+                                    <span class="text-2xl font-bold tabular-nums text-zinc-900 dark:text-white">${{ number_format($this->monthlyPrice, 0) }}</span>
+                                    <span class="text-xs text-zinc-500">/month</span>
+                                </div>
+                                <div class="mt-0.5 text-[11px] font-medium text-zinc-500">Pay as you go</div>
+                            </button>
+                        </div>
+
+                        <flux:heading size="sm" class="mt-6">Checkout</flux:heading>
                         <flux:text>This build uses manual checkout — an admin confirms your payment.</flux:text>
 
                         <x-secure-checkout-notice class="mt-4 bg-white dark:bg-zinc-800/80" />
@@ -182,7 +234,11 @@ new #[Title('Verify Your Identity')] class extends Component
                             </div>
                             <flux:button type="submit" variant="primary" wire:loading.attr="disabled">
                                 <flux:icon name="shield-check" variant="micro" />
-                                Purchase verification — ${{ number_format($this->price, 0) }}
+                                @if ($cycle === 'monthly')
+                                    Continue — ${{ number_format($this->monthlyPrice, 0) }}/month
+                                @else
+                                    Continue — ${{ number_format($this->price, 0) }} one-time
+                                @endif
                             </flux:button>
                         </form>
 
@@ -200,7 +256,7 @@ new #[Title('Verify Your Identity')] class extends Component
                 <div class="flex flex-wrap items-center justify-between gap-3">
                     <div>
                         <flux:heading size="sm">Verification readiness</flux:heading>
-                        <flux:text>Strengthen your passport before you verify so the badge carries maximum trust.</flux:text>
+                        <flux:text>Strengthen your DevID before you verify so the badge carries maximum trust.</flux:text>
                     </div>
                     <span class="inline-flex items-center gap-2 rounded-full bg-accent/10 px-3 py-1 text-sm font-bold text-accent">
                         <flux:icon name="chart-bar" variant="micro" />
@@ -213,8 +269,8 @@ new #[Title('Verify Your Identity')] class extends Component
                         <span>Readiness</span>
                         <span class="tabular-nums">{{ $this->readinessPercent }}%</span>
                     </div>
-                    <flux:progress :value="$this->readinessPercent" color="{{ $this->readinessPercent >= 80 ? 'emerald' : ($this->readinessPercent >= 40 ? 'amber' : 'rose') }}" />
-                </div>
+<flux:progress :value="$this->readinessPercent" />
+            </div>
 
                 <div class="mt-5 grid gap-2 sm:grid-cols-2">
                     @foreach ($this->readiness as $item)

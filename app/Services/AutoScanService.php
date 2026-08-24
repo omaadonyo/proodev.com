@@ -99,8 +99,8 @@ class AutoScanService
             ->all();
 
         // Projects & dated journal entries come from repositories only —
-        // packages, articles, demos and sites become evidence.
-        $repoSource = fn (array $repo) => in_array((string) ($repo['source'] ?? 'github'), ['github', 'gitlab', 'bitbucket'], true);
+        // packages, articles, demos, sites and pull requests become evidence.
+        $repoSource = fn (array $repo) => $this->import->isRepository($repo);
         $projectRepos = collect($this->import->projectRepos($evidenceRepos))->filter($repoSource)->values()->all();
         $journalRepos = collect($this->import->journalRepos($evidenceRepos))->filter($repoSource)->values()->all();
 
@@ -149,7 +149,7 @@ class AutoScanService
                 "Auto-scan imported {$newEvidence} new link".($newEvidence === 1 ? '' : 's'),
                 $newProjects > 0 || $newJournal > 0
                     ? $newProjects.' project'.($newProjects === 1 ? '' : 's').' published · '.$newJournal.' journal entr'.($newJournal === 1 ? 'y' : 'ies').' dated from repo history.'
-                    : 'Your passport stayed fresh automatically.',
+                    : 'Your DevID stayed fresh automatically.',
                 [
                     'auto_scan' => true,
                     'scanned' => count($repos),
@@ -221,6 +221,18 @@ class AutoScanService
         foreach ($pending as $row) {
             try {
                 $material = $this->scout->fetch($row->url);
+
+                // Profile URLs resolve to a full repository list — import
+                // each repo individually so nothing is left behind.
+                if (! empty($material['repos']) && is_array($material['repos'])) {
+                    foreach ($material['repos'] as $repo) {
+                        $repos[] = $repo;
+                        $byUrl[$repo['html_url'] ?? $row->url] = $row;
+                    }
+
+                    continue;
+                }
+
                 $repo = $this->scout->toRepo($material, $row->url);
 
                 $repos[] = $repo;

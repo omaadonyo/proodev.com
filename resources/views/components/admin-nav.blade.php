@@ -15,8 +15,8 @@
         ['label' => 'Payments', 'route' => 'admin.payments', 'icon' => 'banknotes'],
         ['label' => 'Ads', 'route' => 'admin.ads', 'icon' => 'megaphone'],
         ['label' => 'Sponsors', 'route' => 'admin.sponsors', 'icon' => 'hand-raised'],
-        ['label' => 'News', 'route' => 'admin.news', 'icon' => 'newspaper'],
-        ['label' => 'System', 'route' => 'admin.system', 'icon' => 'arrow-path'],
+        ['label' => 'Settings', 'route' => 'admin.settings', 'icon' => 'cog-6-tooth'],
+        ['label' => 'Feature Requests', 'route' => 'admin.feature-requests', 'icon' => 'light-bulb'],
     ];
 @endphp
 
@@ -25,7 +25,7 @@
         <flux:sidebar.item
             :icon="$tab['icon']"
             :href="route($tab['route'])"
-            :current="request()->routeIs($tab['route'])"
+            :current="request()->routeIs($tab['route'], $tab['route'].'/*')"
             wire:navigate
         >
             {{ $tab['label'] }}

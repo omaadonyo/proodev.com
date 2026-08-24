@@ -9,7 +9,7 @@
 
         <meta name="description" content="ProoDev for companies and recruiters: evidence-backed candidate reports, side-by-side comparison, talent pools, interview scheduling, and an evidence-based search across verified engineers.">
 
-        <meta name="keywords" content="hire engineers, technical recruiting, candidate intelligence, evidence-backed candidates, engineer search, talent pools, verified developers">
+        <meta name="keywords" content="{{ ($metaKeywords ?? null) ?: app(\App\Services\SiteSettings::class)->metaKeywords() }}">
 
         <link rel="canonical" href="{{ url()->current() }}">
 
@@ -170,7 +170,7 @@
                 </h1>
 
                 <p class="mx-auto mt-6 max-w-2xl text-lg leading-relaxed text-zinc-600 sm:text-xl dark:text-zinc-400">
-                    Stop sifting self-reported resumes. Every candidate on ProoDev has a passport of real work - analyzed evidence,
+                    Stop sifting self-reported resumes. Every candidate on ProoDev has a DevID of real work - analyzed evidence,
                     verified skills, community vouches, and an explainable magnitude score. Recruit against proof.
                 </p>
 
@@ -653,11 +653,11 @@
                     @foreach ([
                         ['q' => 'How is this different from recruiting on LinkedIn or a job board?', 'a' => 'Job boards are keyword searches over self-reported profiles. ProoDev searches analyzed work - the actual repositories, articles, and projects engineers have published - and ranks candidates by explainable evidence, with verified engineers surfacing first.'],
                         ['q' => 'Can I post a job description instead of searching manually?', 'a' => 'Yes. Paste a full job description or a URL and ProoDev extracts the skills, matches candidates against their analyzed evidence, and ranks them - verified engineers first.'],
-                        ['q' => 'Do candidates have to do anything to get scored?', 'a' => 'No. Candidates add evidence (repos, articles, projects) and ProoDev reads and analyzes the work automatically into a passport with an explainable magnitude score. Recruiters just search the results.'],
+                        ['q' => 'Do candidates have to do anything to get scored?', 'a' => 'No. Candidates add evidence (repos, articles, projects) and ProoDev reads and analyzes the work automatically into a DevID with an explainable magnitude score. Recruiters just search the results.'],
                         ['q' => 'Can I save candidates and collaborate with my team?', 'a' => 'Yes. Save candidates into named talent pools, set statuses (shortlisted, interviewing, offered), share pools across a workspace, and compare candidates side-by-side.'],
                         ['q' => 'How do interviews work?', 'a' => 'Schedule interviews with date, time, and mode from the Interview Builder, see them on a weekly calendar, and generate evidence-grounded questions from each candidate\'s actual analyzed work. Invitations include a calendar invite.'],
                         ['q' => 'Is there a free plan for companies?', 'a' => 'Yes. Creating a company account and publishing roles is free. The Recruiter and Recruiter Intelligence Suite plans add reports, comparison, exports, and the full agency toolkit.'],
-                        ['q' => 'Is candidate data private?', 'a' => 'Passports are public by default so the community can verify work, but candidates control what appears. Candidate contact details are only visible to verified recruiters and hiring companies.'],
+                        ['q' => 'Is candidate data private?', 'a' => 'DevIDs are public by default so the community can verify work, but candidates control what appears. Candidate contact details are only visible to verified recruiters and hiring companies.'],
                     ] as $faq)
                         <div data-faq class="overflow-hidden rounded-xl border border-zinc-200 bg-white dark:border-white/10 dark:bg-white/[0.03]">
                             <button type="button" data-faq-toggle class="flex w-full items-center justify-between gap-4 px-5 py-4 text-left">

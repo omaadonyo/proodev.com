@@ -3,7 +3,7 @@
 use App\Models\User;
 use App\Models\UserAchievement;
 use App\Services\EngineeringMagnitudeService;
-use App\Services\PassportViewService;
+use App\Services\DevIDViewService;
 use App\Services\ProfileCompletionService;
 use Flux\Flux;
 use Livewire\Attributes\Computed;
@@ -16,7 +16,7 @@ new #[Lazy] class extends Component
 
     public function mount(): void
     {
-        app(PassportViewService::class)->record(
+        app(DevIDViewService::class)->record(
             User::findOrFail($this->userId),
             auth()->user(),
             request()->ip(),
@@ -349,26 +349,40 @@ new #[Lazy] class extends Component
     @endif
 
     <div>
-        <a href="{{ route('passport', $this->user->handle()) }}" wire:navigate class="inline-flex w-full items-center justify-center gap-1.5 rounded-lg border border-zinc-200 px-3 py-2 text-sm font-medium text-zinc-700 transition hover:border-accent hover:text-accent dark:border-white/10 dark:text-zinc-200">
-            View full passport
+        <a href="{{ route('devid', $this->user->handle()) }}" wire:navigate class="inline-flex w-full items-center justify-center gap-1.5 rounded-lg border border-zinc-200 px-3 py-2 text-sm font-medium text-zinc-700 transition hover:border-accent hover:text-accent dark:border-white/10 dark:text-zinc-200">
+            View full DevID
             <flux:icon name="arrow-up-right" variant="micro" />
         </a>
     </div>
 
     @auth
-        @if (! $this->isOwn && auth()->user()->isVerified())
-            <flux:button
-                size="sm"
-                wire:click="connect"
-                wire:loading.attr="disabled"
-                class="w-full justify-center bg-zinc-900 text-white! transition hover:bg-zinc-700 dark:bg-white! dark:text-zinc-900! dark:hover:bg-zinc-200"
-            >
-                <flux:icon name="chat-bubble-oval-left-ellipsis" variant="micro" />
-                Connect
-            </flux:button>
-        @endif
-        @if (auth()->id() !== $this->userId && auth()->user()->vouch_credits > 0)
-            <livewire:vouch-dialog :key="'vouch-flyout-'.$this->userId" :userId="$this->userId" />
+        @if (! $this->isOwn)
+            @if (auth()->user()->isVerified())
+                <div class="grid grid-cols-2 gap-2">
+                    <flux:button
+                        size="sm"
+                        wire:click="connect"
+                        wire:loading.attr="disabled"
+                        class="w-full justify-center bg-zinc-900 text-white! transition hover:bg-zinc-700 dark:bg-white! dark:text-zinc-900! dark:hover:bg-zinc-200"
+                    >
+                        <flux:icon name="chat-bubble-oval-left-ellipsis" variant="micro" />
+                        Connect
+                    </flux:button>
+                    @if (auth()->user()->vouch_credits > 0)
+                        <livewire:vouch-dialog :key="'vouch-flyout-'.$this->userId" :userId="$this->userId" />
+                    @endif
+                </div>
+            @else
+                <a
+                    href="{{ route('verify') }}"
+                    wire:navigate
+                    class="flex w-full items-center justify-center gap-1.5 rounded-lg bg-amber-400/10 px-3 py-2 text-sm font-medium text-amber-700 transition hover:bg-amber-400/20 dark:text-amber-400"
+                    title="Get verified to connect and vouch"
+                >
+                    <flux:icon name="lock-closed" variant="micro" />
+                    Needs verification — connect & vouch
+                </a>
+            @endif
         @endif
     @endauth
 </div>

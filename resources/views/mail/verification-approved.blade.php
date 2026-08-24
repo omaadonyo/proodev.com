@@ -12,7 +12,7 @@
     </div>
 
     <div class="btn-row">
-        <a class="btn" href="{{ route('passport', $request->user->handle()) }}">View your passport</a>
+        <a class="btn" href="{{ route('devid', $request->user->handle()) }}">View your DevID</a>
     </div>
 
     <div class="divider"></div>

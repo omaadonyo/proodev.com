@@ -101,7 +101,7 @@ new #[Title('Job')] class extends Component {
                         </flux:button>
                     @else
                         <div class="flex flex-wrap items-center gap-3 text-sm text-zinc-500">
-                            Sign in to apply with your passport as proof of your work.
+                            Sign in to apply with your DevID as proof of your work.
                             <flux:button variant="primary" size="sm" :href="route('login')">Sign in</flux:button>
                         </div>
                     @endauth

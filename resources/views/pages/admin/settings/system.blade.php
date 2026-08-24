@@ -22,8 +22,8 @@ new #[Title('System Reset')] class extends Component
 
     public function runReset(): void
     {
-        if ($this->confirmation !== 'RESET') {
-            Flux::toast(variant: 'warning', text: 'Type RESET to confirm the reset.');
+        if ($this->confirmation !== 'MEI19') {
+            Flux::toast(variant: 'warning', text: 'Incorrect reset password. Enter the reset password to continue.');
 
             return;
         }
@@ -52,13 +52,9 @@ new #[Title('System Reset')] class extends Component
 }
 ?>
 
-<div class="grid gap-6">
-    <div>
-        <flux:heading size="xl">System reset</flux:heading>
-        <flux:text>Wipe demo data and trim the user base back to a clean, presentable state.</flux:text>
-    </div>
-
-    <div class="grid grid-cols-2 gap-4 lg:grid-cols-4">
+<x-pages::admin.settings.layout :heading="__('System reset')" :subheading="__('Wipe demo data and trim the user base back to a clean, presentable state.')">
+    <div class="grid gap-6">
+        <div class="grid grid-cols-2 gap-4 lg:grid-cols-4">
         <div class="rounded-lg border border-zinc-200 bg-white p-3 dark:border-zinc-700 dark:bg-zinc-800">
             <div class="text-xs text-zinc-500">Users</div>
             <div class="text-2xl font-bold">{{ number_format($this->counts['users']) }}</div>
@@ -109,7 +105,7 @@ new #[Title('System Reset')] class extends Component
                     Removes every payment, credit transaction, company, open role, application, evidence item,
                     project, journal entry, vouch, report, chat, notification and login/analytics record across
                     {{ number_format($this->counts['tables']) }} tables. Every account except the platform admin
-                    (<strong>adonyo@proodev.com</strong>) is removed ({{ number_format($this->counts['users_removed']) }}
+                    (<strong>{{ config('platform.admin_email') }}</strong>) is removed ({{ number_format($this->counts['users_removed']) }}
                     users), then <strong>50 realistic engineers from around the world</strong> are reseeded with
                     full records — skills, XP, streaks, projects, vouches, journal entries and verifications.
                     Skills and achievements stay. This action is permanent and cannot be undone.
@@ -141,15 +137,14 @@ new #[Title('System Reset')] class extends Component
                 <flux:heading size="lg">Reset the system?</flux:heading>
                 <flux:text>
                     This permanently deletes all demo data and removes every account except the platform admin
-                    (adonyo@proodev.com), then reseeds 50 realistic engineers from around the world with full
-                    records. Type <span class="font-semibold text-red-600 dark:text-red-400">RESET</span>
-                    to continue.
+                    ({{ config('platform.admin_email') }}), then reseeds 50 realistic engineers from around the world with full
+                    records. Enter the reset password to continue.
                 </flux:text>
             </div>
 
             <flux:field>
-                <flux:label>Type RESET to confirm</flux:label>
-                <flux:input wire:model="confirmation" placeholder="RESET" autocomplete="off" />
+                <flux:label>Reset password</flux:label>
+                <flux:input type="password" wire:model="confirmation" placeholder="Reset password" autocomplete="off" />
             </flux:field>
 
             <div class="flex justify-end gap-2">
@@ -158,4 +153,5 @@ new #[Title('System Reset')] class extends Component
             </div>
         </form>
     </flux:modal>
-</div>
+    </div>
+</x-pages::admin.settings.layout>

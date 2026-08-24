@@ -20,6 +20,15 @@ function billingAdmin(): User
     return User::factory()->create(['is_admin' => true]);
 }
 
+function grantHiringVerification(Company $company): void
+{
+    app(BillingService::class)->createCompanyVerificationPayment($company);
+
+    Payment::where('company_id', $company->id)
+        ->where('purpose', 'verification')
+        ->update(['status' => 'paid', 'paid_at' => now()]);
+}
+
 test('a company can be registered and is active on the free plan immediately', function () {
     $user = User::factory()->create();
 
@@ -34,8 +43,8 @@ test('a company can be registered and is active on the free plan immediately', f
     expect($company)->not->toBeNull()
         ->and($company->status)->toBe(CompanyStatus::Approved)
         ->and($company->approved_at)->not->toBeNull()
-        ->and($company->plan)->toBe(CompanyPlan::Trial)
-        ->and($company->canPostJobs())->toBeTrue()
+        ->and($company->canPostJobs())->toBeFalse() // requires $299 hiring verification
+        ->and((function () use ($company) { grantHiringVerification($company); return $company->refresh()->canPostJobs(); })())->toBeTrue()
         ->and($company->members()->where('user_id', $user->id)->exists())->toBeTrue();
 });
 
@@ -43,6 +52,7 @@ test('company onboarding completes profile and publishes the first job', functio
     $owner = User::factory()->create();
     $company = Company::factory()->create(['owner_id' => $owner->id, 'status' => CompanyStatus::Approved]);
     $company->members()->create(['user_id' => $owner->id, 'role' => 'owner']);
+    grantHiringVerification($company);
 
     Livewire::actingAs($owner)
         ->test('pages::companies.onboarding', ['company' => $company])
@@ -89,6 +99,7 @@ test('trial companies are limited to a single active job', function () {
 
 test('paid companies can post unlimited active jobs', function () {
     $company = Company::factory()->recruiter()->create(['status' => CompanyStatus::Approved]);
+    grantHiringVerification($company);
 
     Job::factory()->count(3)->create(['company_id' => $company->id, 'status' => JobStatus::Open]);
 
@@ -103,6 +114,7 @@ test('paid companies can post unlimited active jobs', function () {
 
 test('trial companies are limited by their job post credits', function () {
     $company = Company::factory()->create(['plan' => CompanyPlan::Trial, 'job_post_credits' => 2, 'status' => CompanyStatus::Approved]);
+    grantHiringVerification($company);
 
     Job::factory()->count(2)->create(['company_id' => $company->id, 'status' => JobStatus::Open]);
 
@@ -405,7 +417,7 @@ test('a recruiter can see the developers who applied to a job opening on the app
         ->test('pages::companies.applicants', ['company' => $company])
         ->assertSee($job->title)
         ->assertSee($applicant->name)
-        ->call('setApplicationStatus', $applicant->applications()->first()->id, 'shortlisted');
+        ->call('setStage', $applicant->applications()->first()->id, 'shortlisted');
 
     expect($applicant->applications()->first()->status->value)->toBe('shortlisted');
 });

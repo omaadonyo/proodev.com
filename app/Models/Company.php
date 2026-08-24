@@ -4,6 +4,7 @@ namespace App\Models;
 
 use App\Enums\CompanyPlan;
 use App\Enums\CompanyStatus;
+use App\Enums\HiringStage;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -71,7 +72,53 @@ class Company extends Model
             'is_pioneer' => 'boolean',
             'approved_at' => 'datetime',
             'plan_renews_at' => 'datetime',
+            'hiring_settings' => 'array',
         ];
+    }
+
+    /**
+     * Default employer-controlled hiring-transparency settings, merged with
+     * any stored overrides.
+     *
+     * @return array<string, string|bool>
+     */
+    public function hiringSettings(): array
+    {
+        return array_merge([
+            'visibility' => 'standard', // minimal | standard | detailed
+            'notify_received' => true,
+            'notify_reviewed' => true,
+            'notify_shortlisted' => true,
+            'notify_assessment' => true,
+            'notify_interview' => true,
+            'notify_paused' => true,
+            'notify_closed' => true,
+            'rejection_feedback' => true,
+        ], $this->hiring_settings ?? []);
+    }
+
+    public function hiringSetting(string $key): mixed
+    {
+        return $this->hiringSettings()[$key] ?? null;
+    }
+
+    /**
+     * Whether a candidate-facing notification should be sent for a stage,
+     * given the company's transparency settings. Platform-required
+     * communications (received confirmations) are never suppressed.
+     */
+    public function shouldNotifyStage(HiringStage $stage): bool
+    {
+        return match ($stage) {
+            HiringStage::ApplicationReceived => (bool) $this->hiringSetting('notify_received'),
+            HiringStage::Reviewing, HiringStage::Reviewed => (bool) $this->hiringSetting('notify_reviewed'),
+            HiringStage::Shortlisted => (bool) $this->hiringSetting('notify_shortlisted'),
+            HiringStage::Assessment => (bool) $this->hiringSetting('notify_assessment'),
+            HiringStage::Interview => (bool) $this->hiringSetting('notify_interview'),
+            HiringStage::RolePaused => (bool) $this->hiringSetting('notify_paused'),
+            HiringStage::NotSelected, HiringStage::RoleClosed => (bool) $this->hiringSetting('notify_closed'),
+            default => true,
+        };
     }
 
     protected static function booted(): void
@@ -114,6 +161,17 @@ class Company extends Model
     public function isApproved(): bool
     {
         return $this->status === CompanyStatus::Approved;
+    }
+
+    /**
+     * Posting jobs publicly requires a completed $299 hiring verification.
+     */
+    public function hasHiringVerification(): bool
+    {
+        return $this->payments()
+            ->where('purpose', \App\Enums\PaymentPurpose::Verification)
+            ->where('status', \App\Enums\PaymentStatus::Paid)
+            ->exists();
     }
 
     public function isMember(User $user): bool
@@ -166,7 +224,7 @@ class Company extends Model
 
     public function canPostJobs(): bool
     {
-        return $this->isApproved() && ! $this->planLimitReached();
+        return $this->isApproved() && $this->hasHiringVerification() && ! $this->planLimitReached();
     }
 
     public function uniqueSlug(): string

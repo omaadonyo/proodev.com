@@ -265,7 +265,7 @@ new #[Title('Plagiarism')] class extends Component
                             <div class="flex items-center gap-3">
                                 <flux:avatar :src="$strike->offender?->avatarUrl()" :alt="$strike->offender?->name ?? 'Deleted user'" circle class="size-8" />
                                 <div class="min-w-0">
-                                    <a href="{{ $strike->offender ? route('passport', $strike->offender->handle()) : '#' }}" wire:navigate class="truncate font-medium hover:underline">
+                                    <a href="{{ $strike->offender ? route('devid', $strike->offender->handle()) : '#' }}" wire:navigate class="truncate font-medium hover:underline">
                                         {{ $strike->offender?->name ?? 'Deleted user' }}
                                     </a>
                                     <div class="truncate text-xs text-zinc-500">{{ $strike->offender?->email ?? '—' }}</div>
@@ -285,7 +285,7 @@ new #[Title('Plagiarism')] class extends Component
                             @if ($strike->owner)
                                 <div class="flex items-center gap-2">
                                     <flux:avatar :src="$strike->owner->avatarUrl()" :alt="$strike->owner->name" circle class="size-6" />
-                                    <a href="{{ route('passport', $strike->owner->handle()) }}" wire:navigate class="hover:underline">{{ $strike->owner->name }}</a>
+                                    <a href="{{ route('devid', $strike->owner->handle()) }}" wire:navigate class="hover:underline">{{ $strike->owner->name }}</a>
                                 </div>
                             @else
                                 <span class="text-xs text-zinc-500">—</span>
@@ -385,7 +385,7 @@ new #[Title('Plagiarism')] class extends Component
                     <div>
                         <div class="text-xs font-semibold uppercase tracking-widest text-zinc-500">Original owner</div>
                         @if ($strike->owner)
-                            <a href="{{ route('passport', $strike->owner->handle()) }}" wire:navigate class="mt-1 block text-accent hover:underline">{{ $strike->owner->name }}</a>
+                            <a href="{{ route('devid', $strike->owner->handle()) }}" wire:navigate class="mt-1 block text-accent hover:underline">{{ $strike->owner->name }}</a>
                         @else
                             <div class="mt-1 text-zinc-500">Not on platform</div>
                         @endif

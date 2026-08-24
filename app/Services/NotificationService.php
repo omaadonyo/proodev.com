@@ -3,6 +3,7 @@
 namespace App\Services;
 
 use App\Mail\ApplicationConfirmationMail;
+use App\Mail\CompanyVerifiedMail;
 use App\Mail\NewApplicationMail;
 use App\Mail\NewJobPostedMail;
 use App\Mail\NewUserRegisteredMail;
@@ -11,6 +12,7 @@ use App\Mail\PaymentInvoiceMail;
 use App\Mail\PaymentReceivedMail;
 use App\Mail\PayoutNotificationMail;
 use App\Mail\VerificationApprovedMail;
+use App\Mail\VerificationInvoiceMail;
 use App\Mail\VouchReceivedMail;
 use App\Mail\WelcomeMail;
 use App\Models\Application;
@@ -23,6 +25,8 @@ use App\Models\Vouch;
 use App\Notifications\NewUserRegisteredNotification;
 use App\Notifications\PaymentAwaitingConfirmationNotification;
 use App\Notifications\PaymentReceivedNotification;
+use App\Notifications\VerificationApprovedNotification;
+use App\Notifications\VerificationInvoiceNotification;
 use App\Notifications\WelcomeNotification;
 use App\Services\Recruiter\JobMatchService;
 use Illuminate\Support\Collection;
@@ -150,6 +154,42 @@ class NotificationService
      * the recruiter job-match keyword extraction, so only relevant devs hear
      * about the role.
      */
+    /**
+     * A hiring-verification invoice was generated: tell the company owner to
+     * pay it (email + in-app) and alert admins for confirmation.
+     */
+    public function hiringVerificationPending(Payment $payment): void
+    {
+        $payment->loadMissing('company.owner');
+
+        $owner = $payment->company?->owner;
+
+        if ($owner) {
+            Mail::to($owner)->send(new VerificationInvoiceMail($payment));
+            $owner->notify(new VerificationInvoiceNotification($payment));
+        }
+
+        foreach (static::admins() as $admin) {
+            $admin->notify(new PaymentAwaitingConfirmationNotification($payment));
+        }
+    }
+
+    /**
+     * Hiring verification confirmed: the company is verified, recruiter and
+     * company tools are unlocked, and any held job post is live.
+     */
+    public function hiringVerificationApproved(Payment $payment): void
+    {
+        $payment->loadMissing('company.owner');
+
+        $owner = $payment->company?->owner;
+
+        if ($owner) {
+            Mail::to($owner)->send(new CompanyVerifiedMail($payment));
+            $owner->notify(new VerificationApprovedNotification($payment));
+        }
+    }
+
     public function jobPublished(Job $job): void
     {
         $job->loadMissing('company');

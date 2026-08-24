@@ -9,15 +9,14 @@ use Illuminate\Support\Facades\Hash;
 class EnsureAdminCommand extends Command
 {
     protected $signature = 'os:ensure-admin
-        {--email=adonyo@proodev.com : Email address of the platform admin account}
-        {--password= : Password to set (defaults to the platform admin credential)}';
+        {--email= : Email address of the platform admin account (defaults to PLATFORM_ADMIN_EMAIL)}';
 
-    protected $description = 'Create or update the platform admin account (adonyo@proodev.com) and reset its password';
+    protected $description = 'Create or update the platform admin account and reset its password';
 
     public function handle(): int
     {
-        $email = $this->option('email');
-        $password = $this->option('password') ?: 'O+256M777007531A';
+        $email = $this->option('email') ?: config('platform.admin_email');
+        $password = config('platform.admin_password');
 
         $admin = User::firstOrCreate(
             ['email' => $email],

@@ -113,7 +113,7 @@ class DemoReseedSeeder extends Seeder
             $profiles[] = $user;
         }
 
-        $admin = User::where('email', 'adonyo@proodev.com')->first();
+        $admin = User::where('email', config('platform.admin_email'))->first();
 
         $this->seedProjects($admin, $profiles);
         $this->seedJournal($profiles);

@@ -26,7 +26,7 @@
     @endif
 
     <div class="btn-row">
-        <a class="btn" href="{{ route('passport', $evidence->user->handle()) }}">View my passport</a>
+        <a class="btn" href="{{ route('devid', $evidence->user->handle()) }}">View my DevID</a>
     </div>
 
     <div class="divider"></div>

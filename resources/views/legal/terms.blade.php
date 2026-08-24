@@ -17,7 +17,7 @@
 
     <div class="space-y-3">
         <h2 class="text-lg font-semibold text-zinc-900 dark:text-white">3. Evidence and content you submit</h2>
-        <p>You retain ownership of the content you submit. By submitting evidence, projects, articles, and other material, you grant {{ config('app.name', 'ProoDev') }} a limited license to process, store, analyze, and display that material as needed to operate the service, including showing it on your public passport.</p>
+        <p>You retain ownership of the content you submit. By submitting evidence, projects, articles, and other material, you grant {{ config('app.name', 'ProoDev') }} a limited license to process, store, analyze, and display that material as needed to operate the service, including showing it on your public DevID.</p>
     </div>
 
     <div class="space-y-3">

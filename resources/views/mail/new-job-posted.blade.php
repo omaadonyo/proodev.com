@@ -1,7 +1,7 @@
 <x-mail.layout :subject="'New role: '.$job->title.' at '.$job->company->name" docLabel="NEW ROLE">
     <h1>A new role is open</h1>
     <p class="lead">
-        <strong>{{ $job->company->name }}</strong> posted <strong>{{ $job->title }}</strong> — and your passport looks like a strong fit.
+        <strong>{{ $job->company->name }}</strong> posted <strong>{{ $job->title }}</strong> — and your DevID looks like a strong fit.
     </p>
 
     <div class="card">

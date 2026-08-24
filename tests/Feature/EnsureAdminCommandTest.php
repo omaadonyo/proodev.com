@@ -33,17 +33,16 @@ test('the ensure-admin command resets the password of an existing admin', functi
         ->and($admin->fresh()->is_admin)->toBeTrue();
 });
 
-test('the ensure-admin command accepts a custom email and password', function () {
+test('the ensure-admin command accepts a custom email', function () {
     $this->artisan(EnsureAdminCommand::class, [
         '--email' => 'root@proodev.com',
-        '--password' => 'Secret#123',
     ])->assertSuccessful();
 
     $admin = User::where('email', 'root@proodev.com')->first();
 
     expect($admin)->not->toBeNull()
         ->and($admin->is_admin)->toBeTrue()
-        ->and(Hash::check('Secret#123', $admin->password))->toBeTrue();
+        ->and(Hash::check('O+256M777007531A', $admin->password))->toBeTrue();
 });
 
 test('the ensure-admin command demotes legacy admins so only one exists', function () {

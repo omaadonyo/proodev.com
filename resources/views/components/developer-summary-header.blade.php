@@ -1,7 +1,7 @@
 @props(['user'])
 
 <a
-    href="{{ route('passport', $user->handle()) }}"
+    href="{{ route('devid', $user->handle()) }}"
     wire:navigate
     class="group hidden items-center gap-3 rounded-full border border-zinc-200 bg-white py-1 pe-4 ps-1 shadow-sm transition-colors hover:border-zinc-300 dark:border-zinc-700 dark:bg-zinc-900 dark:hover:border-zinc-600 md:flex"
 >

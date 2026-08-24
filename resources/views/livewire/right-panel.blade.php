@@ -148,25 +148,37 @@
                                 <div class="text-[10px] uppercase tracking-wider text-zinc-400">rep</div>
                             </div>
                             @auth
-                                @if (auth()->user()->isVerified() && auth()->id() !== $engineer->id)
-                                    @php $alreadyChatting = $this->chatPeerIds->contains($engineer->id); @endphp
-                                    <button
-                                        type="button"
-                                        wire:click="connect({{ $engineer->id }})"
-                                        wire:loading.attr="disabled"
-                                        @click.stop
-                                        title="{{ $alreadyChatting ? 'You already chat with '.$engineer->name : 'Send a message' }}"
-                                        class="relative inline-flex size-7 shrink-0 items-center justify-center rounded-md bg-zinc-900 text-white transition hover:bg-zinc-700 dark:bg-white dark:text-zinc-900 dark:hover:bg-zinc-200"
-                                    >
-                                        <flux:icon
-                                            name="chat-bubble-oval-left-ellipsis"
-                                            :variant="$alreadyChatting ? 'solid' : 'micro'"
-                                            class="size-3.5 {{ $alreadyChatting ? 'text-emerald-500' : '' }}"
-                                        />
-                                        @if ($alreadyChatting)
-                                            <span class="absolute -top-0.5 -right-0.5 size-2 rounded-full border border-white bg-emerald-500 dark:border-zinc-900" title="Existing conversation"></span>
-                                        @endif
-                                    </button>
+                                @if (auth()->id() !== $engineer->id)
+                                    @if (auth()->user()->isVerified())
+                                        @php $alreadyChatting = $this->chatPeerIds->contains($engineer->id); @endphp
+                                        <button
+                                            type="button"
+                                            wire:click="connect({{ $engineer->id }})"
+                                            wire:loading.attr="disabled"
+                                            @click.stop
+                                            title="{{ $alreadyChatting ? 'You already chat with '.$engineer->name : 'Send a message' }}"
+                                            class="relative inline-flex size-7 shrink-0 items-center justify-center rounded-full bg-zinc-900 text-white transition hover:bg-zinc-700 dark:bg-white dark:text-zinc-900 dark:hover:bg-zinc-200"
+                                        >
+                                            <flux:icon
+                                                name="chat-bubble-oval-left-ellipsis"
+                                                :variant="$alreadyChatting ? 'solid' : 'micro'"
+                                                class="size-3.5 {{ $alreadyChatting ? 'text-emerald-500' : '' }}"
+                                            />
+                                            @if ($alreadyChatting)
+                                                <span class="absolute -top-0.5 -right-0.5 size-2 rounded-full border border-white bg-emerald-500 dark:border-zinc-900" title="Existing conversation"></span>
+                                            @endif
+                                        </button>
+                                    @else
+                                        <a
+                                            href="{{ route('verify') }}"
+                                            wire:navigate
+                                            @click.stop
+                                            title="Needs verification — get verified to chat with other developers"
+                                            class="relative inline-flex size-7 shrink-0 items-center justify-center rounded-full border border-dashed border-zinc-300 text-zinc-400 transition hover:border-amber-400 hover:text-amber-500 dark:border-zinc-600 dark:text-zinc-500"
+                                        >
+                                            <flux:icon name="lock-closed" variant="micro" class="size-3.5" />
+                                        </a>
+                                    @endif
                                 @endif
                             @endauth
                         </div>
@@ -273,17 +285,29 @@
                                 <div class="text-xs text-zinc-500">{{ $online->levelTitle() }}</div>
                             </div>
                             @auth
-                                @if (auth()->user()->isVerified() && auth()->id() !== $online->id)
-                                    <button
-                                        type="button"
-                                        wire:click="connect({{ $online->id }})"
-                                        wire:loading.attr="disabled"
-                                        @click.stop
-                                        title="Send a message"
-                                        class="inline-flex size-7 shrink-0 items-center justify-center rounded-md bg-zinc-900 text-white transition hover:bg-zinc-700 dark:bg-white dark:text-zinc-900 dark:hover:bg-zinc-200"
-                                    >
-                                        <flux:icon name="chat-bubble-oval-left-ellipsis" variant="micro" class="size-3.5" />
-                                    </button>
+                                @if (auth()->id() !== $online->id)
+                                    @if (auth()->user()->isVerified())
+                                        <button
+                                            type="button"
+                                            wire:click="connect({{ $online->id }})"
+                                            wire:loading.attr="disabled"
+                                            @click.stop
+                                            title="Send a message"
+                                            class="inline-flex size-7 shrink-0 items-center justify-center rounded-full bg-zinc-900 text-white transition hover:bg-zinc-700 dark:bg-white dark:text-zinc-900 dark:hover:bg-zinc-200"
+                                        >
+                                            <flux:icon name="chat-bubble-oval-left-ellipsis" variant="micro" class="size-3.5" />
+                                        </button>
+                                    @else
+                                        <a
+                                            href="{{ route('verify') }}"
+                                            wire:navigate
+                                            @click.stop
+                                            title="Needs verification — get verified to chat with other developers"
+                                            class="relative inline-flex size-7 shrink-0 items-center justify-center rounded-full border border-dashed border-zinc-300 text-zinc-400 transition hover:border-amber-400 hover:text-amber-500 dark:border-zinc-600 dark:text-zinc-500"
+                                        >
+                                            <flux:icon name="lock-closed" variant="micro" class="size-3.5" />
+                                        </a>
+                                    @endif
                                 @endif
                             @endauth
                         </div>

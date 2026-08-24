@@ -86,7 +86,7 @@ new #[Title('Credits & Auto-Scan')] class extends Component
 
         try {
             $this->scanResult = app(AutoScanService::class)->scan(auth()->user());
-            Flux::toast(variant: 'success', text: 'Auto-scan finished — your passport is up to date.');
+            Flux::toast(variant: 'success', text: 'Auto-scan finished — your DevID is up to date.');
         } catch (Throwable $e) {
             $this->scanResult = [
                 'scanned' => 0,
@@ -104,7 +104,7 @@ new #[Title('Credits & Auto-Scan')] class extends Component
     public function cancelAutoScan(): void
     {
         auth()->user()->forceFill(['auto_scan_enabled' => false])->save();
-        Flux::toast(variant: 'success', text: 'Auto-scan turned off — your existing work stays on your passport.');
+        Flux::toast(variant: 'success', text: 'Auto-scan turned off — your existing work stays on your DevID.');
     }
 
     #[Computed]
@@ -365,7 +365,7 @@ new #[Title('Credits & Auto-Scan')] class extends Component
         <div>
             <flux:heading size="xl">Credits & Auto-Scan</flux:heading>
             <flux:text>
-                One feature for keeping your passport fresh: credits power AI analyses beyond your free
+                One feature for keeping your DevID fresh: credits power AI analyses beyond your free
                 allowance, and auto-scan imports your repositories on a schedule.
             </flux:text>
         </div>
@@ -512,7 +512,7 @@ new #[Title('Credits & Auto-Scan')] class extends Component
                                     <flux:icon name="arrow-path" variant="micro" />
                                     {{ $this->scanning ? 'Scanning…' : 'Scan now' }}
                                 </flux:button>
-                                <flux:button variant="subtle" wire:click="cancelAutoScan" wire:confirm="Turn off auto-scan? Your existing work stays on your passport.">
+                                <flux:button variant="subtle" wire:click="cancelAutoScan" wire:confirm="Turn off auto-scan? Your existing work stays on your DevID.">
                                     Turn off auto-scan
                                 </flux:button>
                             </div>
@@ -536,7 +536,7 @@ new #[Title('Credits & Auto-Scan')] class extends Component
                                 ['icon' => 'document-plus', 'title' => 'Evidence on autopilot', 'text' => 'New links are imported as evidence and queued for AI analysis.'],
                                 ['icon' => 'folder', 'title' => 'Projects & journal from history', 'text' => 'Strong repos become published projects, and meaningful work is dated into your journal.'],
                                 ['icon' => 'link', 'title' => 'Scan any URL', 'text' => 'Add any link after activation to scan the exact work you want.'],
-                                ['icon' => 'bolt', 'title' => 'Feed & passport stay live', 'text' => 'Your level, engineering magnitude, and community feed update as work lands.'],
+                                ['icon' => 'bolt', 'title' => 'Feed & DevID stay live', 'text' => 'Your level, engineering magnitude, and community feed update as work lands.'],
                             ] as $benefit)
                                 <div class="flex items-start gap-3 rounded-lg border border-zinc-200 p-3 dark:border-zinc-700">
                                     <span class="mt-0.5 flex size-8 shrink-0 items-center justify-center rounded-lg bg-accent/10 text-accent">
@@ -726,7 +726,7 @@ new #[Title('Credits & Auto-Scan')] class extends Component
                         <span>Consumed lifetime</span>
                         <span class="tabular-nums">{{ number_format($this->lifetimeSpent) }} / {{ number_format($this->lifetimeEarned + $this->lifetimeSpent) }}</span>
                     </div>
-                    <flux:progress :value="$this->consumptionPercent" color="accent" />
+                    <flux:progress :value="$this->consumptionPercent" />
                 </div>
             </div>
             <div class="rounded-xl border border-zinc-200 bg-white p-6 dark:border-zinc-700 dark:bg-zinc-800">
@@ -744,7 +744,7 @@ new #[Title('Credits & Auto-Scan')] class extends Component
                         <span>Today's usage</span>
                         <span class="tabular-nums">{{ number_format($this->usedToday) }} / {{ number_format($this->freeAllowance) }}</span>
                     </div>
-                    <flux:progress :value="$this->freeUsagePercent" color="{{ $this->freeUsagePercent >= 100 ? 'rose' : ($this->freeUsagePercent >= 66 ? 'amber' : 'emerald') }}" />
+                    <flux:progress :value="$this->freeUsagePercent" />
                 </div>
             </div>
             <div class="rounded-xl border border-zinc-200 bg-white p-6 dark:border-zinc-700 dark:bg-zinc-800">

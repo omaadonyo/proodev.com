@@ -209,8 +209,8 @@ new #[Title('Candidate Intelligence Report')] class extends Component
                 <flux:icon name="arrow-down-tray" variant="micro" />
                 Executive brief
             </flux:button>
-            <a href="{{ route('passport', $this->report['developer']['handle']) }}" wire:navigate class="inline-flex h-8 items-center gap-1.5 rounded-lg border border-zinc-200 bg-white px-3 text-sm font-medium text-zinc-700 transition hover:bg-zinc-50 dark:border-zinc-600 dark:bg-black dark:text-zinc-200 dark:hover:bg-zinc-900">
-                Public passport
+            <a href="{{ route('devid', $this->report['developer']['handle']) }}" wire:navigate class="inline-flex h-8 items-center gap-1.5 rounded-lg border border-zinc-200 bg-white px-3 text-sm font-medium text-zinc-700 transition hover:bg-zinc-50 dark:border-zinc-600 dark:bg-black dark:text-zinc-200 dark:hover:bg-zinc-900">
+                Public DevID
             </a>
         </div>
     </div>
@@ -231,7 +231,7 @@ new #[Title('Candidate Intelligence Report')] class extends Component
                 <div class="mt-3 flex items-center gap-4">
                     <div class="text-4xl font-bold">{{ $this->report['magnitude']['total'] }}<span class="text-lg text-zinc-400">/1000</span></div>
                     <div class="h-3 flex-1 overflow-hidden rounded-full bg-zinc-100 dark:bg-zinc-900">
-                        <div class="h-full rounded-full bg-gradient-to-r from-accent to-emerald-400 transition-all" style="width: {{ min(100, $this->report['magnitude']['total'] / 10) }}%"></div>
+                        <div class="h-full rounded-full bg-zinc-900 dark:bg-white transition-all" style="width: {{ min(100, $this->report['magnitude']['total'] / 10) }}%"></div>
                     </div>
                 </div>
 
@@ -243,7 +243,7 @@ new #[Title('Candidate Intelligence Report')] class extends Component
                                 <span class="text-zinc-500">{{ $factor['points'] }} / {{ $factor['max'] }}</span>
                             </div>
                             <div class="h-2 overflow-hidden rounded-full bg-zinc-100 dark:bg-zinc-900">
-                                <div class="h-full rounded-full bg-accent/70" style="width: {{ $factor['max'] > 0 ? round($factor['points'] / $factor['max'] * 100) : 0 }}%"></div>
+                                <div class="h-full rounded-full bg-zinc-900/70 dark:bg-white/80" style="width: {{ $factor['max'] > 0 ? round($factor['points'] / $factor['max'] * 100) : 0 }}%"></div>
                             </div>
                             <p class="text-xs text-zinc-500">{{ $factor['description'] }}</p>
                             @if ($factor['evidence'] !== [])

@@ -145,7 +145,7 @@ new #[Title('Engineering Magnitude Rankings')] class extends Component
                             <div class="text-2xl font-bold tabular-nums">{{ $entry['magnitude'] }}<span class="text-sm text-zinc-400">/1000</span></div>
                         </div>
                         <div class="mt-1.5 h-1.5 overflow-hidden rounded-full bg-zinc-100 dark:bg-zinc-900">
-                            <div class="h-full rounded-full bg-gradient-to-r from-violet-500 to-cyan-400" style="width: {{ min(100, $entry['magnitude'] / 10) }}%"></div>
+                            <div class="h-full rounded-full bg-zinc-900 dark:bg-white" style="width: {{ min(100, $entry['magnitude'] / 10) }}%"></div>
                         </div>
                         <div class="mt-1 text-xs text-zinc-500">{{ $entry['label'] }} · top {{ $entry['percentile'] }}%</div>
                     </div>
@@ -210,7 +210,7 @@ new #[Title('Engineering Magnitude Rankings')] class extends Component
                         <span class="tabular-nums">{{ number_format($this->candidate->reputation_score) }} reputation</span>
                     </div>
                     <div class="mt-1.5 h-2 overflow-hidden rounded-full bg-zinc-100 dark:bg-zinc-900">
-                        <div class="h-full rounded-full bg-gradient-to-r from-violet-500 to-cyan-400" style="width: {{ min(100, $this->activeEntry['magnitude'] / 10) }}%"></div>
+                        <div class="h-full rounded-full bg-zinc-900 dark:bg-white" style="width: {{ min(100, $this->activeEntry['magnitude'] / 10) }}%"></div>
                     </div>
                 </div>
 

@@ -13,7 +13,7 @@
     @endif
 
     <div class="btn-row">
-        <a class="btn" href="{{ route('passport', $vouch->vouchee->handle()) }}">See your passport</a>
+        <a class="btn" href="{{ route('devid', $vouch->vouchee->handle()) }}">See your DevID</a>
         <a class="btn-ghost" href="{{ route('vouches') }}">Manage vouches</a>
     </div>
 

@@ -5,8 +5,8 @@
     {{ filled($title ?? null) ? $title.' - '.config('app.name', 'Laravel') : config('app.name', 'Laravel') }}
 </title>
 
-<meta name="description" content="{{ $metaDescription ?? 'ProoDev turns your real work into evidence. AI analyzes repositories and projects into engineering reports and an explainable Engineering Magnitude score.' }}">
-<meta name="keywords" content="{{ $metaKeywords ?? 'proodev, engineering magnitude, evidence, portfolio, engineer, developer, ai analysis, verified engineer' }}">
+<meta name="description" content="{{ ($metaDescription ?? null) ?: 'ProoDev turns your real work into evidence. AI analyzes repositories and projects into engineering reports and an explainable Engineering Magnitude score.' }}">
+<meta name="keywords" content="{{ ($metaKeywords ?? null) ?: app(\App\Services\SiteSettings::class)->metaKeywords() }}">
 <meta name="robots" content="index, follow">
 
 <link rel="canonical" href="{{ url()->current() }}">

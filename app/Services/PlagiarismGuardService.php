@@ -32,7 +32,7 @@ use Illuminate\Support\Str;
  *     API that the user is not a contributor before flagging it.
  *
  * First offense → warning. Second offense → the account is banned and the ban
- * is shown as a public notice on the passport. API checks fail open so a
+ * is shown as a public notice on the DevID. API checks fail open so a
  * rate-limited or offline GitHub never causes a false-positive ban.
  */
 class PlagiarismGuardService
@@ -249,7 +249,7 @@ class PlagiarismGuardService
             'notified_at' => now(),
         ]);
 
-        // The copied evidence must never become proof on a passport.
+        // The copied evidence must never become proof on a DevID.
         if ($evidence) {
             $evidence->update([
                 'status' => EvidenceStatus::Failed,

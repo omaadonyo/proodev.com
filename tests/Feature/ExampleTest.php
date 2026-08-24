@@ -12,29 +12,59 @@ test('returns a successful response', function () {
 });
 
 test('the landing scout runs the demo build when the url is empty', function () {
+    Http::fake([
+        'api.github.com/users/MrPunyapal' => Http::response([
+            'login' => 'MrPunyapal',
+            'name' => 'Punyapal Shah',
+            'bio' => 'Full-stack engineer',
+            'followers' => 120,
+            'public_repos' => 2,
+        ], 200),
+        'api.github.com/users/MrPunyapal/repos*' => Http::response([
+            [
+                'name' => 'framework',
+                'full_name' => 'MrPunyapal/framework',
+                'description' => 'A PHP framework for fast APIs',
+                'language' => 'PHP',
+                'stargazers_count' => 100,
+                'forks_count' => 40,
+                'topics' => ['php'],
+                'homepage' => null,
+                'html_url' => 'https://github.com/MrPunyapal/framework',
+                'size' => 5000,
+                'fork' => false,
+                'archived' => false,
+                'default_branch' => 'main',
+                'created_at' => '2020-01-01T00:00:00Z',
+                'updated_at' => '2024-01-01T00:00:00Z',
+                'pushed_at' => '2024-06-01T00:00:00Z',
+            ],
+        ], 200),
+    ]);
+
     Livewire::test('landing-scout')
         ->assertSet('phase', 'input')
-        ->assertSet('url', 'https://github.com/MrPunyapal/proodev')
+        ->assertSet('url', 'https://github.com/MrPunyapal?tab=repositories')
         ->set('url', '')
         ->call('begin')
         ->assertSet('phase', 'scouting')
-        ->assertSet('demo', true)
-        ->assertSet('url', 'https://github.com/MrPunyapal/proodev')
+        ->assertSet('url', 'https://github.com/MrPunyapal?tab=repositories')
         ->assertSee('proodev · scout')
-        ->assertSee('Passport build')
+        ->assertSee('DevID build')
         ->assertSee('Profile fetch')
-        ->assertSee('Level & magnitude')
-        ->call('tick')
-        ->call('tick')
-        ->call('tick')
-        ->call('tick')
-        ->call('tick')
-        ->call('tick')
-        ->assertSet('phase', 'done')
-        ->assertSet('score', 912)
-        ->assertSet('material.title', 'ProoDev')
-        ->assertSet('draft.problem', 'Engineers scatter their work across projects, journals and separate tools, making it hard to prove their skills with evidence. Reputation is self-reported, so claims carry little signal and are easy to fake.')
-        ->assertSee('Passport ready');
+        ->assertSee('Level & magnitude');
+
+    $component = Livewire::test('landing-scout')
+        ->set('url', '')
+        ->call('begin');
+
+    for ($i = 0; $i < 30 && $component->get('phase') !== 'done'; $i++) {
+        $component->call('tick');
+    }
+
+    $component->assertSet('phase', 'done')
+        ->assertSet('material.name', 'Punyapal Shah')
+        ->assertSee('DevID ready');
 });
 
 test('the landing scout keeps the default demo when the url is untouched', function () {
@@ -49,7 +79,7 @@ test('the landing scout resets back to the input with the default url', function
         ->call('begin')
         ->call('tryAgain')
         ->assertSet('phase', 'input')
-        ->assertSet('url', 'https://github.com/MrPunyapal/proodev');
+        ->assertSet('url', 'https://github.com/MrPunyapal?tab=repositories');
 });
 
 test('the landing scout component can scout a real github repo', function () {
@@ -69,17 +99,16 @@ test('the landing scout component can scout a real github repo', function () {
         ], 200),
     ]);
 
-    Livewire::test('landing-scout')
+    $component = Livewire::test('landing-scout')
         ->set('url', 'https://github.com/MrPunyapal/demo-app')
         ->call('begin')
         ->assertSet('phase', 'scouting')
-        ->assertSet('demo', false)
-        ->call('tick')
-        ->call('tick')
-        ->call('tick')
-        ->call('tick')
-        ->call('tick')
-        ->call('tick')
-        ->assertSet('phase', 'done')
+        ->assertSet('demo', false);
+
+    for ($i = 0; $i < 30 && $component->get('phase') !== 'done'; $i++) {
+        $component->call('tick');
+    }
+
+    $component->assertSet('phase', 'done')
         ->assertSet('score', 100);
 });

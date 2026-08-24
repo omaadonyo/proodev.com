@@ -29,7 +29,7 @@
 
     @if (! empty($passportUrl))
         <div class="btn-row">
-            <a class="btn" href="{{ $passportUrl }}">View my passport</a>
+            <a class="btn" href="{{ $passportUrl }}">View my DevID</a>
         </div>
     @endif
 </x-mail.layout>

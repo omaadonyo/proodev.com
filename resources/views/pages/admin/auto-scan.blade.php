@@ -487,8 +487,8 @@ new #[Title('Auto-Scan')] class extends Component
                                     <flux:button size="sm" variant="subtle" wire:click="scanNow({{ $user->id }})">
                                         Scan now
                                     </flux:button>
-                                    <flux:button size="sm" variant="subtle" :href="route('passport', $user->handle())" target="_blank">
-                                        Passport
+                                    <flux:button size="sm" variant="subtle" :href="route('devid', $user->handle())" target="_blank">
+                                        DevID
                                     </flux:button>
                                     <flux:button size="sm" variant="subtle" wire:click="toggleAutoScan({{ $user->id }})">
                                         {{ $user->auto_scan_enabled ? 'Turn off' : 'Turn on' }}

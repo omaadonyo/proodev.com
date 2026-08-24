@@ -86,12 +86,42 @@ new #[Title('Post a Job')] class extends Component
 
         if ($status === JobStatus::Open) {
             app(NotificationService::class)->jobPublished($job);
+
+            Flux::toast(variant: 'success', text: 'Job published.');
+
+            $this->redirectRoute('companies.manage', $this->company, navigate: true);
+
+            return;
         }
 
-        Flux::toast(
-            variant: 'success',
-            text: $status === JobStatus::Open ? 'Job published.' : 'Job saved as draft — job post credit limit reached or company pending.',
-        );
+        // Hiring verification required — hold the job until the $299 payment
+        // is approved by an admin, then it publishes automatically.
+        if (! $this->company->hasHiringVerification()) {
+            $payment = $this->company->payments()
+                ->where('purpose', 'verification')
+                ->where('status', 'pending')
+                ->latest()
+                ->first();
+
+            if (! $payment) {
+                $payment = app(\App\Services\BillingService::class)->createCompanyVerificationPayment($this->company);
+            }
+
+            // Point the invoice at the newest held job if it isn't already.
+            if (blank($payment->metadata['held_job_id'] ?? null)) {
+                $payment->forceFill([
+                    'metadata' => array_merge($payment->metadata ?? [], ['held_job_id' => $job->id]),
+                ])->save();
+            }
+
+            Flux::toast(variant: 'warning', text: 'Job saved as draft. Complete the $299 hiring verification to publish it.');
+
+            $this->redirectRoute('checkout', $payment, navigate: true);
+
+            return;
+        }
+
+        Flux::toast(variant: 'warning', text: 'Job saved as draft — job post credit limit reached or company pending.');
 
         $this->redirectRoute('companies.manage', $this->company, navigate: true);
     }
@@ -155,7 +185,7 @@ new #[Title('Post a Job')] class extends Component
         </div>
 
         @if ($company->plan->isPaid())
-            <div class="rounded-xl border border-zinc-200 bg-white p-5 dark:border-zinc-800">
+            <div class="rounded-xl border border-zinc-200 bg-white p-5 shadow-sm transition-colors dark:border-zinc-700 dark:bg-zinc-800">
                 <div class="flex items-center justify-between gap-3">
                     <div>
                         <div class="text-sm font-semibold">Job post credits</div>
@@ -164,7 +194,7 @@ new #[Title('Post a Job')] class extends Component
                 </div>
             </div>
         @else
-            <div class="rounded-xl border border-zinc-200 bg-white p-5 dark:border-zinc-800">
+            <div class="rounded-xl border border-zinc-200 bg-white p-5 shadow-sm transition-colors dark:border-zinc-700 dark:bg-zinc-800">
                 <div class="flex flex-wrap items-center justify-between gap-3">
                     <div>
                         <div class="text-sm font-semibold">Job post credits</div>
@@ -173,7 +203,7 @@ new #[Title('Post a Job')] class extends Component
                     <flux:button size="sm" variant="subtle" :href="route('companies.manage', $company)" wire:navigate>Buy more</flux:button>
                 </div>
                 <div class="mt-3 h-2 overflow-hidden rounded-full bg-zinc-100 dark:bg-zinc-900">
-                    <div class="h-full rounded-full bg-accent transition-all" style="width: {{ min(100, ($company->usedJobPosts() / max(1, $company->jobPostCredits())) * 100) }}%"></div>
+                    <div class="h-full rounded-full bg-zinc-900 transition-all dark:bg-white" style="width: {{ min(100, ($company->usedJobPosts() / max(1, $company->jobPostCredits())) * 100) }}%"></div>
                 </div>
                 @if ($company->planLimitReached())
                     <p class="mt-2 text-xs text-amber-600 dark:text-amber-400">You have reached your job post limit — the posting will be saved as a draft until you buy more credits or close an existing job.</p>

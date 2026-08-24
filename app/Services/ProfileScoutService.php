@@ -2,7 +2,7 @@
 
 namespace App\Services;
 
-use Illuminate\Support\Facades\Http;
+use App\Support\GitHubApi;
 use Illuminate\Support\Str;
 use InvalidArgumentException;
 
@@ -83,13 +83,13 @@ class ProfileScoutService
      */
     public function githubProfile(string $handle): array
     {
-        $profile = $this->get("https://api.github.com/users/{$handle}");
+        $profile = GitHubApi::get("https://api.github.com/users/{$handle}");
 
         if (! isset($profile['login'])) {
-            throw new InvalidArgumentException("We could not find a GitHub profile for @{$handle}.");
+            throw new InvalidArgumentException("We could not find a GitHub profile for @{$handle}. Double-check the username and try again.");
         }
 
-        $repos = $this->get("https://api.github.com/users/{$handle}/repos?per_page=100&sort=updated");
+        $repos = GitHubApi::get("https://api.github.com/users/{$handle}/repos?per_page=100&sort=updated");
 
         $repos = is_array($repos) ? $repos : [];
 
@@ -107,6 +107,7 @@ class ProfileScoutService
             'headline' => $profile['company'] ?? null,
             'bio' => $profile['bio'] ?? null,
             'location' => $profile['location'] ?? null,
+            'blog' => ($profile['blog'] ?? null) ? (string) $profile['blog'] : null,
             'avatar_url' => $profile['avatar_url'] ?? null,
             'followers' => $followers,
             'public_repos' => $reposCount,
@@ -115,22 +116,6 @@ class ProfileScoutService
             'languages' => $languages,
             'achievements' => $this->achievements($languages, $totalStars, $followers, $accountYears, $reposCount),
         ];
-    }
-
-    /**
-     * @return array<string, mixed>
-     */
-    private function get(string $url): array
-    {
-        $response = Http::withHeaders(['User-Agent' => 'EngineeringOS-ProfileScout'])
-            ->timeout(15)
-            ->get($url);
-
-        if ($response->failed()) {
-            return [];
-        }
-
-        return $response->json() ?: [];
     }
 
     /**

@@ -1109,7 +1109,7 @@ new #[Title('Evidence-Based Talent Search')] class extends Component
                                     <div class="flex shrink-0 flex-col items-end gap-2">
                                         <x-save-to-pool :candidate="$engineer" :pools="$this->pools" />
                                         <flux:button size="sm" variant="outline" :href="route('recruiter.candidates.show', $engineer->id)" wire:navigate>
-                                            View passport
+                                            View DevID
                                         </flux:button>
                                     </div>
                                 </div>

@@ -105,7 +105,7 @@ new #[Title('Companies')] class extends Component {
                         <flux:icon name="building-office-2" />
                     </div>
                     <flux:heading>No companies found</flux:heading>
-                    <flux:text class="mt-2">Be the first to register your company and start hiring from the passport.</flux:text>
+                    <flux:text class="mt-2">Be the first to register your company and start hiring from the DevID.</flux:text>
                 </div>
             @endforelse
         </div>

@@ -4,11 +4,11 @@
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
 
-        <title>{{ config('app.name', 'ProoDev') }} - Proof Over Claims: Evidence-Backed Engineering Identity</title>
+        <title>ProoDev — Show What You've Built. Get Noticed.</title>
 
-        <meta name="description" content="ProoDev turns your real work into evidence. Paste a repo or project URL, AI analyzes it into an engineering report and an explainable Engineering Magnitude score, and you get a public passport that can't be faked.">
+        <meta name="description" content="ProoDev helps developers turn repositories, projects, pull requests, open-source contributions and technical work into evidence-backed engineering achievements — helping them get noticed by recruiters and companies.">
 
-        <meta name="keywords" content="engineering magnitude, evidence-backed portfolio, developer persona, engineer, ai analysis, engineering report, verified engineer, proof over claims, open source, software engineer">
+        <meta name="keywords" content="{{ ($metaKeywords ?? null) ?: app(\App\Services\SiteSettings::class)->metaKeywords() }}">
 
         <link rel="canonical" href="{{ url()->current() }}">
 
@@ -79,7 +79,7 @@
             }
         </style>
     </head>
-    <body class="page-landing min-h-screen overflow-x-clip bg-white text-zinc-900 antialiased selection:bg-[#3750eb]/30 dark:bg-zinc-950 dark:text-zinc-100">
+    <body class="page-landing min-h-screen overflow-x-clip bg-white text-zinc-900 antialiased selection:bg-zinc-900/20 dark:bg-zinc-950 dark:text-zinc-100">
 
         {{-- Global canvas animation --}}
         <canvas id="global-canvas" class="pointer-events-none fixed inset-0 -z-10" aria-hidden="true"></canvas>
@@ -157,32 +157,24 @@
                 </a>
 
                 <div class="hidden items-center gap-1 text-sm text-zinc-500 md:flex dark:text-zinc-400">
-                    <div class="relative" x-data="{ open: false }" @mouseenter="open = true" @mouseleave="open = false">
-                        <button type="button" @click="open = !open" class="flex items-center gap-1 rounded-lg px-3 py-2 transition hover:text-zinc-900 dark:hover:text-white">
-                            Product
-                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="size-3.5 transition-transform" :class="{ 'rotate-180': open }"><path fill-rule="evenodd" d="{{ $iconPaths['chevron-down'] }}" clip-rule="evenodd"/></svg>
-                        </button>
-                        <div x-show="open" x-cloak x-transition:enter="transition ease-out duration-100" x-transition:enter-start="opacity-0 -translate-y-1" x-transition:enter-end="opacity-100 translate-y-0" x-transition:leave="transition ease-in duration-75" x-transition:leave-start="opacity-100" x-transition:leave-end="opacity-0" class="absolute left-0 top-full z-50 mt-1 w-56 rounded-xl border border-zinc-200 bg-white/95 p-1.5 shadow-xl shadow-zinc-900/10 backdrop-blur-xl dark:border-white/10 dark:bg-zinc-950/95">
-                            <a href="#platform" class="block rounded-lg px-3 py-2 transition hover:bg-zinc-100 hover:text-zinc-900 dark:hover:bg-white/5 dark:hover:text-white">Platform</a>
-                            <a href="#jobs" class="block rounded-lg px-3 py-2 transition hover:bg-zinc-100 hover:text-zinc-900 dark:hover:bg-white/5 dark:hover:text-white">Open Roles</a>
-                            <a href="#globe" class="block rounded-lg px-3 py-2 transition hover:bg-zinc-100 hover:text-zinc-900 dark:hover:bg-white/5 dark:hover:text-white">Global Talent</a>
-                        </div>
-                    </div>
-                    <a href="{{ route('developers') }}" class="rounded-lg px-3 py-2 font-medium text-[#3750eb] transition hover:text-[#3750eb]/80 dark:text-[#8f9dff] dark:hover:text-[#9db8ff]">For developers</a>
-                    <a href="{{ route('for-companies') }}" class="rounded-lg px-3 py-2 transition hover:text-zinc-900 dark:hover:text-white">For Companies</a>
-                    <a href="{{ route('for-companies').'#pricing' }}" class="rounded-lg px-3 py-2 transition hover:text-zinc-900 dark:hover:text-white">Pricing</a>
-                    <a href="{{ route('news.index') }}" class="rounded-lg px-3 py-2 transition hover:text-zinc-900 dark:hover:text-white">News</a>
+                    <a href="{{ route('developers') }}" class="rounded-lg px-3 py-2 transition hover:text-zinc-900 dark:hover:text-white">Developers</a>
+                    <a href="#recruiters" class="rounded-lg px-3 py-2 transition hover:text-zinc-900 dark:hover:text-white">Recruiters</a>
+                    <a href="{{ route('for-companies') }}" class="rounded-lg px-3 py-2 transition hover:text-zinc-900 dark:hover:text-white">Companies</a>
+                    <a href="#jobs" class="rounded-lg px-3 py-2 transition hover:text-zinc-900 dark:hover:text-white">Opportunities</a>
+                    <a href="#how-it-works" class="rounded-lg px-3 py-2 transition hover:text-zinc-900 dark:hover:text-white">How It Works</a>
+                    <a href="{{ route('verified') }}" class="rounded-lg px-3 py-2 transition hover:text-zinc-900 dark:hover:text-white">Verified</a>
+                    <a href="{{ route('about') }}" class="rounded-lg px-3 py-2 transition hover:text-zinc-900 dark:hover:text-white">About</a>
                 </div>
 
                 <div class="flex items-center gap-2">
                     @auth
-                        <a href="{{ route('home') }}" class="inline-flex items-center rounded-full bg-zinc-900 px-4 py-2 text-sm font-semibold text-white! transition hover:bg-zinc-700 dark:bg-white dark:text-zinc-900! dark:hover:bg-zinc-200">
+                        <a href="{{ route('home') }}" class="inline-flex items-center rounded-full bg-[#3750eb] px-4 py-2 text-sm font-semibold text-white shadow-lg shadow-[#3750eb]/25 transition hover:opacity-90">
                             Open dashboard
                         </a>
                     @else
-                        <a href="{{ route('login') }}" class="hidden rounded-lg px-3 py-2 text-sm font-medium text-zinc-600 transition hover:text-zinc-900 sm:inline-block dark:text-zinc-300 dark:hover:text-white">Sign in</a>
+                        <a href="{{ route('login') }}" class="hidden rounded-lg px-3 py-2 text-sm font-medium text-zinc-600 transition hover:text-zinc-900 sm:inline-block dark:text-zinc-300 dark:hover:text-white">Sign In</a>
                         <a href="{{ route('register') }}" class="inline-flex items-center rounded-full bg-[#3750eb] px-4 py-2 text-sm font-semibold text-white shadow-lg shadow-[#3750eb]/25 transition hover:opacity-90">
-                            Get started
+                            Create Your DevID
                         </a>
                     @endauth
                     <x-theme-toggle />
@@ -194,15 +186,14 @@
 
             <div data-mobile-menu class="hidden border-t border-zinc-200 bg-white/95 px-4 py-4 md:hidden dark:border-white/5 dark:bg-zinc-950/95">
                 <div class="grid gap-1 text-sm">
-                    <div class="mt-1 px-2 text-[10px] font-semibold uppercase tracking-widest text-zinc-400">Product</div>
-                    <a href="#platform" class="rounded-lg px-3 py-2 text-zinc-600 hover:bg-zinc-100 hover:text-zinc-900 dark:text-zinc-300 dark:hover:bg-white/5 dark:hover:text-white">Platform</a>
-                    <a href="#jobs" class="rounded-lg px-3 py-2 text-zinc-600 hover:bg-zinc-100 hover:text-zinc-900 dark:text-zinc-300 dark:hover:bg-white/5 dark:hover:text-white">Open Roles</a>
-                    <a href="#globe" class="rounded-lg px-3 py-2 text-zinc-600 hover:bg-zinc-100 hover:text-zinc-900 dark:text-zinc-300 dark:hover:bg-white/5 dark:hover:text-white">Global Talent</a>
-                    <div class="mt-1 px-2 text-[10px] font-semibold uppercase tracking-widest text-zinc-400">Get started</div>
-                    <a href="{{ route('developers') }}" class="rounded-lg px-3 py-2 font-medium text-[#3750eb] transition dark:text-[#8f9dff]">For developers</a>
-                    <a href="{{ route('for-companies') }}" class="rounded-lg px-3 py-2 text-zinc-600 hover:bg-zinc-100 hover:text-zinc-900 dark:text-zinc-300 dark:hover:bg-white/5 dark:hover:text-white">For Companies</a>
-                    <a href="{{ route('for-companies').'#pricing' }}" class="rounded-lg px-3 py-2 text-zinc-600 hover:bg-zinc-100 hover:text-zinc-900 dark:text-zinc-300 dark:hover:bg-white/5 dark:hover:text-white">Pricing</a>
+                    <a href="{{ route('developers') }}" class="rounded-lg px-3 py-2 text-zinc-600 hover:bg-zinc-100 hover:text-zinc-900 dark:text-zinc-300 dark:hover:bg-white/5 dark:hover:text-white">Developers</a>
+                    <a href="#recruiters" class="rounded-lg px-3 py-2 text-zinc-600 hover:bg-zinc-100 hover:text-zinc-900 dark:text-zinc-300 dark:hover:bg-white/5 dark:hover:text-white">Recruiters</a>
+                    <a href="{{ route('for-companies') }}" class="rounded-lg px-3 py-2 text-zinc-600 hover:bg-zinc-100 hover:text-zinc-900 dark:text-zinc-300 dark:hover:bg-white/5 dark:hover:text-white">Companies</a>
+                    <a href="#jobs" class="rounded-lg px-3 py-2 text-zinc-600 hover:bg-zinc-100 hover:text-zinc-900 dark:text-zinc-300 dark:hover:bg-white/5 dark:hover:text-white">Opportunities</a>
+                    <a href="#how-it-works" class="rounded-lg px-3 py-2 text-zinc-600 hover:bg-zinc-100 hover:text-zinc-900 dark:text-zinc-300 dark:hover:bg-white/5 dark:hover:text-white">How It Works</a>
+                    <a href="{{ route('verified') }}" class="rounded-lg px-3 py-2 text-zinc-600 hover:bg-zinc-100 hover:text-zinc-900 dark:text-zinc-300 dark:hover:bg-white/5 dark:hover:text-white">Verified</a>
                     <a href="{{ route('news.index') }}" class="rounded-lg px-3 py-2 text-zinc-600 hover:bg-zinc-100 hover:text-zinc-900 dark:text-zinc-300 dark:hover:bg-white/5 dark:hover:text-white">News</a>
+                    <a href="{{ route('about') }}" class="rounded-lg px-3 py-2 text-zinc-600 hover:bg-zinc-100 hover:text-zinc-900 dark:text-zinc-300 dark:hover:bg-white/5 dark:hover:text-white">About</a>
                     @guest
                         <a href="{{ route('login') }}" class="mt-2 rounded-lg px-3 py-2 text-zinc-600 hover:bg-zinc-100 hover:text-zinc-900 dark:text-zinc-300 dark:hover:bg-white/5 dark:hover:text-white">Sign in</a>
                     @endguest
@@ -213,39 +204,41 @@
         {{-- ===================== HERO ===================== --}}
         <section id="feed" class="relative mx-auto max-w-7xl overflow-hidden px-4 pb-16 pt-16 text-center sm:px-6 sm:pt-24 lg:px-8">
             <div class="relative mx-auto max-w-3xl animate-fade-up">
-                <a href="#platform" class="inline-flex items-center gap-2 rounded-full border border-zinc-200 bg-white/60 px-4 py-1.5 text-xs font-medium text-zinc-600 transition hover:border-[#3750eb]/40 hover:text-zinc-900 dark:border-white/10 dark:bg-white/5 dark:text-zinc-300 dark:hover:text-white">
+                <a href="#how-it-works" class="inline-flex items-center gap-2 rounded-full border border-zinc-200 bg-white/60 px-4 py-1.5 text-xs font-medium text-zinc-600 transition hover:border-zinc-900 hover:text-zinc-900 dark:border-white/10 dark:bg-white/5 dark:text-zinc-300 dark:hover:text-white">
                     <span class="relative flex size-2">
                         <span class="absolute inline-flex size-full animate-ping rounded-full bg-[#3750eb] opacity-60"></span>
                         <span class="relative inline-flex size-2 rounded-full bg-[#3750eb]"></span>
                     </span>
-                    Proof over claims - an evidence-backed engineering identity
+                    Your work. Your impact. Your next opportunity.
                 </a>
 
                 <h1 class="mt-8 text-4xl font-bold tracking-tight text-zinc-900 sm:text-6xl lg:text-7xl dark:text-white">
-                    Your work. <span class="text-gradient">Proven.</span> Not claimed.
+                    What You've Built <span class="text-gradient">Should Open Doors.</span>
                 </h1>
 
                 <p class="mx-auto mt-6 max-w-2xl text-lg leading-relaxed text-zinc-600 sm:text-xl dark:text-zinc-400">
-                    Paste any repo, article, or project URL. AI reads the real work, drafts an engineering report,
-                    and computes an explainable Engineering Magnitude score - a passport built on evidence, not noise.
+                    ProoDev uncovers the achievements and impact behind your code, projects, and contributions —
+                    helping you showcase what you can do and connect with companies looking for engineers like you.
                 </p>
 
                 <div class="mt-10 flex flex-col items-center justify-center gap-3 sm:flex-row">
                     @auth
                         <a href="{{ route('home') }}" class="inline-flex w-full items-center justify-center gap-2 rounded-xl bg-[#3750eb] px-6 py-3 text-sm font-semibold text-white shadow-xl shadow-[#3750eb]/25 transition hover:opacity-90 sm:w-auto">
-                            <x-app-logo-icon class="size-4 fill-current" />
-                            Go to your feed
+                            <img src="{{ asset('logo-white.svg') }}" alt="ProoDev" class="size-4" />
+                            Create Your DevID
                         </a>
                     @else
                         <a href="{{ route('register') }}" class="inline-flex w-full items-center justify-center gap-2 rounded-xl bg-[#3750eb] px-6 py-3 text-sm font-semibold text-white shadow-xl shadow-[#3750eb]/25 transition hover:opacity-90 sm:w-auto">
-                            Start proving - it's free
+                            Create Your DevID
                             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="size-4"><path fill-rule="evenodd" d="{{ $iconPaths['arrow-right'] }}" clip-rule="evenodd"/></svg>
                         </a>
-                        <a href="#how" class="inline-flex w-full items-center justify-center gap-2 rounded-xl border border-zinc-200 bg-white/60 px-6 py-3 text-sm font-semibold text-zinc-700 transition hover:border-zinc-300 hover:bg-white sm:w-auto dark:border-white/10 dark:bg-white/5 dark:text-zinc-200 dark:hover:border-white/25 dark:hover:bg-white/10">
-                            See how the evidence works
-                        </a>
                     @endauth
+                    <a href="#jobs" class="inline-flex w-full items-center justify-center gap-2 rounded-xl border border-zinc-200 bg-white/60 px-6 py-3 text-sm font-semibold text-zinc-700 transition hover:border-zinc-300 hover:bg-white sm:w-auto dark:border-white/10 dark:bg-white/5 dark:text-zinc-200 dark:hover:border-white/25 dark:hover:bg-white/10">
+                        Find Opportunities
+                    </a>
                 </div>
+
+                <p class="mt-4 text-sm text-zinc-500 dark:text-zinc-400">Free for developers. No long résumé forms.</p>
 
                 {{-- Trust line --}}
                 <div class="mt-10 flex flex-col items-center justify-center gap-3 sm:flex-row sm:gap-4">
@@ -266,15 +259,15 @@
 
             {{-- Hero product window --}}
             <div class="relative mx-auto mt-16 max-w-5xl animate-fade-up delay-200">
-                <div class="pointer-events-none absolute -inset-x-8 -top-10 bottom-0 -z-10 rounded-xl bg-[#3750eb]/10 blur-3xl" aria-hidden="true"></div>
+                <div class="pointer-events-none absolute -inset-x-8 -top-10 bottom-0 -z-10 rounded-xl bg-zinc-900/10 blur-3xl" aria-hidden="true"></div>
 
-                <div class="overflow-hidden rounded-lg border border-zinc-200 bg-white/70 shadow-2xl shadow-zinc-900/10 backdrop-blur-xl dark:border-white/10 dark:bg-zinc-950/70 dark:shadow-[#3750eb]/20">
+                <div class="overflow-hidden rounded-lg border border-zinc-200 bg-white/70 shadow-2xl shadow-zinc-900/10 backdrop-blur-xl dark:border-white/10 dark:bg-zinc-950/70 dark:shadow-zinc-900/20">
                     {{-- Window chrome --}}
                     <div class="flex items-center justify-between gap-4 border-b border-zinc-200 px-5 py-3 dark:border-white/5">
                         <div class="flex items-center gap-2">
-                            <span class="size-2.5 rounded-full bg-[#3750eb]/60"></span>
-                            <span class="size-2.5 rounded-full bg-[#5b6cff]/60"></span>
-                            <span class="size-2.5 rounded-full bg-[#8f9dff]/60"></span>
+                            <span class="size-2.5 rounded-full bg-zinc-900/60"></span>
+                            <span class="size-2.5 rounded-full bg-zinc-400/70"></span>
+                            <span class="size-2.5 rounded-full bg-zinc-300 dark:bg-zinc-600"></span>
                         </div>
                         <div class="flex items-center gap-2 text-xs text-zinc-500">
                             <span class="relative flex size-1.5">
@@ -289,19 +282,308 @@
                     </div>
 
                     <div class="p-4 sm:p-6">
-                        <div class="mx-auto max-w-2xl">
-                            <div class="text-left">
+                        <div class="mx-auto grid max-w-5xl gap-5 text-left lg:grid-cols-[minmax(0,1fr)_300px]">
+                            <div>
                                 <div class="text-sm font-semibold text-zinc-900 dark:text-white">Paste evidence. Get proof.</div>
                                 <div class="mt-1 text-xs leading-relaxed text-zinc-500">
-                                    Drop a GitHub repository or any project URL. AI fetches the source, drafts the engineering report, computes your Engineering Magnitude, and assembles the evidence - instantly.
+                                    Drop a GitHub repository or any project URL. ProoDev reads the real work, surfaces the
+                                    engineering achievements behind it, and assembles the evidence — instantly.
+                                </div>
+
+                                <div class="mt-5">
+                                    <livewire:landing-scout wire:key="landing-scout" />
                                 </div>
                             </div>
 
-                            <div class="mt-5 text-left">
-                                <livewire:landing-scout wire:key="landing-scout" />
+                            {{-- Live achievement card --}}
+                            <div class="flex flex-col gap-3 rounded-xl border border-zinc-200 bg-white p-4 shadow-sm dark:border-white/10 dark:bg-zinc-950/80">
+                                <div class="flex items-center gap-3">
+                                    <span class="flex size-10 items-center justify-center rounded-full bg-gradient-to-br from-[#3750eb] to-[#5b6cff] text-sm font-bold text-white">J</span>
+                                    <div>
+                                        <div class="text-sm font-semibold text-zinc-900 dark:text-white">James Mwangi</div>
+                                        <div class="text-xs text-zinc-500">Backend Engineer</div>
+                                    </div>
+                                </div>
+
+                                <div class="rounded-lg border border-zinc-100 bg-zinc-50 p-3 dark:border-white/5 dark:bg-white/[0.03]">
+                                    <div class="text-[10px] font-semibold uppercase tracking-widest text-zinc-400">Engineering Magnitude</div>
+                                    <div class="mt-0.5 flex items-baseline gap-2">
+                                        <span class="text-3xl font-bold tabular-nums text-zinc-900 dark:text-white">87</span>
+                                        <span class="text-xs text-zinc-400">/ 100</span>
+                                    </div>
+                                </div>
+
+                                <div>
+                                    <div class="text-[10px] font-semibold uppercase tracking-widest text-zinc-400">Recent engineering achievement</div>
+                                    <div class="mt-2 rounded-lg border border-zinc-300 bg-zinc-100/70 dark:border-white/10 dark:bg-white/5 p-3">
+                                        <div class="flex items-start gap-2 text-sm font-medium text-zinc-900 dark:text-white">
+                                            <span aria-hidden="true">🔥</span>
+                                            Solved a high-complexity concurrency problem
+                                        </div>
+                                        <div class="mt-2 flex flex-wrap gap-1.5">
+                                            <span class="rounded-full bg-zinc-900/5 px-2 py-0.5 text-[10px] font-medium text-zinc-600 dark:bg-white/10 dark:text-zinc-300">Open Source Contribution</span>
+                                            <span class="rounded-full bg-zinc-900/5 px-2 py-0.5 text-[10px] font-medium text-zinc-600 dark:bg-white/10 dark:text-zinc-300">Laravel Ecosystem</span>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div>
+                                    <div class="text-[10px] font-semibold uppercase tracking-widest text-zinc-400">Demonstrated expertise</div>
+                                    <ul class="mt-1.5 grid gap-1 text-xs text-zinc-600 dark:text-zinc-300">
+                                        @foreach (['PHP', 'Backend Architecture', 'Concurrency', 'Testing'] as $skill)
+                                            <li class="flex items-center gap-1.5">
+                                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="size-3.5 shrink-0 text-emerald-500"><path fill-rule="evenodd" d="{{ $iconPaths['check'] }}" clip-rule="evenodd"/></svg>
+                                                {{ $skill }}
+                                            </li>
+                                        @endforeach
+                                    </ul>
+                                </div>
+
+                                <div>
+                                    <div class="text-[10px] font-semibold uppercase tracking-widest text-zinc-400">Evidence</div>
+                                    <div class="mt-1.5 flex items-center gap-1 text-[11px] font-medium text-zinc-500 dark:text-zinc-400">
+                                        Pull Request <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="size-3 text-zinc-300 dark:text-zinc-600"><path d="{{ $iconPaths['arrow-right'] }}"/></svg>
+                                        Issue <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="size-3 text-zinc-300 dark:text-zinc-600"><path d="{{ $iconPaths['arrow-right'] }}"/></svg>
+                                        Commit <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="size-3 text-zinc-300 dark:text-zinc-600"><path d="{{ $iconPaths['arrow-right'] }}"/></svg>
+                                        Tests
+                                    </div>
+                                </div>
+
+                                <a href="{{ route('register') }}" class="inline-flex items-center justify-center gap-1.5 rounded-lg border border-zinc-200 px-3 py-2 text-xs font-semibold text-zinc-700 transition hover:border-zinc-900 hover:text-zinc-900 dark:text-white dark:border-white/10 dark:text-zinc-200">
+                                    View Achievement
+                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="size-3.5"><path fill-rule="evenodd" d="{{ $iconPaths['arrow-up-right'] }}" clip-rule="evenodd"/></svg>
+                                </a>
+
+                                <div class="rounded-lg border border-emerald-300/40 bg-emerald-50 p-3 dark:border-emerald-400/20 dark:bg-emerald-400/5">
+                                    <div class="text-[10px] font-semibold uppercase tracking-widest text-emerald-600 dark:text-emerald-400">Matched opportunity</div>
+                                    <div class="mt-1 flex items-center justify-between gap-2">
+                                        <div class="min-w-0">
+                                            <div class="truncate text-sm font-semibold text-zinc-900 dark:text-white">Senior Backend Engineer</div>
+                                            <div class="text-[11px] font-medium tabular-nums text-emerald-600 dark:text-emerald-400">94% Work Match</div>
+                                        </div>
+                                        <a href="#jobs" class="shrink-0 rounded-md bg-white px-2 py-1 text-[11px] font-semibold text-zinc-700 ring-1 ring-zinc-200 transition hover:text-zinc-900 dark:text-white dark:bg-zinc-950/60 dark:text-zinc-200 dark:ring-white/10">View Opportunity</a>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
+                </div>
+            </div>
+        </section>
+
+        {{-- ===================== YOU BUILD. WE HELP YOU GET NOTICED. ===================== --}}
+        <section id="how-it-works" class="relative overflow-hidden border-t border-zinc-200 dark:border-white/5">
+            <div class="relative mx-auto max-w-7xl px-4 py-16 sm:px-6 lg:px-8">
+                <x-marketing.section-heading
+                    eyebrow="How it works"
+                    title="You Build. We Help You Get Noticed."
+                    sub="You already have years of technical work behind you. ProoDev helps turn that work into a clear engineering story that developers, recruiters and companies can understand."
+                />
+
+                <div class="mt-14 grid gap-5 lg:grid-cols-3">
+                    {{-- Step 1 --}}
+                    <div class="flex flex-col rounded-xl border border-zinc-200 bg-white p-6 transition duration-300 hover:-translate-y-1 hover:border-zinc-900 hover:shadow-xl hover:shadow-zinc-900/10 dark:border-white/10 dark:bg-zinc-950/60 dark:hover:border-white/25 dark:hover:bg-white/[0.04]">
+                        <span class="inline-flex w-fit items-center rounded-full bg-zinc-950 px-3 py-1 text-xs font-bold tracking-widest text-white ring-1 ring-zinc-200 dark:bg-white dark:text-zinc-950 dark:ring-white/10">01 — ADD YOUR WORK</span>
+                        <div class="mt-5 flex flex-wrap gap-1.5">
+                            @foreach (['GitHub repositories', 'Pull requests', 'Projects', 'Packages', 'Articles', 'Demos', 'Open-source contributions'] as $source)
+                                <span class="rounded-md bg-zinc-100 px-2 py-1 text-[11px] text-zinc-700 ring-1 ring-zinc-200 dark:bg-white/5 dark:text-zinc-200 dark:ring-white/10">{{ $source }}</span>
+                            @endforeach
+                        </div>
+                        <p class="mt-5 text-base font-semibold text-zinc-900 dark:text-white">No long résumé forms.</p>
+                        <p class="mt-1 text-sm text-zinc-600 dark:text-zinc-400">You start with work you've already done.</p>
+                    </div>
+
+                    {{-- Step 2 --}}
+                    <div class="flex flex-col rounded-xl border border-zinc-200 bg-white p-6 transition duration-300 hover:-translate-y-1 hover:border-zinc-900 hover:shadow-xl hover:shadow-zinc-900/10 dark:border-white/10 dark:bg-zinc-950/60 dark:hover:border-white/25 dark:hover:bg-white/[0.04]">
+                        <span class="inline-flex w-fit items-center rounded-full bg-zinc-950 px-3 py-1 text-xs font-bold tracking-widest text-white ring-1 ring-zinc-200 dark:bg-white dark:text-zinc-950 dark:ring-white/10">02 — PROODEV FINDS THE STORY</span>
+                        <ul class="mt-5 grid gap-1.5 text-sm text-zinc-600 dark:text-zinc-300">
+                            @foreach (['Engineering achievements', 'Problems solved', 'Technical expertise', 'Project complexity', 'Open-source contributions', 'Impact and reach', 'Evidence'] as $found)
+                                <li class="flex items-center gap-2">
+                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="size-3.5 shrink-0 text-emerald-500"><path fill-rule="evenodd" d="{{ $iconPaths['check'] }}" clip-rule="evenodd"/></svg>
+                                    {{ $found }}
+                                </li>
+                            @endforeach
+                        </ul>
+                        <p class="mt-5 text-base font-semibold text-zinc-900 dark:text-white">We don't just collect activity. We look for meaning.</p>
+                    </div>
+
+                    {{-- Step 3 --}}
+                    <div class="flex flex-col rounded-xl border border-zinc-200 bg-white p-6 transition duration-300 hover:-translate-y-1 hover:border-zinc-900 hover:shadow-xl hover:shadow-zinc-900/10 dark:border-white/10 dark:bg-zinc-950/60 dark:hover:border-white/25 dark:hover:bg-white/[0.04]">
+                        <span class="inline-flex w-fit items-center rounded-full bg-zinc-950 px-3 py-1 text-xs font-bold tracking-widest text-white ring-1 ring-zinc-200 dark:bg-white dark:text-zinc-950 dark:ring-white/10">03 — GET DISCOVERED</span>
+                        <div class="mt-5 flex flex-wrap gap-1.5">
+                            @foreach (['Recruiters', 'Engineering managers', 'Startups', 'Companies', 'Hiring teams'] as $audience)
+                                <span class="rounded-md bg-zinc-100 px-2 py-1 text-[11px] text-zinc-700 ring-1 ring-zinc-200 dark:bg-white/5 dark:text-zinc-200 dark:ring-white/10">{{ $audience }}</span>
+                            @endforeach
+                        </div>
+                        <p class="mt-5 text-base font-semibold text-zinc-900 dark:text-white">You're not just another applicant.</p>
+                        <p class="mt-1 text-sm text-zinc-600 dark:text-zinc-400">Employers can see evidence behind your capabilities.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        {{-- ===================== THE TRANSFORMATION ===================== --}}
+        <section id="transformation" class="relative overflow-hidden border-t border-zinc-200 bg-zinc-50 dark:border-white/5 dark:bg-white/[0.02]">
+            <div class="relative mx-auto max-w-7xl px-4 py-16 sm:px-6 lg:px-8">
+                <div class="mx-auto max-w-2xl text-center">
+                    <p class="text-sm font-semibold uppercase tracking-widest text-zinc-900 dark:text-white">The transformation</p>
+                    <h2 class="mt-3 text-3xl font-bold tracking-tight text-zinc-900 sm:text-4xl dark:text-white">Your Code Has a Story. We Help Tell It.</h2>
+                </div>
+
+                <div class="mt-14 grid items-stretch gap-5 lg:grid-cols-2">
+                    {{-- Before --}}
+                    <div class="flex flex-col rounded-xl border border-zinc-200 bg-white p-5 dark:border-white/10 dark:bg-zinc-950/60">
+                        <div class="flex items-center gap-2 text-[10px] font-semibold uppercase tracking-widest text-zinc-400">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" class="size-3.5"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27s1.36.09 2 .27c1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.01 8.01 0 0 0 16 8c0-4.42-3.58-8-8-8Z"/></svg>
+                            GitHub
+                        </div>
+                        <div class="mt-4 rounded-lg border border-zinc-200 bg-zinc-50 p-4 font-mono text-sm dark:border-white/10 dark:bg-zinc-900/70">
+                            <div class="flex items-center gap-2">
+                                <span class="rounded-full bg-emerald-400/10 px-2 py-0.5 text-[10px] font-semibold text-emerald-600 dark:text-emerald-400">Merged ✓</span>
+                                <span class="text-zinc-500">PR #4821</span>
+                            </div>
+                            <p class="mt-3 text-zinc-700 dark:text-zinc-300">"Fix race condition in connection pool"</p>
+                        </div>
+                        <p class="mt-4 text-sm text-zinc-500 dark:text-zinc-400">A single line in a changelog. Easy to miss. Easy to forget.</p>
+                    </div>
+
+                    {{-- After --}}
+                    <div class="relative flex flex-col rounded-xl border border-zinc-300 dark:border-white/15 bg-gradient-to-br from-zinc-100 to-white p-5 shadow-lg shadow-zinc-900/10 dark:border-zinc-300 dark:border-white/15 dark:from-white/10 dark:to-zinc-950/60">
+                        <div class="text-[10px] font-semibold uppercase tracking-widest text-zinc-900 dark:text-white">ProoDev</div>
+                        <div class="mt-4 rounded-lg border border-zinc-200 bg-white p-4 dark:bg-zinc-950/60">
+                            <div class="text-[10px] font-semibold uppercase tracking-widest text-zinc-900 dark:text-white">Engineering achievement</div>
+                            <p class="mt-2 text-base font-semibold text-zinc-900 dark:text-white">Solved a high-complexity concurrency problem.</p>
+                            <div class="mt-4 grid gap-3 sm:grid-cols-2">
+                                <div>
+                                    <div class="text-[10px] font-semibold uppercase tracking-widest text-zinc-400">Demonstrated</div>
+                                    <ul class="mt-1.5 grid gap-1 text-xs text-zinc-600 dark:text-zinc-300">
+                                        @foreach (['Concurrency', 'Debugging', 'Backend Architecture', 'Testing'] as $skill)
+                                            <li class="flex items-center gap-1.5">
+                                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="size-3.5 shrink-0 text-emerald-500"><path fill-rule="evenodd" d="{{ $iconPaths['check'] }}" clip-rule="evenodd"/></svg>
+                                                {{ $skill }}
+                                            </li>
+                                        @endforeach
+                                    </ul>
+                                </div>
+                                <div>
+                                    <div class="text-[10px] font-semibold uppercase tracking-widest text-zinc-400">Engineering significance</div>
+                                    <span class="mt-1.5 inline-flex rounded-full bg-amber-400/10 px-2.5 py-1 text-xs font-bold text-amber-600 dark:text-amber-400">HIGH</span>
+                                </div>
+                            </div>
+                            <div class="mt-4 border-t border-zinc-200 pt-3 dark:border-white/10">
+                                <div class="text-[10px] font-semibold uppercase tracking-widest text-zinc-400">Evidence</div>
+                                <div class="mt-2 flex flex-wrap items-center gap-x-2 gap-y-1 text-xs font-medium text-zinc-600 dark:text-zinc-300">
+                                    @foreach (['Issue', 'Pull Request', 'Code Changes', 'Tests', 'Review'] as $i => $step)
+                                        @if ($i > 0)
+                                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="size-3 rotate-90 text-zinc-300 dark:text-zinc-600"><path fill-rule="evenodd" d="{{ $iconPaths['chevron-down'] }}" clip-rule="evenodd"/></svg>
+                                        @endif
+                                        <span>{{ $step }}</span>
+                                    @endforeach
+                                </div>
+                            </div>
+                        </div>
+                        <p class="mt-4 text-sm text-zinc-600 dark:text-zinc-300">The same work — finally understood.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        {{-- ===================== OPEN SOURCE ===================== --}}
+        <section class="relative overflow-hidden border-t border-zinc-200 dark:border-white/5">
+            <div class="relative mx-auto max-w-7xl px-4 py-16 sm:px-6 lg:px-8">
+                <div class="mx-auto max-w-2xl text-center">
+                    <p class="text-sm font-semibold uppercase tracking-widest text-zinc-900 dark:text-white">Open source</p>
+                    <h2 class="mt-3 text-3xl font-bold tracking-tight text-zinc-900 sm:text-4xl dark:text-white">Your Contribution Deserves More Than a "Merged" Badge.</h2>
+                    <p class="mt-4 text-zinc-600 dark:text-zinc-400">You might see a pull request. ProoDev helps reveal the engineering contribution behind it.</p>
+                </div>
+
+                <div class="mx-auto mt-12 max-w-3xl">
+                    <div class="rounded-xl border border-zinc-200 bg-white p-5 dark:border-white/10 dark:bg-zinc-950/60">
+                        <div class="text-[10px] font-semibold uppercase tracking-widest text-zinc-400">Contributed to</div>
+                        <div class="mt-1 flex items-center gap-2">
+                            <span class="text-xl font-bold text-zinc-900 dark:text-white">Laravel</span>
+                            <span class="rounded-full bg-zinc-100 dark:bg-white/10 px-2.5 py-0.5 text-[10px] font-semibold text-zinc-900 dark:text-white">Major ecosystem project</span>
+                        </div>
+
+                        <div class="mt-5 grid gap-4 sm:grid-cols-2">
+                            <div>
+                                <div class="text-[10px] font-semibold uppercase tracking-widest text-zinc-400">Contribution</div>
+                                <p class="mt-1.5 text-sm text-zinc-700 dark:text-zinc-300">Improved authentication behavior.</p>
+                            </div>
+                            <div>
+                                <div class="text-[10px] font-semibold uppercase tracking-widest text-zinc-400">Demonstrates</div>
+                                <div class="mt-1.5 flex flex-wrap gap-1.5">
+                                    @foreach (['Security', 'PHP', 'Framework Architecture', 'Testing'] as $skill)
+                                        <span class="rounded-md bg-zinc-100 px-2 py-1 text-[11px] text-zinc-700 ring-1 ring-zinc-200 dark:bg-white/5 dark:text-zinc-200 dark:ring-white/10">{{ $skill }}</span>
+                                    @endforeach
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <p class="mt-6 text-center text-lg font-medium text-zinc-700 dark:text-zinc-300">
+                        The value isn't simply that you contributed. It's what the contribution demonstrates about you as an engineer.
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        {{-- ===================== WHAT PROODEV DISCOVERS ===================== --}}
+        <section id="discovers" class="relative overflow-hidden border-t border-zinc-200 bg-zinc-50 dark:border-white/5 dark:bg-white/[0.02]">
+            <div class="relative mx-auto max-w-7xl px-4 py-16 sm:px-6 lg:px-8">
+                <div class="mx-auto max-w-2xl text-center">
+                    <p class="text-sm font-semibold uppercase tracking-widest text-zinc-900 dark:text-white">What ProoDev discovers</p>
+                    <h2 class="mt-3 text-3xl font-bold tracking-tight text-zinc-900 sm:text-4xl dark:text-white">We Look for the Engineering Behind the Work.</h2>
+                </div>
+
+                <div class="mt-14 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+                    @foreach ([
+                        ['emoji' => '🏆', 'title' => 'Engineering Achievements', 'copy' => 'Discover meaningful accomplishments hidden inside your technical work.'],
+                        ['emoji' => '🧩', 'title' => 'Problem Solving', 'copy' => 'Surface difficult problems you\'ve solved.'],
+                        ['emoji' => '🛠️', 'title' => 'Expertise', 'copy' => 'Identify capabilities demonstrated through real work.'],
+                        ['emoji' => '🌍', 'title' => 'Open Source Contributions', 'copy' => 'Give meaningful context to your contributions.'],
+                        ['emoji' => '📈', 'title' => 'Impact', 'copy' => 'Help people understand the significance and reach of your work.'],
+                        ['emoji' => '🔗', 'title' => 'Evidence', 'copy' => 'Keep every important conclusion connected to its source.'],
+                    ] as $card)
+                        <div class="group relative rounded-lg border border-zinc-200 bg-white p-5 transition duration-300 hover:-translate-y-1 hover:border-zinc-900 hover:shadow-xl hover:shadow-zinc-900/10 dark:border-white/10 dark:bg-zinc-950/60 dark:hover:border-white/25 dark:hover:bg-white/[0.04]">
+                            <span class="inline-flex size-11 items-center justify-center rounded-lg bg-zinc-950 text-xl dark:bg-white" aria-hidden="true">{{ $card['emoji'] }}</span>
+                            <h3 class="mt-4 text-base font-semibold text-zinc-900 dark:text-white">{{ $card['title'] }}</h3>
+                            <p class="mt-2 text-sm leading-relaxed text-zinc-600 dark:text-zinc-400">{{ $card['copy'] }}</p>
+                        </div>
+                    @endforeach
+                </div>
+            </div>
+        </section>
+
+        {{-- ===================== BUILD YOUR DEVID ===================== --}}
+        <section id="devid" class="relative overflow-hidden border-t border-zinc-200 dark:border-white/5">
+            <div class="relative mx-auto max-w-7xl px-4 py-16 sm:px-6 lg:px-8">
+                <div class="mx-auto max-w-2xl text-center">
+                    <p class="text-sm font-semibold uppercase tracking-widest text-zinc-900 dark:text-white">Your DevID</p>
+                    <h2 class="mt-3 text-3xl font-bold tracking-tight text-zinc-900 sm:text-4xl dark:text-white">Build Your DevID From Work You've Already Done.</h2>
+                    <p class="mt-4 text-zinc-600 dark:text-zinc-400">No long forms. No starting from a blank résumé.</p>
+                    <p class="mt-2 text-zinc-600 dark:text-zinc-400">Add the work you've already created and let ProoDev help turn it into a professional engineering identity.</p>
+                </div>
+
+                <div class="mx-auto mt-12 flex max-w-3xl flex-wrap items-center justify-center gap-2.5">
+                    @foreach (['GitHub', 'Projects', 'Pull Requests', 'Packages', 'Articles', 'Demos', 'Documentation', 'Open Source Contributions'] as $source)
+                        <span class="inline-flex items-center gap-1.5 rounded-full border border-zinc-200 bg-white px-4 py-2 text-sm font-medium text-zinc-700 transition hover:border-zinc-900 dark:border-white/10 dark:bg-white/5 dark:text-zinc-200">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="size-3.5 text-emerald-500"><path fill-rule="evenodd" d="{{ $iconPaths['check'] }}" clip-rule="evenodd"/></svg>
+                            {{ $source }}
+                        </span>
+                    @endforeach
+                </div>
+
+                <div class="mx-auto mt-14 flex max-w-3xl flex-col items-center justify-center gap-3 sm:flex-row sm:gap-0">
+                    @foreach (['Build' => 'Add the work you\'ve already done', 'Prove' => 'Evidence-backed achievements emerge', 'Get Noticed' => 'The right people see your work'] as $flywheelStep => $flywheelCopy)
+                        <div class="flex items-center gap-3 sm:flex-col sm:gap-1 sm:text-center">
+                            <span class="inline-flex items-center rounded-full bg-[#3750eb] px-5 py-2 text-sm font-bold text-white shadow-lg shadow-[#3750eb]/25">{{ strtoupper($flywheelStep) }}</span>
+                            <span class="text-xs text-zinc-500 dark:text-zinc-400">{{ $flywheelCopy }}</span>
+                            @if (! ($loop->last))
+                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="hidden size-5 text-zinc-300 sm:inline dark:text-zinc-600"><path fill-rule="evenodd" d="{{ $iconPaths['arrow-right'] }}" clip-rule="evenodd"/></svg>
+                            @endif
+                        </div>
+                    @endforeach
                 </div>
             </div>
         </section>
@@ -310,17 +592,17 @@
         <section id="globe" class="relative overflow-hidden border-t border-zinc-200 dark:border-white/5">
             <div class="relative mx-auto max-w-7xl px-4 py-16 sm:px-6 lg:px-8">
                 <div class="mx-auto max-w-2xl text-center">
-                    <p class="text-sm font-semibold uppercase tracking-widest text-[#3750eb] dark:text-[#8f9dff]">Global talent</p>
+                    <p class="text-sm font-semibold uppercase tracking-widest text-zinc-900 dark:text-white">Global talent</p>
                     <h2 class="mt-3 text-3xl font-bold tracking-tight text-zinc-900 sm:text-4xl dark:text-white">Engineers with proof, all over the world</h2>
-                    <p class="mt-4 text-zinc-600 dark:text-zinc-400">Live from the passport database - real developers with evidence-backed engineering identities. Drag to spin the globe, click any profile to open a passport.</p>
+                    <p class="mt-4 text-zinc-600 dark:text-zinc-400">Live from the DevID database - real developers with evidence-backed engineering identities. Drag to spin the globe, click any profile to open a DevID.</p>
                 </div>
 
                 <div class="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
                     @foreach ([
-                        ['label' => 'Public passports', 'value' => number_format(count($globeDevelopers))],
+                        ['label' => 'Public DevIDs', 'value' => number_format(count($globeDevelopers))],
                         ['label' => 'Evidence-backed scores', 'value' => 'Magnitude 0-1000'],
                         ['label' => 'Verified work', 'value' => 'Repos, projects, vouches'],
-                        ['label' => 'One click to recruit', 'value' => 'Passport -> apply'],
+                        ['label' => 'One click to recruit', 'value' => 'DevID -> apply'],
                     ] as $globeStat)
                         <div class="rounded-xl border border-zinc-200 bg-white p-4 text-center dark:border-white/10 dark:bg-white/[0.03]">
                             <div class="text-xl font-bold tracking-tight text-zinc-900 dark:text-white">{{ $globeStat['value'] }}</div>
@@ -330,13 +612,13 @@
                 </div>
 
                 <div class="relative mt-10">
-                    <div class="pointer-events-none absolute inset-0 -z-10 rounded-full bg-[#3750eb]/10 blur-3xl" aria-hidden="true"></div>
+                    <div class="pointer-events-none absolute inset-0 -z-10 rounded-full bg-zinc-900/10 blur-3xl" aria-hidden="true"></div>
                     <div class="relative w-full overflow-hidden rounded-xl">
                         <canvas id="talent-globe" class="block size-full aspect-[3/2] cursor-grab active:cursor-grabbing sm:aspect-[16/9]" aria-label="3D globe of developers"></canvas>
 
                         <div id="globe-tooltip" class="absolute z-20 hidden w-72 -translate-x-1/2 rounded-lg border border-zinc-200 bg-white/95 p-4 shadow-2xl shadow-zinc-900/20 backdrop-blur-xl dark:border-white/10 dark:bg-zinc-900/95 dark:shadow-black/40" data-tooltip-interactive>
                             <div class="flex items-center gap-3">
-                                <img id="globe-tip-avatar" src="" alt="" class="size-10 shrink-0 rounded-full ring-2 ring-[#3750eb]/40" />
+                                <img id="globe-tip-avatar" src="" alt="" class="size-10 shrink-0 rounded-full ring-2 ring-zinc-900/30" />
                                 <div class="min-w-0">
                                     <div id="globe-tip-name" class="truncate text-sm font-semibold text-zinc-900 dark:text-white"></div>
                                     <div id="globe-tip-location" class="truncate text-xs text-zinc-500"></div>
@@ -344,15 +626,15 @@
                             </div>
                             <p id="globe-tip-headline" class="mt-2 line-clamp-2 text-xs leading-relaxed text-zinc-600 dark:text-zinc-400"></p>
                             <div class="mt-3 flex items-center justify-between">
-                                <span id="globe-tip-score" class="inline-flex items-center gap-1 rounded-full bg-[#3750eb]/10 px-2 py-0.5 text-xs font-semibold text-[#3750eb] dark:text-[#8f9dff]"></span>
-                                <a id="globe-tip-link" href="#" class="inline-flex items-center gap-1 text-xs font-semibold text-[#3750eb] transition hover:gap-2 dark:text-[#8f9dff]">
-                                    View passport
+                                <span id="globe-tip-score" class="inline-flex items-center gap-1 rounded-full bg-zinc-100 dark:bg-white/10 px-2 py-0.5 text-xs font-semibold text-zinc-900 dark:text-white"></span>
+                                <a id="globe-tip-link" href="#" class="inline-flex items-center gap-1 text-xs font-semibold text-zinc-900 transition dark:text-white hover:gap-2">
+                                    View DevID
                                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="size-3.5"><path fill-rule="evenodd" d="{{ $iconPaths['arrow-up-right'] }}" clip-rule="evenodd"/></svg>
                                 </a>
                             </div>
                         </div>
                     </div>
-                    <p class="mt-4 text-center text-xs text-zinc-500">Drag to rotate - Scroll or pinch to zoom - Click a profile for a passport summary</p>
+                    <p class="mt-4 text-center text-xs text-zinc-500">Drag to rotate - Scroll or pinch to zoom - Click a profile for a DevID summary</p>
                 </div>
 
                 <div class="mt-8 flex flex-col items-center justify-center gap-3 sm:flex-row">
@@ -367,19 +649,47 @@
             </div>
         </section>
 
-        {{-- ===================== OPEN ROLES ===================== --}}
+        {{-- ===================== OPPORTUNITIES ===================== --}}
         <section id="jobs" class="relative overflow-hidden border-t border-zinc-200 bg-zinc-50 dark:border-white/5 dark:bg-white/[0.02]">
             <div class="relative mx-auto max-w-7xl px-4 py-16 sm:px-6 lg:px-8">
                 <div class="flex flex-col items-start justify-between gap-6 md:flex-row md:items-end">
                     <div class="max-w-2xl">
-                        <p class="text-sm font-semibold uppercase tracking-widest text-[#3750eb] dark:text-[#8f9dff]">Open roles</p>
-                        <h2 class="mt-3 text-3xl font-bold tracking-tight text-zinc-900 sm:text-4xl dark:text-white">Hire engineers who prove their work</h2>
-                        <p class="mt-4 text-zinc-600 dark:text-zinc-400">Every role on ProoDev is posted by a company, and every candidate carries an evidence-backed passport. No blind resumes.</p>
+                        <p class="text-sm font-semibold uppercase tracking-widest text-zinc-900 dark:text-white">Opportunities</p>
+                        <h2 class="mt-3 text-3xl font-bold tracking-tight text-zinc-900 sm:text-4xl dark:text-white">Let Your Work Lead You to the Right Opportunity.</h2>
+                        <p class="mt-4 text-zinc-600 dark:text-zinc-400">When companies can understand what you've actually built, you're more than another application in a stack of résumés.</p>
+                        <p class="mt-2 text-zinc-600 dark:text-zinc-400">ProoDev helps companies discover developers through demonstrated engineering work and helps developers find opportunities that match what they can actually do.</p>
                     </div>
                     <a href="{{ route('jobs.index') }}" class="inline-flex shrink-0 items-center gap-2 rounded-xl bg-[#3750eb] px-5 py-2.5 text-sm font-semibold text-white shadow-lg shadow-[#3750eb]/25 transition hover:opacity-90">
-                        Browse all roles
+                        Find Opportunities
                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="size-4"><path fill-rule="evenodd" d="{{ $iconPaths['arrow-right'] }}" clip-rule="evenodd"/></svg>
                     </a>
+                </div>
+
+                {{-- Work-match example --}}
+                <div class="mx-auto mt-12 max-w-3xl rounded-xl border border-zinc-300 dark:border-white/15 bg-gradient-to-br from-zinc-100 to-white p-5 shadow-lg shadow-zinc-900/10 dark:border-zinc-300 dark:border-white/15 dark:from-white/10 dark:to-zinc-950/60">
+                    <div class="flex flex-wrap items-center justify-between gap-3">
+                        <div>
+                            <div class="text-lg font-bold text-zinc-900 dark:text-white">Senior Backend Engineer</div>
+                            <div class="text-xs text-zinc-500">Matched from your demonstrated work</div>
+                        </div>
+                        <span class="inline-flex items-center gap-1.5 rounded-full bg-emerald-400/10 px-3 py-1 text-sm font-bold tabular-nums text-emerald-600 dark:text-emerald-400">
+                            92% Work Match
+                        </span>
+                    </div>
+
+                    <div class="mt-4 flex flex-wrap gap-1.5">
+                        @foreach (['Laravel', 'PostgreSQL', 'Redis', 'API Architecture', 'Open Source'] as $matchSkill)
+                            <span class="inline-flex items-center gap-1 rounded-md bg-white/80 px-2 py-1 text-[11px] font-medium text-zinc-700 ring-1 ring-zinc-200 dark:bg-zinc-950/60 dark:text-zinc-200 dark:ring-white/10">
+                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="size-3 text-emerald-500"><path fill-rule="evenodd" d="{{ $iconPaths['check'] }}" clip-rule="evenodd"/></svg>
+                                {{ $matchSkill }}
+                            </span>
+                        @endforeach
+                    </div>
+
+                    <div class="mt-4 rounded-lg border border-zinc-200 bg-white/70 p-3 dark:border-white/10 dark:bg-zinc-950/60">
+                        <div class="text-[10px] font-semibold uppercase tracking-widest text-zinc-400">Why you match</div>
+                        <p class="mt-1 text-sm leading-relaxed text-zinc-600 dark:text-zinc-300">Your projects and open-source contributions demonstrate the backend architecture experience this role requires.</p>
+                    </div>
                 </div>
 
                 <div class="mt-12 grid gap-5 md:grid-cols-2 lg:grid-cols-3">
@@ -391,14 +701,14 @@
                             $jobLogo = $job->company?->logoUrl();
                             $jobCompany = $job->company?->name;
                         @endphp
-                        <a href="{{ route('jobs.show', ['company' => $job->company, 'job' => $job]) }}" class="group relative flex flex-col rounded-lg border border-zinc-200 bg-white p-4 transition duration-300 hover:-translate-y-1 hover:border-[#3750eb]/50 hover:shadow-xl hover:shadow-[#3750eb]/10 dark:border-white/10 dark:bg-zinc-950/60 dark:hover:border-[#3750eb]/30 dark:hover:bg-white/[0.05]">
+                        <a href="{{ route('jobs.show', ['company' => $job->company, 'job' => $job]) }}" class="group relative flex flex-col rounded-lg border border-zinc-200 bg-white p-4 transition duration-300 hover:-translate-y-1 hover:border-zinc-900 hover:shadow-xl hover:shadow-zinc-900/10 dark:border-white/10 dark:bg-zinc-950/60 dark:hover:border-zinc-300 dark:border-white/15 dark:hover:bg-white/[0.05]">
                             <div class="flex items-start justify-between gap-3">
                                 <div class="flex items-center gap-3">
-                                    <span class="flex size-11 items-center justify-center overflow-hidden rounded-xl bg-[#3750eb]/10 ring-1 ring-zinc-200 dark:ring-white/10">
+                                    <span class="flex size-11 items-center justify-center overflow-hidden rounded-xl bg-zinc-100 dark:bg-white/10 ring-1 ring-zinc-200 dark:ring-white/10">
                                         @if ($jobLogo)
                                             <img src="{{ $jobLogo }}" alt="" class="size-full object-cover" />
                                         @else
-                                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="size-5 text-[#3750eb]"><path fill-rule="evenodd" d="{{ $iconPaths['folder'] }}" clip-rule="evenodd"/></svg>
+                                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="size-5 text-zinc-500 dark:text-zinc-400"><path fill-rule="evenodd" d="{{ $iconPaths['folder'] }}" clip-rule="evenodd"/></svg>
                                         @endif
                                     </span>
                                     <div>
@@ -407,7 +717,7 @@
                                     </div>
                                 </div>
                                 @if ($job->is_remote)
-                                    <span class="shrink-0 rounded-full bg-[#3750eb]/10 px-2.5 py-1 text-[10px] font-semibold uppercase tracking-wide text-[#3750eb] dark:text-[#8f9dff]">Remote</span>
+                                    <span class="shrink-0 rounded-full bg-zinc-100 dark:bg-white/10 px-2.5 py-1 text-[10px] font-semibold uppercase tracking-wide text-zinc-900 dark:text-white">Remote</span>
                                 @endif
                             </div>
 
@@ -416,7 +726,7 @@
                             <div class="mt-5 flex flex-wrap items-center gap-x-4 gap-y-2 text-xs text-zinc-500">
                                 @if ($jobLocation)
                                     <span class="inline-flex items-center gap-1.5">
-                                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="size-3.5 text-[#3750eb]/70"><path fill-rule="evenodd" d="{{ $iconPaths['map-pin'] }}" clip-rule="evenodd"/></svg>
+                                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="size-3.5 text-zinc-500 dark:text-zinc-400"><path fill-rule="evenodd" d="{{ $iconPaths['map-pin'] }}" clip-rule="evenodd"/></svg>
                                         {{ $jobLocation }}
                                     </span>
                                 @endif
@@ -426,7 +736,7 @@
                                 @if ($jobType)
                                     <span class="rounded-md border border-zinc-200 px-2 py-0.5 dark:border-white/10">{{ $jobType }}</span>
                                 @endif
-                                <span class="ml-auto inline-flex items-center gap-1 font-medium text-[#3750eb] transition group-hover:gap-2 dark:text-[#8f9dff]">
+                                <span class="ml-auto inline-flex items-center gap-1 font-medium text-zinc-900 transition dark:text-white group-hover:gap-2">
                                     View role
                                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="size-3.5"><path fill-rule="evenodd" d="{{ $iconPaths['arrow-right'] }}" clip-rule="evenodd"/></svg>
                                 </span>
@@ -440,8 +750,8 @@
                         ] as $placeholder)
                             <div class="flex flex-col rounded-lg border border-zinc-200 bg-white p-4 dark:border-white/10 dark:bg-zinc-950/60">
                                 <div class="flex items-center gap-3">
-                                    <span class="flex size-11 items-center justify-center rounded-xl bg-[#3750eb]/10 ring-1 ring-zinc-200 dark:ring-white/10">
-                                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="size-5 text-[#3750eb]"><path fill-rule="evenodd" d="{{ $iconPaths['folder'] }}" clip-rule="evenodd"/></svg>
+                                    <span class="flex size-11 items-center justify-center rounded-xl bg-zinc-100 dark:bg-white/10 ring-1 ring-zinc-200 dark:ring-white/10">
+                                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="size-5 text-zinc-500 dark:text-zinc-400"><path fill-rule="evenodd" d="{{ $iconPaths['folder'] }}" clip-rule="evenodd"/></svg>
                                     </span>
                                     <div>
                                         <div class="text-sm font-semibold text-zinc-900 dark:text-white">{{ $placeholder[0] }}</div>
@@ -460,10 +770,259 @@
 
                 <div class="mt-10 flex flex-col items-center justify-center gap-3 text-center sm:flex-row">
                     <p class="text-sm text-zinc-500">Have a role to fill?</p>
-                    <a href="{{ route('register') }}" class="inline-flex items-center gap-1.5 text-sm font-semibold text-[#3750eb] transition hover:gap-2.5 dark:text-[#8f9dff]">
+                    <a href="{{ route('register') }}" class="inline-flex items-center gap-1.5 text-sm font-semibold text-zinc-900 transition dark:text-white hover:gap-2.5">
                         Post a job free - no subscription required
                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="size-4"><path fill-rule="evenodd" d="{{ $iconPaths['arrow-right'] }}" clip-rule="evenodd"/></svg>
                     </a>
+                </div>
+            </div>
+        </section>
+
+        {{-- ===================== HIRING TRANSPARENCY ===================== --}}
+        <section id="transparency" class="relative overflow-hidden border-t border-zinc-200 dark:border-white/5">
+            <div class="relative mx-auto max-w-7xl px-4 py-16 sm:px-6 lg:px-8">
+                <div class="mx-auto max-w-3xl text-center">
+                    <p class="text-sm font-semibold uppercase tracking-widest text-zinc-900 dark:text-white">Hiring transparency</p>
+                    <h2 class="mt-3 text-3xl font-bold tracking-tight text-zinc-900 sm:text-4xl dark:text-white">Don't Apply Into a <span class="text-gradient">Black Hole.</span></h2>
+                    <div class="mt-5 grid gap-2 text-zinc-600 dark:text-zinc-400">
+                        <p>You've spent time preparing your application, building your DevID and showing what you've actually accomplished. You deserve to know what happens next.</p>
+                        <p>ProoDev gives verified developers meaningful visibility into their applications — from review and shortlisting to interviews and final decisions.</p>
+                    </div>
+                </div>
+
+                <div class="mx-auto mt-10 max-w-3xl rounded-xl border border-zinc-200 bg-white p-6 text-left dark:border-white/10 dark:bg-zinc-950/60">
+                    <p class="text-sm font-medium uppercase tracking-widest text-zinc-400">Traditional applications often leave you wondering</p>
+                    <div class="mt-3 flex flex-wrap gap-x-5 gap-y-1.5 text-sm text-zinc-600 dark:text-zinc-400">
+                        @foreach ([
+                            '"Did anyone even see my application?"',
+                            '"Is the company still hiring?"',
+                            '"Am I being considered?"',
+                            '"Did they reject me?"',
+                            '"Was the role paused?"',
+                            '"Why haven\'t I heard anything?"',
+                        ] as $question)
+                            <span>{{ $question }}</span>
+                        @endforeach
+                    </div>
+                    <p class="mt-4 text-sm font-semibold text-zinc-900 dark:text-white">ProoDev is designed to reduce that uncertainty.</p>
+                </div>
+
+                {{-- Application timeline visual --}}
+                <div class="relative mx-auto mt-12 max-w-xl overflow-hidden rounded-2xl border border-zinc-200 bg-white p-6 shadow-xl shadow-zinc-900/10 dark:border-white/10 dark:bg-zinc-950/70">
+                    <div class="flex flex-wrap items-center justify-between gap-3">
+                        <div>
+                            <div class="text-base font-bold text-zinc-900 dark:text-white">Senior Backend Engineer</div>
+                            <div class="text-xs text-zinc-500">Acme Technologies</div>
+                        </div>
+                        <span class="inline-flex items-center gap-1.5 rounded-full bg-emerald-400/10 px-3 py-1 text-xs font-bold tabular-nums text-emerald-600 dark:text-emerald-400">91% Work Match</span>
+                    </div>
+
+                    <div class="mt-5 text-[10px] font-semibold uppercase tracking-widest text-zinc-400">Application timeline</div>
+                    <ol class="mt-3 space-y-3">
+                        @foreach ([
+                            ['stage' => 'Application received', 'date' => 'Aug 18', 'state' => 'done'],
+                            ['stage' => 'Application reviewed', 'date' => 'Aug 19', 'state' => 'done'],
+                            ['stage' => 'DevID reviewed', 'date' => 'Aug 19', 'state' => 'done'],
+                            ['stage' => 'Shortlisted', 'date' => 'Aug 21', 'state' => 'done'],
+                            ['stage' => 'Technical assessment', 'date' => 'Aug 23', 'state' => 'done'],
+                            ['stage' => 'Interview', 'date' => 'Pending', 'state' => 'current'],
+                            ['stage' => 'Final decision', 'date' => null, 'state' => 'upcoming'],
+                        ] as $milestone)
+                            <li class="flex items-center gap-3">
+                                @if ($milestone['state'] === 'done')
+                                    <span class="flex size-5 shrink-0 items-center justify-center rounded-full bg-emerald-500 text-white">
+                                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="size-3"><path fill-rule="evenodd" d="{{ $iconPaths['check'] }}" clip-rule="evenodd"/></svg>
+                                    </span>
+                                    <span class="flex-1 text-sm font-medium text-zinc-900 dark:text-white">{{ $milestone['stage'] }}</span>
+                                    <span class="text-[11px] tabular-nums text-zinc-400">{{ $milestone['date'] }}</span>
+                                @elseif ($milestone['state'] === 'current')
+                                    <span class="size-5 shrink-0 rounded-full border-[3px] border-[#3750eb]"></span>
+                                    <span class="flex-1 text-sm font-semibold text-[#3750eb] dark:text-[#8f9dff]">{{ $milestone['stage'] }}</span>
+                                    <span class="text-[11px] italic text-zinc-400">{{ $milestone['date'] }}</span>
+                                @else
+                                    <span class="size-5 shrink-0 rounded-full border border-dashed border-zinc-300 dark:border-zinc-600"></span>
+                                    <span class="flex-1 text-sm text-zinc-400">{{ $milestone['stage'] }}</span>
+                                @endif
+                            </li>
+                        @endforeach
+                    </ol>
+
+                    <div class="mt-5 flex items-start gap-2 rounded-lg border border-zinc-200 bg-zinc-50 p-3 text-xs text-zinc-500 dark:border-white/10 dark:bg-zinc-900/70 dark:text-zinc-400">
+                        <flux:icon name="lock-closed" variant="micro" class="mt-0.5 shrink-0 text-amber-500" />
+                        <span>Hiring Transparency 🔒 — verify your DevID to unlock full application visibility.</span>
+                    </div>
+                </div>
+
+                {{-- Three key benefits --}}
+                <div class="mx-auto mt-14 grid max-w-5xl gap-5 md:grid-cols-3">
+                    @foreach ([
+                        ['n' => '01', 'title' => 'Know Where You Stand', 'copy' => 'Instead of wondering whether your application disappeared into a hiring inbox, see meaningful updates as your application progresses.'],
+                        ['n' => '02', 'title' => 'See the Milestones That Matter', 'copy' => 'Application reviewed. Shortlisted. Assessment requested. Interview requested. Decision made. Not every click matters — ProoDev focuses on meaningful hiring milestones.'],
+                        ['n' => '03', 'title' => 'Turn Rejection Into Direction', 'copy' => 'When an employer chooses to provide feedback, you can see structured, job-related reasons and potential areas to strengthen. A rejection doesn\'t have to be the end of the story.'],
+                    ] as $benefit)
+                        <div class="rounded-lg border border-zinc-200 bg-white p-5 transition duration-300 hover:-translate-y-1 hover:border-zinc-900 hover:shadow-xl hover:shadow-zinc-900/10 dark:border-white/10 dark:bg-zinc-950/60 dark:hover:border-white/25 dark:hover:bg-white/[0.04]">
+                            <span class="inline-flex items-center rounded-full bg-zinc-100 px-3 py-1 text-xs font-bold tracking-widest text-zinc-700 ring-1 ring-zinc-200 dark:bg-white/10 dark:text-zinc-200 dark:ring-white/10">{{ $benefit['n'] }}</span>
+                            <h3 class="mt-4 text-base font-semibold text-zinc-900 dark:text-white">{{ $benefit['title'] }}</h3>
+                            <p class="mt-2 text-sm leading-relaxed text-zinc-600 dark:text-zinc-400">{{ $benefit['copy'] }}</p>
+                        </div>
+                    @endforeach
+                </div>
+
+                {{-- Emotional callout --}}
+                <div class="mx-auto mt-14 max-w-3xl text-center">
+                    <blockquote class="text-xl font-semibold leading-relaxed text-zinc-900 sm:text-2xl dark:text-white">
+                        "You shouldn't have to wonder whether your work was ever seen."
+                    </blockquote>
+                    <div class="mx-auto mt-6 grid max-w-xl gap-1.5 text-sm text-zinc-600 dark:text-zinc-400">
+                        <p>You've already done the hard part.</p>
+                        <p>You've built projects. Solved problems. Contributed to open source. Learned new technologies. Built your DevID.</p>
+                        <p>When you apply, ProoDev helps make the next part of the journey clearer.</p>
+                    </div>
+                </div>
+
+                {{-- Verification hook --}}
+                <div class="mx-auto mt-14 max-w-3xl rounded-xl border border-zinc-200 bg-gradient-to-br from-zinc-100 to-white p-8 text-center shadow-lg shadow-zinc-900/10 dark:border-white/15 dark:from-white/10 dark:to-zinc-950/60">
+                    <h3 class="text-2xl font-bold tracking-tight text-zinc-900 dark:text-white">Unlock Hiring Transparency</h3>
+                    <p class="mx-auto mt-3 max-w-xl text-sm leading-relaxed text-zinc-600 dark:text-zinc-400">
+                        Verify your DevID to access application milestones and employer updates.
+                        Verification doesn't guarantee an interview or a job — it unlocks a more trusted and
+                        transparent application experience.
+                    </p>
+                    <div class="mt-6 flex flex-col items-center justify-center gap-3 sm:flex-row">
+                        @auth
+                            @if (auth()->user()->is_verified)
+                                <a href="{{ route('applications.index') }}" wire:navigate class="inline-flex w-full items-center justify-center gap-2 rounded-xl bg-zinc-900 px-6 py-3 text-sm font-semibold text-white! transition hover:bg-zinc-700 sm:w-auto dark:bg-white dark:text-zinc-900! dark:hover:bg-zinc-200">
+                                    View Your Applications
+                                </a>
+                            @else
+                                <a href="{{ route('verify') }}" wire:navigate class="inline-flex w-full items-center justify-center gap-2 rounded-xl bg-[#3750eb] px-6 py-3 text-sm font-semibold text-white shadow-xl shadow-[#3750eb]/25 transition hover:opacity-90 sm:w-auto">
+                                    Verify Your DevID
+                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="size-4"><path fill-rule="evenodd" d="{{ $iconPaths['arrow-right'] }}" clip-rule="evenodd"/></svg>
+                                </a>
+                            @endif
+                        @else
+                            <a href="{{ route('register') }}" class="inline-flex w-full items-center justify-center gap-2 rounded-xl bg-[#3750eb] px-6 py-3 text-sm font-semibold text-white shadow-xl shadow-[#3750eb]/25 transition hover:opacity-90 sm:w-auto">
+                                Verify Your DevID
+                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="size-4"><path fill-rule="evenodd" d="{{ $iconPaths['arrow-right'] }}" clip-rule="evenodd"/></svg>
+                            </a>
+                        @endauth
+                        <a href="#how-it-works" class="inline-flex w-full items-center justify-center rounded-xl border border-zinc-200 bg-white/60 px-6 py-3 text-sm font-semibold text-zinc-700 transition hover:border-zinc-300 hover:bg-white sm:w-auto dark:border-white/10 dark:bg-white/5 dark:text-zinc-200 dark:hover:border-white/25 dark:hover:bg-white/10">
+                            Learn About Verification
+                        </a>
+                    </div>
+                </div>
+
+                {{-- Final message --}}
+                <div class="mx-auto mt-14 max-w-2xl text-center">
+                    <h3 class="text-xl font-bold tracking-tight text-zinc-900 sm:text-2xl dark:text-white">
+                        Build Your Proof. Find the Right Opportunity. Know Where You Stand.
+                    </h3>
+                    <p class="mt-3 text-sm leading-relaxed text-zinc-600 dark:text-zinc-400">
+                        Your work deserves to be seen. Your applications shouldn't disappear into silence.
+                        ProoDev helps connect your engineering proof with real opportunities — and gives you more visibility along the way.
+                    </p>
+                    <div class="mt-6 flex flex-col items-center justify-center gap-3 sm:flex-row">
+                        <a href="{{ route('register') }}" class="inline-flex w-full items-center justify-center gap-2 rounded-xl bg-zinc-900 px-6 py-3 text-sm font-semibold text-white! transition hover:bg-zinc-700 sm:w-auto dark:bg-white dark:text-zinc-900! dark:hover:bg-zinc-200">
+                            Create Your DevID
+                        </a>
+                        <a href="#jobs" class="inline-flex w-full items-center justify-center gap-2 rounded-xl border border-zinc-200 bg-white/60 px-6 py-3 text-sm font-semibold text-zinc-700 transition hover:border-zinc-300 hover:bg-white sm:w-auto dark:border-white/10 dark:bg-white/5 dark:text-zinc-200 dark:hover:border-white/25 dark:hover:bg-white/10">
+                            Explore Opportunities
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        {{-- ===================== FOR RECRUITERS ===================== --}}
+        <section id="recruiters" class="relative overflow-hidden border-t border-zinc-200 dark:border-white/5">
+            <div class="relative mx-auto max-w-7xl px-4 py-16 sm:px-6 lg:px-8">
+                <div class="grid items-center gap-10 lg:grid-cols-2">
+                    <div>
+                        <p class="text-sm font-semibold uppercase tracking-widest text-zinc-900 dark:text-white">For recruiters &amp; companies</p>
+                        <h2 class="mt-3 text-3xl font-bold tracking-tight text-zinc-900 sm:text-4xl dark:text-white">Don't Just Read What a Developer Says. See What They've Built.</h2>
+                        <p class="mt-4 text-lg leading-relaxed text-zinc-600 dark:text-zinc-400">CVs tell you what candidates claim. ProoDev helps you understand the engineering work behind those claims.</p>
+
+                        {{-- Hiring transparency for recruiters --}}
+                        <div class="mt-6 rounded-xl border border-zinc-200 bg-white p-4 dark:border-white/10 dark:bg-zinc-950/60">
+                            <div class="flex items-center gap-2">
+                                <flux:icon name="megaphone" variant="micro" class="shrink-0 text-emerald-500" />
+                                <span class="text-sm font-semibold text-zinc-900 dark:text-white">Keep Candidates Informed Without More Administrative Work.</span>
+                            </div>
+                            <p class="mt-1.5 text-sm leading-relaxed text-zinc-600 dark:text-zinc-400">
+                                ProoDev gives hiring teams a structured candidate pipeline and automatically communicates
+                                meaningful application updates — fewer follow-up messages, less ghosting, better candidate experience.
+                            </p>
+                            <a href="{{ route('register', ['role' => 'company']) }}" class="mt-3 inline-flex items-center gap-1.5 text-sm font-semibold text-zinc-900 transition hover:gap-2.5 dark:text-white">
+                                Manage Hiring
+                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="size-4"><path fill-rule="evenodd" d="{{ $iconPaths['arrow-right'] }}" clip-rule="evenodd"/></svg>
+                            </a>
+                        </div>
+                        <div class="mt-8 flex flex-col gap-3 sm:flex-row">
+                            <a href="{{ route('developers') }}" class="inline-flex items-center justify-center gap-2 rounded-xl bg-[#3750eb] px-6 py-3 text-sm font-semibold text-white shadow-xl shadow-[#3750eb]/25 transition hover:opacity-90">
+                                Discover Developers
+                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="size-4"><path fill-rule="evenodd" d="{{ $iconPaths['arrow-right'] }}" clip-rule="evenodd"/></svg>
+                            </a>
+                            <a href="{{ route('for-companies') }}" class="inline-flex items-center justify-center gap-2 rounded-xl border border-zinc-200 bg-white/60 px-6 py-3 text-sm font-semibold text-zinc-700 transition hover:border-zinc-300 hover:bg-white dark:border-white/10 dark:bg-white/5 dark:text-zinc-200 dark:hover:border-white/25 dark:hover:bg-white/10">
+                                For Recruiters
+                            </a>
+                        </div>
+                    </div>
+
+                    {{-- Recruiter intelligence card --}}
+                    <div class="rounded-xl border border-zinc-200 bg-white p-5 shadow-xl shadow-zinc-900/5 dark:border-white/10 dark:bg-zinc-950/60">
+                        <div class="flex items-center justify-between">
+                            <div class="flex items-center gap-3">
+                                <span class="flex size-11 items-center justify-center rounded-full bg-gradient-to-br from-violet-500 to-[#3750eb] text-sm font-bold text-white">S</span>
+                                <div>
+                                    <div class="text-sm font-semibold text-zinc-900 dark:text-white">Sarah Ahmed</div>
+                                    <div class="text-xs text-zinc-500">Developer intelligence</div>
+                                </div>
+                            </div>
+                            <div class="text-end">
+                                <div class="text-[10px] font-semibold uppercase tracking-widest text-zinc-400">Magnitude</div>
+                                <div class="text-2xl font-bold tabular-nums text-zinc-900 dark:text-white">89</div>
+                            </div>
+                        </div>
+
+                        <div class="mt-5">
+                            <div class="text-[10px] font-semibold uppercase tracking-widest text-zinc-400">Notable achievements</div>
+                            <ul class="mt-2 grid gap-1.5 text-sm text-zinc-700 dark:text-zinc-300">
+                                <li class="flex items-start gap-2"><span aria-hidden="true">🔥</span> Solved high-complexity database issue</li>
+                                <li class="flex items-start gap-2"><span aria-hidden="true">🚀</span> Built multi-tenant SaaS platform</li>
+                                <li class="flex items-start gap-2"><span aria-hidden="true">🏆</span> Open-source contributor</li>
+                            </ul>
+                        </div>
+
+                        <div class="mt-5">
+                            <div class="text-[10px] font-semibold uppercase tracking-widest text-zinc-400">Verified</div>
+                            <div class="mt-2 flex flex-wrap gap-1.5">
+                                @foreach (['PostgreSQL', 'Laravel', 'Backend Architecture'] as $verifiedSkill)
+                                    <span class="inline-flex items-center gap-1 rounded-md bg-emerald-400/10 px-2 py-1 text-[11px] font-medium text-emerald-600 dark:text-emerald-400">
+                                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="size-3"><path fill-rule="evenodd" d="{{ $iconPaths['check'] }}" clip-rule="evenodd"/></svg>
+                                        {{ $verifiedSkill }}
+                                    </span>
+                                @endforeach
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        {{-- ===================== WHY THIS MATTERS ===================== --}}
+        <section class="relative overflow-hidden border-t border-zinc-200 bg-zinc-50 dark:border-white/5 dark:bg-white/[0.02]">
+            <div class="relative mx-auto max-w-7xl px-4 py-16 sm:px-6 lg:px-8">
+                <div class="grid gap-5 md:grid-cols-3">
+                    @foreach ([
+                        ['who' => 'Developers', 'copy' => 'Get recognized for the work you\'ve actually done.'],
+                        ['who' => 'Recruiters', 'copy' => 'Understand what candidates can actually demonstrate.'],
+                        ['who' => 'Companies', 'copy' => 'Make better hiring decisions with evidence, not just claims.'],
+                    ] as $why)
+                        <div class="rounded-xl border border-zinc-200 bg-white p-6 text-center dark:border-white/10 dark:bg-zinc-950/60">
+                            <div class="text-xs font-bold uppercase tracking-widest text-zinc-900 dark:text-white">{{ $why['who'] }}</div>
+                            <p class="mt-3 text-base font-medium leading-relaxed text-zinc-700 dark:text-zinc-300">{{ $why['copy'] }}</p>
+                        </div>
+                    @endforeach
                 </div>
             </div>
         </section>
@@ -472,18 +1031,18 @@
         <section id="platform" class="relative overflow-hidden border-t border-zinc-200 bg-zinc-50 dark:border-white/5 dark:bg-white/[0.02]">
             <div class="relative mx-auto max-w-7xl px-4 py-16 sm:px-6 lg:px-8">
                 <div class="mx-auto max-w-2xl text-center">
-                    <p class="text-sm font-semibold uppercase tracking-widest text-[#3750eb] dark:text-[#8f9dff]">All-in-one</p>
+                    <p class="text-sm font-semibold uppercase tracking-widest text-zinc-900 dark:text-white">All-in-one</p>
                     <h2 class="mt-3 text-3xl font-bold tracking-tight text-zinc-900 sm:text-4xl dark:text-white">One platform for your whole engineering identity</h2>
                     <p class="mt-4 text-zinc-600 dark:text-zinc-400">Everything below is live from ProoDev - real evidence analyzed by AI, real projects, real magnitude, real reputation.</p>
                 </div>
 
                 <div class="mt-14 grid gap-5 lg:grid-cols-3">
                     @foreach ($features as $feature)
-                        <div class="group relative flex flex-col overflow-hidden rounded-lg border border-zinc-200 bg-white transition duration-300 hover:-translate-y-1 hover:border-[#3750eb]/40 hover:shadow-2xl hover:shadow-[#3750eb]/10 dark:border-white/10 dark:bg-white/[0.03] dark:hover:bg-white/[0.06]">
+                        <div class="group relative flex flex-col overflow-hidden rounded-lg border border-zinc-200 bg-white transition duration-300 hover:-translate-y-1 hover:border-zinc-900 hover:shadow-2xl hover:shadow-zinc-900/10 dark:border-white/10 dark:bg-white/[0.03] dark:hover:bg-white/[0.06]">
                             <div class="border-b border-zinc-200 p-4 dark:border-white/5">
                                 <div class="flex items-start justify-between gap-4">
                                     <div>
-                                        <span class="flex size-11 items-center justify-center rounded-xl bg-[#3750eb]/10 text-[#3750eb] ring-1 ring-zinc-200 transition group-hover:text-[#2f45c7] dark:text-[#8f9dff] dark:ring-white/10 dark:group-hover:text-white">
+                                        <span class="flex size-11 items-center justify-center rounded-xl bg-zinc-100 dark:bg-white/10 text-zinc-900 dark:text-white ring-1 ring-zinc-200 transition group-hover:text-[#2f45c7] dark:ring-white/10 dark:group-hover:text-white">
                                             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="size-6"><path fill-rule="evenodd" clip-rule="evenodd" d="{{ $iconPaths[$feature['icon']] }}" /></svg>
                                         </span>
                                         <h3 class="mt-4 text-lg font-semibold text-zinc-900 dark:text-white">{{ $feature['title'] }}</h3>
@@ -497,7 +1056,7 @@
                                     <div class="grid gap-2.5">
                                         @forelse ($feed->take(4) as $event)
                                             <div class="flex items-center gap-2.5 rounded-lg border border-zinc-100 bg-zinc-50 p-2.5 dark:border-white/5 dark:bg-zinc-950/40">
-                                                <span class="flex size-7 shrink-0 items-center justify-center rounded-md bg-[#3750eb]/10 text-[#3750eb] dark:text-[#8f9dff]">
+                                                <span class="flex size-7 shrink-0 items-center justify-center rounded-md bg-zinc-950 text-white dark:bg-white dark:text-zinc-950">
                                                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="size-3.5"><path fill-rule="evenodd" clip-rule="evenodd" d="{{ $badgeSvg($event->type->value) }}" /></svg>
                                                 </span>
                                                 <div class="min-w-0 flex-1">
@@ -516,14 +1075,14 @@
                                             <div class="rounded-lg border border-zinc-100 bg-zinc-50 p-3 dark:border-white/5 dark:bg-zinc-950/40">
                                                 <div class="flex items-center justify-between gap-2">
                                                     <div class="min-w-0 truncate text-sm font-medium text-zinc-800 dark:text-zinc-100">{{ $item->title }}</div>
-                                                    <span class="shrink-0 rounded-full bg-[#3750eb]/10 px-2 py-0.5 text-[10px] font-semibold uppercase tracking-wide text-[#3750eb] dark:text-[#8f9dff]">{{ $item->type->label() }}</span>
+                                                    <span class="shrink-0 rounded-full bg-zinc-100 dark:bg-white/10 px-2 py-0.5 text-[10px] font-semibold uppercase tracking-wide text-zinc-900 dark:text-white">{{ $item->type->label() }}</span>
                                                 </div>
                                                 @if ($item->source)
                                                     <div class="mt-0.5 line-clamp-1 text-xs text-zinc-500">{{ $item->source }}</div>
                                                 @endif
                                                 <div class="mt-2 flex flex-wrap items-center gap-1.5">
                                                     @if ($item->ai_score !== null)
-                                                        <span class="rounded-full bg-[#3750eb]/10 px-2 py-0.5 text-[10px] font-semibold text-[#3750eb] dark:text-[#8f9dff]">Magnitude {{ number_format($item->ai_score) }}</span>
+                                                        <span class="rounded-full bg-zinc-100 dark:bg-white/10 px-2 py-0.5 text-[10px] font-semibold text-zinc-900 dark:text-white">Magnitude {{ number_format($item->ai_score) }}</span>
                                                     @endif
                                                     <span class="ml-auto text-[11px] text-zinc-500">{{ $item->created_at?->diffForHumans() }}</span>
                                                 </div>
@@ -543,7 +1102,7 @@
                                                 @endif
                                                 <div class="mt-2 flex flex-wrap items-center gap-1.5">
                                                     @foreach (collect($project->tech_stack ?? [])->take(3) as $tech)
-                                                        <span class="rounded-full bg-[#3750eb]/10 px-2 py-0.5 text-[10px] font-medium text-[#3750eb] dark:text-[#8f9dff]">{{ $tech }}</span>
+                                                        <span class="rounded-full bg-zinc-100 dark:bg-white/10 px-2 py-0.5 text-[10px] font-medium text-zinc-900 dark:text-white">{{ $tech }}</span>
                                                     @endforeach
                                                     <span class="ml-auto inline-flex items-center gap-1 text-[11px] text-zinc-500">
                                                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="size-3"><path fill-rule="evenodd" d="{{ $iconPaths['users'] }}" /></svg>
@@ -586,7 +1145,7 @@
                                                     </div>
                                                     <div class="truncate text-[11px] text-zinc-500">{{ $engineer->levelTitle() }} - {{ $engineer->location ?: 'Building in public' }}</div>
                                                 </div>
-                                                <span class="inline-flex items-center gap-1 text-xs font-bold text-[#3750eb] dark:text-[#8f9dff]">
+                                                <span class="inline-flex items-center gap-1 text-xs font-bold text-zinc-900 dark:text-white">
                                                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="size-3"><path fill-rule="evenodd" d="{{ $iconPaths['shield-check'] }}" /></svg>
                                                     {{ number_format($engineer->reputation_score) }}
                                                 </span>
@@ -599,7 +1158,7 @@
                             </div>
 
                             <div class="border-t border-zinc-200 p-4 dark:border-white/5">
-                                <a href="{{ $feature['href'] }}" class="inline-flex items-center gap-1.5 text-sm font-medium text-[#3750eb] transition group-hover:gap-2.5 dark:text-[#8f9dff]">
+                                <a href="{{ $feature['href'] }}" class="inline-flex items-center gap-1.5 text-sm font-medium text-zinc-900 transition dark:text-white group-hover:gap-2.5">
                                     Explore {{ strtolower($feature['title']) }}
                                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="size-4"><path fill-rule="evenodd" d="{{ $iconPaths['arrow-right'] }}" clip-rule="evenodd"/></svg>
                                 </a>
@@ -613,7 +1172,7 @@
         {{-- ===================== SOLUTIONS MARQUEE ===================== --}}
         <section class="relative overflow-hidden border-t border-zinc-200 py-16 dark:border-white/5">
             @php
-                $marqueeItems = ['Evidence Library', 'AI Engineering Reports', 'Engineering Magnitude', 'Projects', 'Engineering Journal', 'Passport', 'Reputation', 'Discovery', 'Vouches', 'Verifications', 'Skills Mapping', 'Open Source'];
+                $marqueeItems = ['Evidence Library', 'AI Engineering Reports', 'Engineering Magnitude', 'Projects', 'Engineering Journal', 'DevID', 'Reputation', 'Discovery', 'Vouches', 'Verifications', 'Skills Mapping', 'Open Source'];
             @endphp
             <div class="relative overflow-hidden">
                 <div class="pointer-events-none absolute inset-y-0 left-0 z-10 w-24 bg-gradient-to-r from-white to-transparent dark:from-zinc-950" aria-hidden="true"></div>
@@ -622,7 +1181,7 @@
                     @for ($i = 0; $i < 2; $i++)
                         @foreach ($marqueeItems as $item)
                             <div class="flex items-center gap-3 text-sm font-semibold uppercase tracking-widest text-zinc-500 dark:text-zinc-600">
-                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="size-3 text-[#3750eb]/70"><path fill-rule="evenodd" d="{{ $iconPaths['sparkles'] }}" /></svg>
+                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="size-3 text-emerald-500/70"><path fill-rule="evenodd" d="{{ $iconPaths['sparkles'] }}" /></svg>
                                 {{ $item }}
                             </div>
                         @endforeach
@@ -636,9 +1195,9 @@
             <div class="relative mx-auto max-w-7xl px-4 py-16 sm:px-6 lg:px-8">
                 <div class="grid items-start gap-12 lg:grid-cols-2">
                     <div>
-                        <p class="text-sm font-semibold uppercase tracking-widest text-[#3750eb] dark:text-[#8f9dff]">Trust & quality</p>
+                        <p class="text-sm font-semibold uppercase tracking-widest text-zinc-900 dark:text-white">Trust & quality</p>
                         <h2 class="mt-3 text-3xl font-bold tracking-tight text-zinc-900 sm:text-4xl dark:text-white">An identity that can't be faked</h2>
-                        <p class="mt-4 text-zinc-600 dark:text-zinc-400">Reputation isn't self-reported. Every point on your passport is anchored to evidence - real code AI has read, projects you've shipped, and vouches from engineers who actually know your work.</p>
+                        <p class="mt-4 text-zinc-600 dark:text-zinc-400">Reputation isn't self-reported. Every point on your DevID is anchored to evidence - real code AI has read, projects you've shipped, and vouches from engineers who actually know your work.</p>
 
                         <div class="mt-8 grid gap-4 sm:grid-cols-2">
                             @foreach ([
@@ -648,7 +1207,7 @@
                                 ['icon' => 'check-badge', 'title' => 'Explainable magnitude', 'text' => 'A 0-1000 score broken down factor by factor, tied to real evidence.'],
                             ] as $quality)
                                 <div class="rounded-xl border border-zinc-200 bg-white p-5 dark:border-white/10 dark:bg-white/[0.03]">
-                                    <span class="flex size-9 items-center justify-center rounded-lg bg-[#3750eb]/10 text-[#3750eb] ring-1 ring-zinc-200 dark:text-[#8f9dff] dark:ring-white/10">
+                                    <span class="flex size-9 items-center justify-center rounded-lg bg-zinc-100 dark:bg-white/10 text-zinc-900 dark:text-white ring-1 ring-zinc-200 dark:ring-white/10">
                                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="size-5"><path fill-rule="evenodd" d="{{ $iconPaths[$quality['icon']] }}" /></svg>
                                     </span>
                                     <h3 class="mt-3 text-sm font-semibold text-zinc-900 dark:text-white">{{ $quality['title'] }}</h3>
@@ -675,7 +1234,7 @@
                                 'Vouches, verifications, and public work are all anchored to evidence',
                             ] as $bullet)
                                 <div class="flex items-start gap-3 text-sm text-zinc-700 dark:text-zinc-300">
-                                    <span class="mt-0.5 flex size-5 shrink-0 items-center justify-center rounded-full bg-[#3750eb]/10 text-[#3750eb]">
+                                    <span class="mt-0.5 flex size-5 shrink-0 items-center justify-center rounded-full bg-zinc-100 dark:bg-white/10 text-emerald-500">
                                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="size-3"><path fill-rule="evenodd" d="{{ $iconPaths['check'] }}" clip-rule="evenodd"/></svg>
                                     </span>
                                     {{ $bullet }}
@@ -691,18 +1250,18 @@
         <section id="how" class="relative overflow-hidden border-t border-zinc-200 dark:border-white/5">
             <div class="relative mx-auto max-w-7xl px-4 py-16 sm:px-6 lg:px-8">
                 <div class="mx-auto max-w-2xl text-center">
-                    <p class="text-sm font-semibold uppercase tracking-widest text-[#3750eb] dark:text-[#8f9dff]">How it works</p>
+                    <p class="text-sm font-semibold uppercase tracking-widest text-zinc-900 dark:text-white">How it works</p>
                     <h2 class="mt-3 text-3xl font-bold tracking-tight text-zinc-900 sm:text-4xl dark:text-white">From first piece of evidence to public proof</h2>
                     <p class="mt-4 text-zinc-600 dark:text-zinc-400">Four steps. No noise. Your work does the talking.</p>
                 </div>
 
                 <div class="mt-14 grid gap-5 md:grid-cols-2 lg:grid-cols-4">
                     @foreach ($steps as $step)
-                        <div class="group relative rounded-lg border border-zinc-200 bg-white p-4 transition duration-300 hover:-translate-y-1 hover:border-[#3750eb]/50 hover:shadow-xl hover:shadow-[#3750eb]/10 dark:border-white/10 dark:bg-zinc-950/60 dark:hover:border-[#3750eb]/30 dark:hover:bg-white/[0.04]">
-                            <span class="bg-[#3750eb]/15 text-[#3750eb] dark:text-[#8f9dff] inline-flex items-center rounded-full px-3 py-1 text-xs font-bold tracking-widest ring-1 ring-zinc-200 dark:ring-white/10">{{ $step['number'] }}</span>
+                        <div class="group relative rounded-lg border border-zinc-200 bg-white p-4 transition duration-300 hover:-translate-y-1 hover:border-zinc-900 hover:shadow-xl hover:shadow-zinc-900/10 dark:border-white/10 dark:bg-zinc-950/60 dark:hover:border-white/25 dark:hover:bg-white/[0.04]">
+                            <span class="bg-zinc-100 dark:bg-white/10 text-zinc-900 dark:text-white inline-flex items-center rounded-full px-3 py-1 text-xs font-bold tracking-widest ring-1 ring-zinc-200 dark:ring-white/10">{{ $step['number'] }}</span>
                             <h3 class="mt-5 text-lg font-semibold text-zinc-900 dark:text-white">{{ $step['title'] }}</h3>
                             <p class="mt-2 text-sm leading-relaxed text-zinc-600 dark:text-zinc-400">{{ $step['description'] }}</p>
-                            <a href="{{ $step['href'] }}" class="mt-4 inline-flex items-center gap-1 text-sm font-medium text-[#3750eb] transition group-hover:gap-2 dark:text-[#8f9dff]">
+                            <a href="{{ $step['href'] }}" class="mt-4 inline-flex items-center gap-1 text-sm font-medium text-zinc-900 transition dark:text-white group-hover:gap-2">
                                 Start here
                                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="size-4"><path fill-rule="evenodd" d="{{ $iconPaths['arrow-right'] }}" clip-rule="evenodd"/></svg>
                             </a>
@@ -716,7 +1275,7 @@
         <section class="relative overflow-hidden border-t border-zinc-200 bg-zinc-50 dark:border-white/5 dark:bg-white/[0.02]">
             <div class="relative mx-auto max-w-7xl px-4 py-16 sm:px-6 lg:px-8">
                 <div class="mx-auto max-w-2xl text-center">
-                    <p class="text-sm font-semibold uppercase tracking-widest text-[#3750eb] dark:text-[#8f9dff]">Vouches</p>
+                    <p class="text-sm font-semibold uppercase tracking-widest text-zinc-900 dark:text-white">Vouches</p>
                     <h2 class="mt-3 text-3xl font-bold tracking-tight text-zinc-900 sm:text-4xl dark:text-white">Endorsements from engineers who know</h2>
                     <p class="mt-4 text-zinc-600 dark:text-zinc-400">Real vouches from the community - weighted by each giver's proven track record and anchored to evidence.</p>
                 </div>
@@ -724,7 +1283,7 @@
                 <div class="mt-14 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
                     @forelse ($vouches as $vouch)
                         <figure class="rounded-lg border border-zinc-200 bg-white p-4 dark:border-white/10 dark:bg-zinc-950/60">
-                            <div class="flex gap-1 text-[#3750eb]">
+                            <div class="flex gap-1 text-zinc-900 dark:text-white">
                                 @for ($i = 0; $i < 5; $i++)
                                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="size-4"><path fill-rule="evenodd" d="{{ $iconPaths['star'] }}" /></svg>
                                 @endfor
@@ -744,7 +1303,7 @@
                     @empty
                         @foreach ([[], [], []] as $i => $skeleton)
                             <figure class="rounded-lg border border-zinc-200 bg-white p-4 dark:border-white/10 dark:bg-zinc-950/60">
-                                <div class="flex gap-1 text-[#3750eb]/60">
+                                <div class="flex gap-1 text-zinc-500">
                                     @for ($j = 0; $j < 5; $j++)
                                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="size-4"><path fill-rule="evenodd" d="{{ $iconPaths['star'] }}" /></svg>
                                     @endfor
@@ -765,7 +1324,7 @@
         <section class="relative overflow-hidden border-t border-zinc-200 dark:border-white/5">
             <div class="relative mx-auto max-w-3xl px-4 py-16 sm:px-6 lg:px-8">
                 <div class="mx-auto max-w-2xl text-center">
-                    <p class="text-sm font-semibold uppercase tracking-widest text-[#3750eb] dark:text-[#8f9dff]">FAQ</p>
+                    <p class="text-sm font-semibold uppercase tracking-widest text-zinc-900 dark:text-white">FAQ</p>
                     <h2 class="mt-3 text-3xl font-bold tracking-tight text-zinc-900 sm:text-4xl dark:text-white">Everything you need to know</h2>
                 </div>
 
@@ -789,30 +1348,31 @@
 
         {{-- ===================== CTA ===================== --}}
         <section class="mx-auto max-w-7xl px-4 pb-20 sm:px-6 lg:px-8">
-            <div class="relative overflow-hidden rounded-xl border border-zinc-200 bg-gradient-to-br from-[#f1f4ff] via-white to-[#eef1ff] px-6 py-16 text-center sm:px-16 dark:border-white/10 dark:from-[#3750eb]/25 dark:via-zinc-900 dark:to-[#3750eb]/10">
+            <div class="relative overflow-hidden rounded-xl border border-zinc-200 bg-gradient-to-br from-zinc-100 via-white to-zinc-50 px-6 py-16 text-center sm:px-16 dark:border-white/10 dark:from-white/10 dark:via-zinc-900 dark:to-white/5">
                 <div class="relative">
                     <h2 class="mx-auto max-w-2xl text-3xl font-bold tracking-tight text-zinc-900 sm:text-5xl dark:text-white">
-                        Ready to prove your work?
+                        Your Work Is Already Telling Your Story.
                     </h2>
-                    <p class="mx-auto mt-4 max-w-xl text-zinc-700 dark:text-zinc-300">
-                        Add your first piece of evidence and let AI build the report that shows what you're actually capable of.
+                    <p class="mx-auto mt-4 max-w-xl text-lg text-zinc-700 dark:text-zinc-300">
+                        Let ProoDev help the right people see it.
                     </p>
                     <div class="mt-8 flex flex-col items-center justify-center gap-3 sm:flex-row">
                         @auth
                             <a href="{{ route('home') }}" class="inline-flex w-full items-center justify-center gap-2 rounded-xl bg-zinc-900 px-6 py-3 text-sm font-semibold text-white! transition hover:bg-zinc-700 sm:w-auto dark:bg-white dark:text-zinc-900! dark:hover:bg-zinc-200">
-                                Go to your feed
+                                Build My DevID
                                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="size-4"><path fill-rule="evenodd" d="{{ $iconPaths['arrow-right'] }}" clip-rule="evenodd"/></svg>
                             </a>
                         @else
                             <a href="{{ route('register') }}" class="inline-flex w-full items-center justify-center gap-2 rounded-xl bg-zinc-900 px-6 py-3 text-sm font-semibold text-white! transition hover:bg-zinc-700 sm:w-auto dark:bg-white dark:text-zinc-900! dark:hover:bg-zinc-200">
-                                Create your free account
+                                Build My DevID
                                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="size-4"><path fill-rule="evenodd" d="{{ $iconPaths['arrow-right'] }}" clip-rule="evenodd"/></svg>
                             </a>
-                            <a href="{{ route('login') }}" class="inline-flex w-full items-center justify-center rounded-xl border border-zinc-300 bg-white/60 px-6 py-3 text-sm font-semibold text-zinc-700 transition hover:bg-white sm:w-auto dark:border-white/20 dark:bg-white/5 dark:text-white dark:hover:bg-white/10">
-                                I already have an account
+                            <a href="{{ route('developers') }}" class="inline-flex w-full items-center justify-center rounded-xl border border-zinc-300 bg-white/60 px-6 py-3 text-sm font-semibold text-zinc-700 transition hover:bg-white sm:w-auto dark:border-white/20 dark:bg-white/5 dark:text-white dark:hover:bg-white/10">
+                                Explore Developers
                             </a>
                         @endauth
                     </div>
+                    <p class="mt-8 text-sm font-medium text-zinc-500 dark:text-zinc-400">Build something meaningful. Prove what you can do. Get noticed.</p>
                 </div>
             </div>
         </section>
@@ -826,6 +1386,8 @@
                 </div>
                 <p class="text-sm text-zinc-500">(c) {{ date('Y') }} {{ config('app.name', 'ProoDev') }}. Proof over claims.</p>
                 <div class="flex items-center gap-4 text-sm text-zinc-500">
+                    <a href="{{ route('about') }}" class="transition hover:text-zinc-900 dark:hover:text-white">About</a>
+                    <a href="{{ route('verified') }}" class="transition hover:text-zinc-900 dark:hover:text-white">Verified</a>
                     <a href="{{ route('news.index') }}" class="transition hover:text-zinc-900 dark:hover:text-white">News</a>
                     @auth
                         <a href="{{ route('home') }}" class="transition hover:text-zinc-900 dark:hover:text-white">Dashboard</a>
@@ -1024,12 +1586,36 @@
 
                 // Precompute unit vectors for every land dot
                 var landDots = (function () {
-                    var out = [];
                     var parts = LAND_DOTS.split('|');
+                    var seen = {};
+                    var pts = [];
+
+                    function key(x, y) { return x + ',' + y; }
+                    function push(x, y) { var k = key(x, y); if (!seen[k]) { seen[k] = true; pts.push([x, y]); } }
+
                     for (var i = 0; i < parts.length; i++) {
                         var c = parts[i].split(',');
                         if (c.length !== 2) continue;
-                        out.push(toVec(parseInt(c[0], 10) / 10, parseInt(c[1], 10) / 10));
+                        push(parseInt(c[0], 10), parseInt(c[1], 10));
+                    }
+
+                    // Densify: fill one-dot gaps on either axis with midpoints
+                    // so the continents read clearly.
+                    var extra = [];
+                    for (var j = 0; j < pts.length; j++) {
+                        var p = pts[j];
+                        if (seen[key(p[0] + 60, p[1])]) extra.push([p[0] + 30, p[1]]);
+                        if (seen[key(p[0], p[1] + 60)]) extra.push([p[0], p[1] + 30]);
+                        if (seen[key(p[0] - 60, p[1])]) extra.push([p[0] - 30, p[1]]);
+                        if (seen[key(p[0], p[1] - 60)]) extra.push([p[0], p[1] - 30]);
+                    }
+                    for (var d = 0; d < extra.length; d++) {
+                        push(extra[d][0], extra[d][1]);
+                    }
+
+                    var out = [];
+                    for (var m = 0; m < pts.length; m++) {
+                        out.push(toVec(pts[m][0] / 10, pts[m][1] / 10));
                     }
                     return out;
                 })();
@@ -1207,7 +1793,7 @@
                     var headline = document.getElementById('globe-tip-headline');
                     headline.textContent = p.dev.headline || 'Proven engineer on ProoDev';
                     document.getElementById('globe-tip-score').textContent = 'Magnitude ' + (p.dev.reputation || 0).toLocaleString();
-                    document.getElementById('globe-tip-link').href = '{{ url('/passport') }}/' + encodeURIComponent(p.dev.handle);
+                    document.getElementById('globe-tip-link').href = '{{ url('/devid') }}/' + encodeURIComponent(p.dev.handle);
                 }
 
                 function hideTooltip() {
@@ -1359,7 +1945,7 @@
                     'text' => $event->title,
                     'label' => $event->type->label(),
                     'avatar' => $event->user->avatarUrl(),
-                    'url' => route('passport', $event->user->handle()),
+                    'url' => route('devid', $event->user->handle()),
                 ];
             }
 
@@ -1370,7 +1956,7 @@
                     'text' => $liveUser->location ? 'Active from '.$liveUser->location : 'Active on ProoDev right now',
                     'label' => 'Live',
                     'avatar' => $liveUser->avatarUrl(),
-                    'url' => route('passport', $liveUser->handle()),
+                    'url' => route('devid', $liveUser->handle()),
                 ];
             }
 
@@ -1386,18 +1972,18 @@
             $activityItems = array_values(array_slice($activityItems, 0, 10));
         @endphp
 
-        <div id="live-activity" class="fixed bottom-4 left-4 z-40 flex flex-col items-start gap-2 sm:bottom-6 sm:left-6" data-items="{{ json_encode($activityItems) }}">
+        <div id="live-activity" class="fixed bottom-4 left-4 z-40 flex flex-col items-start gap-3 sm:bottom-6 sm:left-6" data-items="{{ json_encode($activityItems) }}">
             <div id="live-activity-card" class="pointer-events-none w-80 max-w-[calc(100vw-2rem)] translate-y-3 rounded-xl border border-zinc-200/80 bg-white/95 p-3.5 opacity-0 shadow-2xl shadow-zinc-900/10 backdrop-blur-xl transition-all duration-500 dark:border-white/10 dark:bg-zinc-900/95">
                 <div class="flex items-center gap-3">
-                    <span id="live-activity-avatar" class="relative flex size-9 shrink-0 items-center justify-center overflow-hidden rounded-full bg-[#3750eb]/10 ring-1 ring-zinc-200 dark:ring-white/10">
-                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="size-4 text-[#3750eb] dark:text-[#8f9dff]"><path fill-rule="evenodd" d="{{ $iconPaths['sparkles'] }}" /></svg>
+                    <span id="live-activity-avatar" class="relative flex size-9 shrink-0 items-center justify-center overflow-hidden rounded-full bg-zinc-100 dark:bg-white/10 ring-1 ring-zinc-200 dark:ring-white/10">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="size-4 text-zinc-900 dark:text-white"><path fill-rule="evenodd" d="{{ $iconPaths['sparkles'] }}" /></svg>
                         <span class="absolute -bottom-0.5 -right-0.5 size-2.5 rounded-full border-2 border-white bg-emerald-500 dark:border-zinc-900"></span>
                     </span>
                     <div class="min-w-0 flex-1">
                         <div id="live-activity-name" class="truncate text-sm font-semibold text-zinc-900 dark:text-white"></div>
                         <div id="live-activity-text" class="truncate text-xs text-zinc-500 dark:text-zinc-400"></div>
                     </div>
-                    <span id="live-activity-label" class="shrink-0 rounded-full bg-[#3750eb]/10 px-2 py-0.5 text-[10px] font-semibold uppercase tracking-wide text-[#3750eb] dark:text-[#8f9dff]"></span>
+                    <span id="live-activity-label" class="shrink-0 rounded-full bg-zinc-100 dark:bg-white/10 px-2 py-0.5 text-[10px] font-semibold uppercase tracking-wide text-zinc-900 dark:text-white"></span>
                 </div>
             </div>
 
@@ -1441,7 +2027,7 @@
                 var paused = false;
                 var index = 0;
                 var timer = null;
-                var chatSvg = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="size-4 text-[#3750eb] dark:text-[#8f9dff]"><path fill-rule="evenodd" d="M8.625 12a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0Zm0 0H8.25m4.125 0a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0Zm0 0H12m4.125 0a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0Zm0 0h-.375M21 12c0 4.556-4.03 8.25-9 8.25a9.764 9.764 0 0 1-2.555-.337A5.972 5.972 0 0 1 5.41 20.97a5.969 5.969 0 0 1-.474-.065 4.48 4.48 0 0 0 .978-2.025c.09-.457-.133-.901-.467-1.226C3.93 16.178 3 14.189 3 12c0-4.556 4.03-8.25 9-8.25s9 3.694 9 8.25Z"/></svg>';
+                var chatSvg = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="size-4 text-zinc-900 dark:text-white"><path fill-rule="evenodd" d="M8.625 12a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0Zm0 0H8.25m4.125 0a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0Zm0 0H12m4.125 0a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0Zm0 0h-.375M21 12c0 4.556-4.03 8.25-9 8.25a9.764 9.764 0 0 1-2.555-.337A5.972 5.972 0 0 1 5.41 20.97a5.969 5.969 0 0 1-.474-.065 4.48 4.48 0 0 0 .978-2.025c.09-.457-.133-.901-.467-1.226C3.93 16.178 3 14.189 3 12c0-4.556 4.03-8.25 9-8.25s9 3.694 9 8.25Z"/></svg>';
                 var dotSvg = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="size-4 text-emerald-500"><path fill-rule="evenodd" d="M12 9v3.75m0 3.75h.008v.008H12v-.008Zm0-10.214A11.95 11.95 0 0 1 3.598 6 11.99 11.99 0 0 0 3 9.75c0 5.592 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.31-.21-2.57-.598-3.75h-.152c-3.196 0-6.1-1.249-8.25-3.286Z"/></svg>';
 
                 function render(item) {

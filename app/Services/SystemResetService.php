@@ -172,11 +172,11 @@ class SystemResetService
     protected function ensurePlatformAdmin(): User
     {
         $admin = User::firstOrCreate(
-            ['email' => 'adonyo@proodev.com'],
+            ['email' => config('platform.admin_email')],
             [
                 'name' => 'ProoDev Admin',
                 'username' => 'proodev-admin',
-                'password' => Hash::make('O+256M777007531A'),
+                'password' => Hash::make(config('platform.admin_password')),
                 'email_verified_at' => now(),
                 'is_admin' => true,
             ],

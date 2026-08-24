@@ -40,17 +40,6 @@
                                 </flux:sidebar.item>
                             </flux:sidebar.group>
                         @endif
-
-                        @if (auth()->user()->isVerified())
-                            <flux:sidebar.group :heading="__('Recruiting')" class="grid">
-                                <flux:sidebar.item icon="chat-bubble-oval-left-ellipsis" :href="route('wirechat.chats.chats')" :current="request()->routeIs('wirechat.chats.*')" wire:navigate>
-                                    <span class="flex items-center justify-between gap-2">
-                                        {{ __('Messages') }}
-                                        <livewire:unread-messages-badge :key="'recruiter-unread'" />
-                                    </span>
-                                </flux:sidebar.item>
-                            </flux:sidebar.group>
-                        @endif
                     @else
                         <flux:sidebar.group :heading="__('Overview')" class="grid">
                             <flux:sidebar.item icon="home" :href="route('home')" :current="request()->routeIs('home', 'dashboard', 'welcome')" wire:navigate>
@@ -60,8 +49,8 @@
 
                         @unless (auth()->user()->isAdmin())
                             <flux:sidebar.group :heading="__('Engineer')" class="grid">
-                                <flux:sidebar.item icon="identification" :href="route('passport', auth()->user()->handle())" :current="request()->routeIs('passport')" wire:navigate>
-                                    {{ __('My Passport') }}
+                                <flux:sidebar.item icon="identification" :href="route('devid', auth()->user()->handle())" :current="request()->routeIs('passport')" wire:navigate>
+                                    {{ __('My DevID') }}
                                 </flux:sidebar.item>
                                 <flux:sidebar.item icon="folder-git-2" :href="route('projects.index')" :current="request()->routeIs('projects.*')" wire:navigate>
                                     {{ __('Projects') }}
@@ -72,22 +61,33 @@
                                 <flux:sidebar.item icon="finger-print" :href="route('vouches')" :current="request()->routeIs('vouches')" wire:navigate>
                                     {{ __('Vouches') }}
                                 </flux:sidebar.item>
+                                <flux:sidebar.item
+                                    icon="chat-bubble-oval-left-ellipsis"
+                                    :href="auth()->user()->isVerified() ? route('wirechat.chats.chats') : route('verify')"
+                                    :current="request()->routeIs('wirechat.chats.*')"
+                                    tooltip="Connect"
+                                    wire:navigate
+                                >
+                                    <span class="flex w-full items-center justify-between gap-2">
+                                        <span class="flex items-center gap-1.5">
+                                            {{ __('Connect') }}
+                                            <livewire:unread-messages-badge :key="'engineer-unread'" />
+                                        </span>
+                                        @unless (auth()->user()->isVerified())
+                                            <span
+                                                class="inline-flex shrink-0 items-center gap-1 rounded-full bg-amber-400/10 px-2 py-0.5 text-[10px] font-semibold text-amber-600 dark:text-amber-400"
+                                                title="{{ __('Verify your account to read and send messages') }}"
+                                            >
+                                                <flux:icon name="lock-closed" variant="micro" class="size-2.5" />
+                                                {{ __('Verify') }}
+                                            </span>
+                                        @endunless
+                                    </span>
+                                </flux:sidebar.item>
                             </flux:sidebar.group>
                         @endunless
 
-                        @if (\App\Support\FeatureFlags::active('credits') && ! auth()->user()->isAdmin())
-                            <flux:sidebar.group :heading="__('Monetization')" class="grid">
-                                <flux:sidebar.item icon="currency-dollar" :href="route('credits')" :current="request()->routeIs('credits', 'auto-scan')" wire:navigate>
-                                    {{ __('Credits & Auto-Scan') }}
-                                </flux:sidebar.item>
-                                @if (\App\Support\FeatureFlags::active('verification'))
-                                    <flux:sidebar.item icon="check-badge" :href="route('verify')" :current="request()->routeIs('verify')" wire:navigate>
-                                        {{ __('Verification') }}
-                                    </flux:sidebar.item>
-                                @endif
-
-                            </flux:sidebar.group>
-                        @endif
+                       
                     @endif
                 @endauth
 
@@ -159,7 +159,7 @@
                                 <span class="tabular-nums">{{ $pipelineActiveStep }}/3</span>
                             </div>
                             <div class="mt-1.5 h-1 overflow-hidden rounded-full bg-zinc-200/80 dark:bg-white/10">
-                                <div class="h-full rounded-full bg-gradient-to-r from-indigo-500 to-violet-500 transition-all duration-500 ease-out" style="width: {{ $pipelineProgress }}%"></div>
+                                <div class="h-full rounded-full bg-zinc-900 dark:bg-white transition-all duration-500 ease-out" style="width: {{ $pipelineProgress }}%"></div>
                             </div>
                         </div>
 
@@ -192,19 +192,6 @@
                                 </div>
                             </div>
                         @endforeach
-                    @endif
-                @endauth
-
-                @auth
-                    @if (auth()->user()->isVerified() && ! auth()->user()->isRecruiterOrCompanyAccount())
-                        <flux:sidebar.group :heading="__('Verified perks')" class="grid">
-                            <flux:sidebar.item icon="chat-bubble-oval-left-ellipsis" :href="route('wirechat.chats.chats')" :current="request()->routeIs('wirechat.chats.*')" wire:navigate>
-                                <span class="flex items-center justify-between gap-2">
-                                    {{ __('Messages') }}
-                                    <livewire:unread-messages-badge :key="'developer-unread'" />
-                                </span>
-                            </flux:sidebar.item>
-                        </flux:sidebar.group>
                     @endif
                 @endauth
 
@@ -250,7 +237,22 @@
                                 {{ auth()->user()->hasWorkspaceAccess() ? __('Manage Workspaces') : __('Upgrade for Workspaces') }}
                             </flux:sidebar.item>
                         @endif
-                    </flux:sidebar.group>
+
+                        <flux:sidebar.item icon="currency-dollar" :href="route('credits')" :current="request()->routeIs('credits', 'auto-scan')" wire:navigate>
+                            {{ __('Credits & Auto-Scan') }}
+                                    </flux:sidebar.item>
+                                    @if (\App\Support\FeatureFlags::active('verification'))
+                                        <flux:sidebar.item icon="check-badge" :href="route('verify')" :current="request()->routeIs('verify')" wire:navigate>
+                                            {{ __('Verification') }}
+                                        </flux:sidebar.item>
+                                    @endif
+                        </flux:sidebar.group>
+
+                
+
+
+                    
+
                 @else
                     <flux:sidebar.item icon="arrow-right-end-on-rectangle" :href="route('login')">
                         {{ __('Sign in') }}
@@ -338,6 +340,10 @@
         @endauth
 
         {{ $slot }}
+
+        @auth
+            <livewire:feed-suggestions />
+        @endauth
 
         @persist('toast')
             <flux:toast.group>

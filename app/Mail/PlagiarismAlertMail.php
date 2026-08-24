@@ -36,7 +36,7 @@ class PlagiarismAlertMail extends Mailable implements ShouldQueue
                 'repoName' => $this->strike->repo_name,
                 'repoOwner' => $this->strike->repo_owner,
                 'offenderName' => $offender?->name,
-                'passportUrl' => $owner ? route('passport', $owner->handle()) : null,
+                'passportUrl' => $owner ? route('devid', $owner->handle()) : null,
             ],
         );
     }

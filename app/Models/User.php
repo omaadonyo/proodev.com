@@ -541,7 +541,7 @@ class User extends Authenticatable implements PasskeyUser, WirechatUser
 
     public function getWirechatProfileUrlAttribute(): ?string
     {
-        return route('passport', $this->handle());
+        return route('devid', $this->handle());
     }
 
     /**

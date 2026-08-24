@@ -7,14 +7,14 @@ use Livewire\Livewire;
 test('the admin news page requires an admin', function () {
     $user = User::factory()->create();
 
-    $this->actingAs($user)->get(route('admin.news'))->assertForbidden();
+    $this->actingAs($user)->get(route('admin.settings.news'))->assertForbidden();
 });
 
 test('admins can open the article form from the write button', function () {
     $admin = User::factory()->create(['is_admin' => true]);
 
     Livewire::actingAs($admin)
-        ->test('pages::admin.news')
+        ->test('pages::admin.settings.news')
         ->assertOk()
         ->assertSee('Write article')
         ->call('create')
@@ -26,7 +26,7 @@ test('admins can save an article and it publishes immediately by default', funct
     $admin = User::factory()->create(['is_admin' => true]);
 
     Livewire::actingAs($admin)
-        ->test('pages::admin.news')
+        ->test('pages::admin.settings.news')
         ->call('create')
         ->set('form.title', 'v2.0 of the Passport is here')
         ->set('form.body', 'A changelog entry.')
@@ -43,7 +43,7 @@ test('clearing the publish date keeps an article as a draft', function () {
     $admin = User::factory()->create(['is_admin' => true]);
 
     Livewire::actingAs($admin)
-        ->test('pages::admin.news')
+        ->test('pages::admin.settings.news')
         ->call('create')
         ->set('form.title', 'Draft for later')
         ->set('form.body', 'Not ready yet.')
@@ -60,7 +60,7 @@ test('the slug auto-fills from the title', function () {
     $admin = User::factory()->create(['is_admin' => true]);
 
     Livewire::actingAs($admin)
-        ->test('pages::admin.news')
+        ->test('pages::admin.settings.news')
         ->call('create')
         ->set('form.title', 'Launching Talent Pools')
         ->assertSet('form.slug', 'launching-talent-pools');
@@ -71,7 +71,7 @@ test('admins can edit an existing article', function () {
     $news = News::factory()->create(['title' => 'Old title']);
 
     Livewire::actingAs($admin)
-        ->test('pages::admin.news')
+        ->test('pages::admin.settings.news')
         ->call('edit', $news->id)
         ->assertSet('showForm', true)
         ->assertSet('editingId', $news->id)
@@ -88,7 +88,7 @@ test('admins can schedule an article', function () {
     $admin = User::factory()->create(['is_admin' => true]);
 
     Livewire::actingAs($admin)
-        ->test('pages::admin.news')
+        ->test('pages::admin.settings.news')
         ->call('create')
         ->set('form.title', 'Scheduled update')
         ->set('form.body', 'Coming soon.')
@@ -105,7 +105,7 @@ test('duplicate slugs are rejected', function () {
     News::factory()->create(['slug' => 'duplicate-slug']);
 
     Livewire::actingAs($admin)
-        ->test('pages::admin.news')
+        ->test('pages::admin.settings.news')
         ->call('create')
         ->set('form.title', 'Something')
         ->set('form.slug', 'duplicate-slug')
@@ -148,7 +148,7 @@ test('statuses render in the admin news table', function () {
     News::factory()->create(['title' => 'Draft', 'published_at' => null]);
 
     Livewire::actingAs($admin)
-        ->test('pages::admin.news')
+        ->test('pages::admin.settings.news')
         ->assertSee('Live now')
         ->assertSee('Published')
         ->assertSee('Upcoming')

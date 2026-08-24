@@ -48,7 +48,7 @@ new #[Title('New Journal Entry')] class extends Component {
             <x-searchable-select wire:model="form.visibility">
                 <option value="private">Private — only you</option>
                 <option value="team">Team — visible to vouches/colleagues</option>
-                <option value="public">Public — appears on your passport</option>
+                <option value="public">Public — appears on your DevID</option>
             </x-searchable-select>
             <flux:error name="form.visibility" />
         </flux:field>

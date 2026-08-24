@@ -33,7 +33,7 @@ class PlagiarismBanOverturnedMail extends Mailable implements ShouldQueue
                 'repoUrl' => $this->strike->repo_url,
                 'repoOwner' => $this->strike->repo_owner,
                 'repoName' => $this->strike->repo_name,
-                'passportUrl' => $offender ? route('passport', $offender->handle()) : null,
+                'passportUrl' => $offender ? route('devid', $offender->handle()) : null,
                 'supportEmail' => config('billing.seller.email', 'support@proodev.com'),
             ],
         );

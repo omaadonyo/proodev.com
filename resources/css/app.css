@@ -251,7 +251,16 @@ html.dark .page-landing a.inline-flex.text-white:not([class*="size-"]) {
 }
 
 @media (prefers-reduced-motion: reduce) {
-    .verify-promo {
+/* Progress bars: black fill in light mode, white in dark mode. */
+[data-flux-progress] {
+    --flux-progress-color: var(--color-zinc-900) !important;
+}
+
+.dark [data-flux-progress] {
+    --flux-progress-color: var(--color-white) !important;
+}
+
+.verify-promo {
         animation: none;
     }
 }

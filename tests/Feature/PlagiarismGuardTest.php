@@ -87,7 +87,7 @@ test('the passport form catches the guard and does not create the evidence', fun
     claimedEvidence($owner, 'rocket');
 
     Livewire::actingAs($offender)
-        ->test('pages::passport', ['user' => $offender])
+        ->test('pages::devid', ['user' => $offender])
         ->set('url', 'https://github.com/acme/rocket')
         ->call('addEvidence')
         ->assertOk();
@@ -194,7 +194,7 @@ test('a banned user shows a public plagiarism notice on their passport', functio
     ]);
 
     Livewire::actingAs($user)
-        ->test('pages::passport', ['user' => $user])
+        ->test('pages::devid', ['user' => $user])
         ->assertOk()
         ->assertSee('This account has been banned for plagiarism')
         ->assertSee('Banned');
@@ -258,7 +258,7 @@ test('an admin can overturn a ban and the public notice disappears', function ()
     Mail::assertQueued(PlagiarismBanOverturnedMail::class, fn (PlagiarismBanOverturnedMail $mail) => $mail->hasTo($offender->email));
 
     Livewire::actingAs($offender)
-        ->test('pages::passport', ['user' => $offender])
+        ->test('pages::devid', ['user' => $offender])
         ->assertOk()
         ->assertDontSee('This account has been banned for plagiarism');
 });
@@ -390,7 +390,7 @@ test('the passport nudges users to link GitHub when typing a repo URL without on
     $user = User::factory()->create(['public_passport' => true, 'github_url' => null]);
 
     Livewire::actingAs($user)
-        ->test('pages::passport', ['user' => $user])
+        ->test('pages::devid', ['user' => $user])
         ->set('url', 'https://github.com/acme/rocket')
         ->assertSee('Link your GitHub URL');
 });
@@ -399,7 +399,7 @@ test('no GitHub nudge when the user already linked a GitHub account', function (
     $user = User::factory()->create(['public_passport' => true, 'github_url' => 'https://github.com/johncodes']);
 
     Livewire::actingAs($user)
-        ->test('pages::passport', ['user' => $user])
+        ->test('pages::devid', ['user' => $user])
         ->set('url', 'https://github.com/johncodes/repo')
         ->assertDontSee('Link your GitHub URL');
 });
@@ -408,7 +408,7 @@ test('no GitHub nudge for non-repository URLs', function () {
     $user = User::factory()->create(['public_passport' => true, 'github_url' => null]);
 
     Livewire::actingAs($user)
-        ->test('pages::passport', ['user' => $user])
+        ->test('pages::devid', ['user' => $user])
         ->set('url', 'https://packagist.org/packages/laravel/framework')
         ->assertDontSee('Link your GitHub URL');
 });
@@ -419,7 +419,7 @@ test('the persistent link hint shows when repo evidence exists without a linked 
     claimedEvidence($user, 'rocket');
 
     Livewire::actingAs($user)
-        ->test('pages::passport', ['user' => $user])
+        ->test('pages::devid', ['user' => $user])
         ->assertSee('Link your GitHub account');
 });
 
@@ -429,7 +429,7 @@ test('the persistent link hint hides once a GitHub account is linked', function 
     claimedEvidence($user, 'rocket');
 
     Livewire::actingAs($user)
-        ->test('pages::passport', ['user' => $user])
+        ->test('pages::devid', ['user' => $user])
         ->assertDontSee('Link your GitHub account');
 });
 
@@ -448,7 +448,7 @@ test('a warning-only user shows no ban notice on their passport', function () {
     ]);
 
     Livewire::actingAs($user)
-        ->test('pages::passport', ['user' => $user])
+        ->test('pages::devid', ['user' => $user])
         ->assertOk()
         ->assertDontSee('This account has been banned for plagiarism');
 });

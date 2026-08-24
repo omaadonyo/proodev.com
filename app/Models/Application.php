@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Enums\ApplicationStatus;
+use App\Enums\HiringStage;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -50,5 +51,30 @@ class Application extends Model
     public function user(): BelongsTo
     {
         return $this->belongsTo(User::class);
+    }
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany<ApplicationEvent, $this>
+     */
+    public function events(): \Illuminate\Database\Eloquent\Relations\HasMany
+    {
+        return $this->hasMany(ApplicationEvent::class)->orderBy('created_at')->orderBy('id');
+    }
+
+    /**
+     * Candidate-visible timeline events, oldest first.
+     *
+     * @return \Illuminate\Database\Eloquent\Collection<int, ApplicationEvent>
+     */
+    public function timeline()
+    {
+        return $this->events()->where('candidate_visible', true)->get();
+    }
+
+    public function latestStage(): ?HiringStage
+    {
+        $event = $this->events()->where('candidate_visible', true)->latest('created_at')->latest('id')->first();
+
+        return $event !== null ? $event->stage() : null;
     }
 }

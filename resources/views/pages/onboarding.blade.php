@@ -1,5 +1,6 @@
 <?php
 
+use App\Jobs\ImportScoutedReposJob;
 use App\Models\Skill;
 use App\Models\User;
 use App\Services\EngineeringMagnitudeService;
@@ -48,6 +49,8 @@ class extends Component
     public int $xp = 0;
 
     public ?array $summary = null;
+
+    public int $queued = 0;
 
     // The live passport being built on the right side of the screen.
     public array $passport = [
@@ -214,6 +217,7 @@ class extends Component
         $this->phase = 'scouting';
         $this->stage = 0;
         $this->step = 0;
+        $this->queued = 0;
         // The finalize step is appended at the end of the plan once the repo
         // scan reveals how much work needs importing.
         $this->plan = [
@@ -307,17 +311,46 @@ class extends Component
         if (($this->scan['failed'] ?? false) || $repos === []) {
             $this->log[] = $this->term('warn', 'No public repositories found — continuing with your profile.');
         } else {
-            $names = collect($repos)->pluck('name')->take(6)->implode(' · ');
             $this->log[] = $this->term('ok', 'Scanned '.count($repos).' public repositories', '+'.count($repos).' repos');
-            $this->log[] = $this->term('dim', '→ '.$names.(count($repos) > 6 ? ' …' : ''));
+
+            foreach (collect($repos)->pluck('name')->chunk(3) as $chunk) {
+                $this->log[] = $this->term('dim', '→ '.$chunk->implode(' · '));
+            }
         }
 
         $evidenceRepos = $import->evidenceRepos($repos);
         $projectRepos = $import->projectRepos($repos);
         $journalRepos = $import->journalRepos($repos);
 
-        $evidenceChunks = array_chunk($evidenceRepos, 3);
-        $journalChunks = array_chunk($journalRepos, 2);
+        // Import a first batch inline; everything else is queued so very
+        // large accounts are fully captured without blocking the scan.
+        $inlineEvidence = array_slice($evidenceRepos, 0, OnboardingImportService::INLINE_EVIDENCE);
+        $inlineProjects = array_slice($projectRepos, 0, OnboardingImportService::INLINE_PROJECTS);
+        $inlineJournal = array_slice($journalRepos, 0, OnboardingImportService::INLINE_JOURNAL);
+
+        $queuedEvidence = array_slice($evidenceRepos, OnboardingImportService::INLINE_EVIDENCE);
+        $queuedProjects = array_slice($projectRepos, OnboardingImportService::INLINE_PROJECTS);
+        $queuedJournal = array_slice($journalRepos, OnboardingImportService::INLINE_JOURNAL);
+
+        $this->queued = count($queuedEvidence) + count($queuedProjects) + count($queuedJournal);
+
+        if ($this->queued > 0) {
+            ImportScoutedReposJob::dispatch(
+                auth()->id(),
+                $queuedEvidence,
+                $queuedProjects,
+                $queuedJournal,
+                'onboarding',
+            );
+
+            $this->log[] = $this->term(
+                'info',
+                'Queued '.number_format($this->queued).' item'.($this->queued === 1 ? '' : 's').' for background scanning — they will appear on your DevID shortly.',
+            );
+        }
+
+        $evidenceChunks = array_chunk($inlineEvidence, 3);
+        $journalChunks = array_chunk($inlineJournal, 2);
 
         $plan = [];
 
@@ -325,8 +358,8 @@ class extends Component
             $plan[] = ['kind' => 'evidence', 'repos' => $chunk, 'label' => 'Evidence', 'index' => $i + 1, 'total' => count($evidenceChunks)];
         }
 
-        foreach ($projectRepos as $i => $repo) {
-            $plan[] = ['kind' => 'project', 'repo' => $repo, 'label' => 'Projects', 'index' => $i + 1, 'total' => count($projectRepos)];
+        foreach ($inlineProjects as $i => $repo) {
+            $plan[] = ['kind' => 'project', 'repo' => $repo, 'label' => 'Projects', 'index' => $i + 1, 'total' => count($inlineProjects)];
         }
 
         foreach ($journalChunks as $i => $chunk) {
@@ -348,14 +381,19 @@ class extends Component
         $titles = [];
 
         foreach ($step['repos'] as $repo) {
-            $evidence = $import->createEvidence($user, $repo, 'onboarding');
+            try {
+                $evidence = $import->createEvidence($user, $repo, 'onboarding');
+            } catch (\Throwable) {
+                continue;
+            }
+
             $titles[] = $evidence->title;
             $this->xp += OnboardingImportService::XP_EVIDENCE_SCANNED;
         }
 
         $this->passport['stats']['evidence'] += count($titles);
         $this->passport['evidence'] = array_values(array_unique(array_merge($titles, $this->passport['evidence'])));
-        $this->refreshPassportSkills($user);
+        $this->refreshDevIDSkills($user);
         $this->passport['factors'] = $this->passportFactors();
 
         $this->log[] = $this->term(
@@ -378,7 +416,11 @@ class extends Component
         $import = app(OnboardingImportService::class);
         $user = auth()->user();
 
-        $project = $import->createProject($user, $step['repo']);
+        try {
+            $project = $import->createProject($user, $step['repo']);
+        } catch (\Throwable) {
+            $project = null;
+        }
 
         if (! $project) {
             return;
@@ -405,7 +447,12 @@ class extends Component
         $titles = [];
 
         foreach ($step['repos'] as $repo) {
-            $entry = $import->createJournalEntry($user, $repo);
+            try {
+                $entry = $import->createJournalEntry($user, $repo);
+            } catch (\Throwable) {
+                continue;
+            }
+
             $titles[] = $entry->title;
             $this->xp += OnboardingImportService::XP_JOURNAL_ENTRY;
         }
@@ -433,7 +480,12 @@ class extends Component
     {
         $user = auth()->user();
 
-        $bio = app(ProfileBioService::class)->generate($this->result ?? []);
+        try {
+            $bio = app(ProfileBioService::class)->generate($this->result ?? []);
+        } catch (\Throwable) {
+            $bio = '';
+        }
+
         $this->persist($bio);
 
         $import = app(OnboardingImportService::class);
@@ -454,11 +506,22 @@ class extends Component
             'evidence' => $this->passport['stats']['evidence'],
             'projects' => $this->passport['stats']['projects'],
             'journal' => $this->passport['stats']['journal'],
+            'queued' => $this->queued,
             'stars' => (int) ($this->result['total_stars'] ?? 0),
             'followers' => (int) ($this->result['followers'] ?? 0),
             'languages' => array_slice($this->result['languages'] ?? [], 0, 5),
             'xp' => $fresh->experience_points,
         ];
+
+        $this->log[] = $this->term(
+            'ok',
+            'Scanned '.number_format($this->summary['repos']).' repositor'.((int) $this->summary['repos'] === 1 ? 'y' : 'ies')
+                .' · '.$this->summary['evidence'].' evidence · '.$this->summary['projects'].' projects · '.$this->summary['journal'].' journal',
+        );
+
+        if ($this->queued > 0) {
+            $this->log[] = $this->term('info', number_format($this->queued).' item'.($this->queued === 1 ? '' : 's').' importing in the background — your DevID keeps updating.');
+        }
 
         $this->log[] = $this->term(
             'ok',
@@ -538,8 +601,17 @@ class extends Component
                 'name' => $result['name'] ?? $user->name,
                 'headline' => $result['headline'] ?: $user->headline,
                 'location' => $result['location'] ?: $user->location,
-                'bio' => $bio,
+                'bio' => $bio ?: $user->bio,
             ];
+
+            // Fill remaining profile fields from the scanned evidence.
+            if (! empty($result['blog'])) {
+                $attributes['website_url'] = str_starts_with($result['blog'], 'http') ? $result['blog'] : 'https://'.$result['blog'];
+            }
+
+            if (empty($user->avatar_path) && ! empty($result['avatar_url'])) {
+                app(\App\Services\AvatarImportService::class)->import($user, $result['avatar_url']);
+            }
 
             $user->update($attributes);
 
@@ -564,7 +636,7 @@ class extends Component
         $user->completeOnboarding();
     }
 
-    private function refreshPassportSkills(User $user): void
+    private function refreshDevIDSkills(User $user): void
     {
         $names = $user->fresh()->skills()->orderByPivot('level', 'desc')->pluck('name')->all();
 
@@ -634,7 +706,7 @@ class extends Component
                 <flux:icon name="sparkles" variant="micro" />
                 Profile scout
             </div>
-            <flux:heading size="xl">Let's build your passport.</flux:heading>
+            <flux:heading size="xl">Let's build your DevID.</flux:heading>
             <flux:text class="mt-2">
                 Paste your GitHub profile URL and we'll scan every public repository — building your evidence library, projects, journal, level and engineering magnitude live, straight from your repo history.
             </flux:text>
@@ -683,8 +755,8 @@ class extends Component
     @elseif ($phase === 'scouting')
         <div wire:poll.500ms="tick" class="grid gap-5 lg:grid-cols-[minmax(0,1fr)_320px]">
             {{-- Terminal --}}
-            <div class="overflow-hidden rounded-2xl border border-zinc-800 bg-zinc-950 shadow-xl">
-                <div class="flex items-center gap-1.5 border-b border-zinc-800/80 px-4 py-2.5">
+            <div class="flex h-full max-h-[640px] flex-col overflow-hidden rounded-2xl border border-zinc-800 bg-zinc-950 shadow-xl">
+                <div class="flex shrink-0 items-center gap-1.5 border-b border-zinc-800/80 px-4 py-2.5">
                     <span class="size-2.5 rounded-full bg-rose-500/80"></span>
                     <span class="size-2.5 rounded-full bg-amber-500/80"></span>
                     <span class="size-2.5 rounded-full bg-emerald-500/80"></span>
@@ -692,7 +764,7 @@ class extends Component
                     <span class="ms-auto font-mono text-xs tabular-nums text-zinc-600">{{ $this->progress }}%</span>
                 </div>
 
-                <div class="max-h-[560px] overflow-y-auto p-4 font-mono text-[13px] leading-6">
+                <div class="min-h-0 flex-1 overflow-y-auto p-4 font-mono text-[13px] leading-6">
                     {{-- Section checklist --}}
                     <div class="mb-3 grid gap-1 border-b border-zinc-800/60 pb-3">
                         @foreach ([
@@ -755,11 +827,11 @@ class extends Component
             </div>
 
             {{-- Live passport build --}}
-            <div class="overflow-hidden rounded-2xl border border-zinc-200 bg-white shadow-lg dark:border-white/10 dark:bg-zinc-950/80">
-                <div class="flex items-center justify-between border-b border-zinc-200 px-4 py-3 dark:border-white/10">
+            <div class="flex h-full max-h-[640px] flex-col overflow-hidden rounded-2xl border border-zinc-200 bg-white shadow-lg dark:border-white/10 dark:bg-zinc-950/80">
+                <div class="flex shrink-0 items-center justify-between border-b border-zinc-200 px-4 py-3 dark:border-white/10">
                     <span class="inline-flex items-center gap-1.5 text-xs font-semibold text-zinc-700 dark:text-zinc-300">
                         <flux:icon name="check-badge" variant="micro" class="text-emerald-500" />
-                        Passport build
+                        DevID build
                     </span>
                     <span class="inline-flex items-center gap-1.5 rounded-full bg-emerald-400/10 px-2.5 py-1 text-xs font-semibold text-emerald-600 dark:text-emerald-400">
                         <span class="size-1.5 animate-pulse rounded-full bg-emerald-500"></span>
@@ -767,7 +839,7 @@ class extends Component
                     </span>
                 </div>
 
-                <div class="grid gap-4 p-4">
+                <div class="grid min-h-0 flex-1 gap-4 overflow-y-auto p-4">
                     {{-- Profile --}}
                     <div class="flex items-center gap-3">
                         <div class="relative shrink-0">
@@ -811,7 +883,7 @@ class extends Component
                             <span class="tabular-nums text-zinc-500">Lv {{ $this->levelSnapshot['current'] }} · {{ number_format($this->xp) }} XP</span>
                         </div>
                         <div class="mt-2 h-1.5 overflow-hidden rounded-full bg-zinc-100 dark:bg-zinc-900">
-                            <div class="h-full rounded-full bg-accent transition-all duration-500" style="width: {{ $this->levelSnapshot['progress'] }}%"></div>
+                            <div class="h-full rounded-full bg-zinc-900 transition-all duration-500 dark:bg-white" style="width: {{ $this->levelSnapshot['progress'] }}%"></div>
                         </div>
                         <div class="mt-1 text-[10px] text-zinc-500">{{ $this->levelSnapshot['xp_to_next'] }} XP to {{ $this->levelSnapshot['next_title'] }}</div>
                     </div>
@@ -821,7 +893,7 @@ class extends Component
                         <div>
                             <div class="mb-1.5 text-[10px] font-semibold uppercase tracking-widest text-zinc-500">Capabilities</div>
                             <div class="flex flex-wrap gap-1.5">
-                                @foreach (array_slice($this->passport['skills'], 0, 6) as $skill)
+                                @foreach ($this->passport['skills'] as $skill)
                                     <span class="rounded-md bg-zinc-100 px-2 py-1 text-[11px] text-zinc-700 ring-1 ring-zinc-200 dark:bg-zinc-800/80 dark:text-zinc-200 dark:ring-white/10">{{ $skill }}</span>
                                 @endforeach
                             </div>
@@ -835,30 +907,30 @@ class extends Component
                             <div class="mt-1.5 flex items-center gap-2">
                                 <div class="w-28 shrink-0 truncate text-[11px] text-zinc-500">{{ $factor['label'] }}</div>
                                 <div class="h-1.5 flex-1 overflow-hidden rounded-full bg-zinc-100 dark:bg-zinc-900">
-                                    <div class="h-full rounded-full bg-gradient-to-r from-violet-500 to-cyan-400 transition-all duration-500" style="width: {{ ($factor['points'] / max(1, $factor['max'])) * 100 }}%"></div>
+                                    <div class="h-full rounded-full bg-zinc-900 dark:bg-white transition-all duration-500" style="width: {{ ($factor['points'] / max(1, $factor['max'])) * 100 }}%"></div>
                                 </div>
                                 <div class="w-10 shrink-0 text-right text-[10px] tabular-nums text-zinc-500">{{ $factor['points'] }}</div>
                             </div>
                         @endforeach
                     </div>
 
-                    {{-- Recent items --}}
+                    {{-- All scouted records --}}
                     <div class="grid gap-2">
-                        @foreach (array_slice($this->passport['evidence'], 0, 3) as $item)
+                        @foreach ($this->passport['evidence'] as $item)
                             <div class="flex items-center gap-2 rounded-md bg-zinc-50 px-2 py-1.5 text-xs dark:bg-zinc-900/70">
                                 <flux:icon name="folder-git-2" variant="micro" class="shrink-0 text-zinc-400" />
                                 <span class="min-w-0 flex-1 truncate text-zinc-700 dark:text-zinc-300">{{ $item }}</span>
                                 <span class="shrink-0 text-emerald-500">queued</span>
                             </div>
                         @endforeach
-                        @foreach (array_slice($this->passport['projects'], 0, 2) as $item)
+                        @foreach ($this->passport['projects'] as $item)
                             <div class="flex items-center gap-2 rounded-md bg-zinc-50 px-2 py-1.5 text-xs dark:bg-zinc-900/70">
                                 <flux:icon name="folder" variant="micro" class="shrink-0 text-accent" />
                                 <span class="min-w-0 flex-1 truncate text-zinc-700 dark:text-zinc-300">{{ $item }}</span>
                                 <span class="shrink-0 text-emerald-500">published</span>
                             </div>
                         @endforeach
-                        @foreach (array_slice($this->passport['journal'], 0, 2) as $item)
+                        @foreach ($this->passport['journal'] as $item)
                             <div class="flex items-center gap-2 rounded-md bg-zinc-50 px-2 py-1.5 text-xs dark:bg-zinc-900/70">
                                 <flux:icon name="book-open" variant="micro" class="shrink-0 text-amber-500" />
                                 <span class="min-w-0 flex-1 truncate text-zinc-700 dark:text-zinc-300">{{ $item }}</span>
@@ -873,7 +945,7 @@ class extends Component
         <div class="p-8">
             <div class="mb-4 inline-flex items-center gap-1.5 rounded-full bg-emerald-500/10 px-3 py-1 text-xs font-semibold text-emerald-600 dark:text-emerald-400">
                 <flux:icon name="check" variant="micro" />
-                Passport ready
+                DevID ready
             </div>
 
             <div class="flex items-center gap-4">
@@ -978,7 +1050,7 @@ class extends Component
                 </flux:button>
                 <flux:text>
                     View your
-                    <a href="{{ route('passport', auth()->user()->handle()) }}" wire:navigate class="text-accent hover:underline">public passport</a>.
+                    <a href="{{ route('devid', auth()->user()->handle()) }}" wire:navigate class="text-accent hover:underline">public DevID</a>.
                 </flux:text>
             </div>
         </div>

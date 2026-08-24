@@ -72,24 +72,24 @@ $landing = function (): array {
             ->all(),
         'features' => [
             ['key' => 'feed', 'icon' => 'bolt', 'title' => 'Live Feed', 'description' => 'A real-time stream of evidence being added, analyzed, and verified across the community.', 'href' => route('home')],
-            ['key' => 'evidence', 'icon' => 'document-text', 'title' => 'Evidence Library', 'description' => 'Paste any repo, article, or project URL. AI fetches the source, drafts an engineering report, and scores it - evidence, not claims.', 'href' => route('passport', auth()->user()?->handle() ?? 'user-1')],
+            ['key' => 'evidence', 'icon' => 'document-text', 'title' => 'Evidence Library', 'description' => 'Paste any repo, article, or project URL. AI fetches the source, drafts an engineering report, and scores it - evidence, not claims.', 'href' => route('devid', auth()->user()?->handle() ?? 'user-1')],
             ['key' => 'projects', 'icon' => 'folder', 'title' => 'Projects', 'description' => 'Publish projects with problem framing, solution docs, and a public portfolio that backs your identity.', 'href' => route('projects.index')],
             ['key' => 'journal', 'icon' => 'book-open', 'title' => 'Engineering Journal', 'description' => "Capture what you learned, the decisions you made, and the mistakes you won't repeat - as evidence.", 'href' => route('journal.index')],
-            ['key' => 'reputation', 'icon' => 'shield-check', 'title' => 'Magnitude & Passport', 'description' => 'An explainable Engineering Magnitude score from 0-1000 and a public passport that proves your work.', 'href' => route('passport', auth()->user()?->handle() ?? 'user-1')],
+            ['key' => 'reputation', 'icon' => 'shield-check', 'title' => 'Magnitude & DevID', 'description' => 'An explainable Engineering Magnitude score from 0-1000 and a public DevID that proves your work.', 'href' => route('devid', auth()->user()?->handle() ?? 'user-1')],
         ],
         'steps' => [
-            ['number' => '01', 'title' => 'Add evidence', 'description' => 'Paste a GitHub repo, article, or project URL. No self-reported claims - just real work you can point to.', 'href' => route('passport', auth()->user()?->handle() ?? 'user-1')],
-            ['number' => '02', 'title' => 'AI analyzes it', 'description' => 'ProoDev fetches the source, drafts an engineering report, maps your skills, and scores the evidence.', 'href' => route('passport', auth()->user()?->handle() ?? 'user-1')],
-            ['number' => '03', 'title' => 'Build your magnitude', 'description' => 'Evidence flows into an explainable Engineering Magnitude score from 0-1000, factor by factor.', 'href' => route('passport', auth()->user()?->handle() ?? 'user-1')],
-            ['number' => '04', 'title' => 'Prove it publicly', 'description' => 'A shareable passport backed by verified evidence, community vouches, and real shipped work.', 'href' => route('home')],
+            ['number' => '01', 'title' => 'Add evidence', 'description' => 'Paste a GitHub repo, article, or project URL. No self-reported claims - just real work you can point to.', 'href' => route('devid', auth()->user()?->handle() ?? 'user-1')],
+            ['number' => '02', 'title' => 'AI analyzes it', 'description' => 'ProoDev fetches the source, drafts an engineering report, maps your skills, and scores the evidence.', 'href' => route('devid', auth()->user()?->handle() ?? 'user-1')],
+            ['number' => '03', 'title' => 'Build your magnitude', 'description' => 'Evidence flows into an explainable Engineering Magnitude score from 0-1000, factor by factor.', 'href' => route('devid', auth()->user()?->handle() ?? 'user-1')],
+            ['number' => '04', 'title' => 'Prove it publicly', 'description' => 'A shareable DevID backed by verified evidence, community vouches, and real shipped work.', 'href' => route('home')],
         ],
         'faqs' => [
-            ['question' => 'Is ProoDev really free to use?', 'answer' => 'Yes. Adding evidence, running AI analysis, building your Engineering Magnitude, and sharing your public passport are all free. Your evidence and identity are yours to keep.'],
+            ['question' => 'Is ProoDev really free to use?', 'answer' => 'Yes. Adding evidence, running AI analysis, building your Engineering Magnitude, and sharing your public DevID are all free. Your evidence and identity are yours to keep.'],
             ['question' => 'What is Engineering Magnitude?', 'answer' => 'Engineering Magnitude is an explainable 0-1000 score computed from your evidence across eight factors - evidence quality, technical depth, knowledge sharing, breadth, consistency, community trust, verification, and open-source contribution. Every point is tied to real evidence.'],
             ['question' => 'How is this different from a resume or self-reported profile?', 'answer' => 'ProoDev is evidence-first. Instead of listing claims, you connect the work that backs them - repositories, articles, shipped projects - and AI reads and analyzes that material directly. Claims have to point to proof.'],
-            ['question' => 'Can I keep my work private?', 'answer' => 'Absolutely. Every piece of evidence, project, and journal entry can be public or private. You control what appears on your passport, and only public evidence powers your discoverability.'],
+            ['question' => 'Can I keep my work private?', 'answer' => 'Absolutely. Every piece of evidence, project, and journal entry can be public or private. You control what appears on your DevID, and only public evidence powers your discoverability.'],
             ['question' => 'What kinds of evidence can I add?', 'answer' => 'GitHub, GitLab, and Bitbucket repositories, npm/Packagist packages, articles, talks, videos, and general project URLs. ProoDev classifies the source, fetches it, and drafts an engineering report with AI.'],
-            ['question' => 'Who can see my passport?', 'answer' => 'Passports are public by default so the community can find collaborators and verify your work, but you can switch to private anytime. You choose exactly what to show - evidence, projects, skills, and vouches.'],
+            ['question' => 'Who can see my DevID?', 'answer' => 'DevIDs are public by default so the community can find collaborators and verify your work, but you can switch to private anytime. You choose exactly what to show - evidence, projects, skills, and vouches.'],
         ],
     ];
 };
@@ -155,6 +155,8 @@ Route::get('/sitemap.xml', function () {
         ['loc' => route('for-companies'), 'changefreq' => 'weekly', 'priority' => '0.8'],
         ['loc' => route('pricing'), 'changefreq' => 'monthly', 'priority' => '0.6'],
         ['loc' => route('news.index'), 'changefreq' => 'daily', 'priority' => '0.8'],
+        ['loc' => route('about'), 'changefreq' => 'monthly', 'priority' => '0.6'],
+        ['loc' => route('verified'), 'changefreq' => 'daily', 'priority' => '0.7'],
         ['loc' => route('companies.index'), 'changefreq' => 'daily', 'priority' => '0.6'],
         ['loc' => route('jobs.index'), 'changefreq' => 'daily', 'priority' => '0.6'],
         ['loc' => route('privacy'), 'changefreq' => 'monthly', 'priority' => '0.3'],
@@ -184,12 +186,15 @@ Route::get('/sitemap.xml', function () {
         ->header('Content-Type', 'application/xml');
 })->name('sitemap');
 
-Route::get('/developers', function () {
-    return view('landing-page', [
-        'engineers' => User::visibleToPublic()->where('reputation_score', '>', 0)->orderByDesc('reputation_score')->limit(8)->get(),
+Route::get('/for-developers', function () {
+    return view('for-developers', [
         'engineersCount' => number_format(User::visibleToPublic()->count()),
+        'openJobsCount' => number_format(Job::open()->count()),
     ]);
 })->name('developers');
+
+// Legacy URL — kept working, redirects to the canonical developer page.
+Route::redirect('/developers', '/for-developers', 301);
 
 Route::get('/auth/{provider}/redirect', [SocialiteController::class, 'redirect'])
     ->where('provider', implode('|', SocialiteController::PROVIDERS))
@@ -199,10 +204,13 @@ Route::get('/auth/{provider}/callback', [SocialiteController::class, 'callback']
     ->where('provider', implode('|', SocialiteController::PROVIDERS))
     ->name('login.social.callback');
 
-Route::livewire('/passport/{user:username}', 'pages::passport')->name('passport');
+Route::livewire('/devid/{user:username}', 'pages::devid')->name('devid');
+
+// Legacy passport URL — kept working, redirects to the canonical DevID page.
+Route::redirect('/passport/{user:username}', '/devid/{user:username}', 301)->name('passport');
 
 // Short shareable link for verified developers — resolves via short_domain,
-// then falls back to username, and lands on the passport page.
+// then falls back to username, and lands on the DevID page.
 Route::get('/p/{slug}', function (string $slug) {
     $user = User::where('short_domain', $slug)->first()
         ?? User::where('username', $slug)->first();
@@ -211,7 +219,7 @@ Route::get('/p/{slug}', function (string $slug) {
         throw (new ModelNotFoundException)->setModel(User::class, [$slug]);
     }
 
-    return redirect()->route('passport', $user->handle());
+    return redirect()->route('devid', $user->handle());
 })->name('passport.short');
 
 Route::bind('user', function (string $value) {
@@ -254,6 +262,9 @@ Route::livewire('/jobs/{company:slug}/{job:slug}', 'pages::jobs.show')->name('jo
 Route::livewire('/news', 'pages::news.index')->name('news.index');
 Route::livewire('/news/{article:slug}', 'pages::news.show')->name('news.show');
 
+Route::livewire('/about', 'pages::about')->name('about');
+Route::livewire('/verified', 'pages::verified')->name('verified');
+
 Route::livewire('/onboarding', 'pages::onboarding')
     ->middleware('auth')
     ->name('onboarding');
@@ -262,8 +273,8 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::livewire('/home', 'pages::feed')->name('home');
     Route::livewire('/dashboard', 'pages::feed')->name('dashboard');
 
-    Route::get('/reputation', fn () => redirect()->route('passport', auth()->user()->handle()))->name('reputation');
-    Route::get('/growth', fn () => redirect()->route('passport', auth()->user()->handle()))->name('growth');
+    Route::get('/reputation', fn () => redirect()->route('devid', auth()->user()->handle()))->name('reputation');
+    Route::get('/growth', fn () => redirect()->route('devid', auth()->user()->handle()))->name('growth');
 
     Route::livewire('/projects', 'pages::projects.index')->name('projects.index');
     Route::livewire('/projects/create', 'pages::projects.create')->name('projects.create');
@@ -343,8 +354,11 @@ Route::middleware(['auth', 'verified'])->group(function () {
         Route::livewire('/ai', 'pages::admin.ai')->name('ai');
         Route::livewire('/ads', 'pages::admin.ads')->name('ads');
         Route::livewire('/sponsors', 'pages::admin.sponsors')->name('sponsors');
-        Route::livewire('/news', 'pages::admin.news')->name('news');
-        Route::livewire('/system', 'pages::admin.system')->name('system');
+        Route::livewire('/settings/news', 'pages::admin.settings.news')->name('settings.news');        Route::livewire('/settings/seo', 'pages::admin.settings.seo')->name('settings.seo');
+        Route::livewire('/settings/backups', 'pages::admin.settings.backups')->name('settings.backups');
+        Route::livewire('/settings/system', 'pages::admin.settings.system')->name('settings.system');
+        Route::livewire('/feature-requests', 'pages::admin.feature-requests')->name('feature-requests');
+        Route::redirect('/settings', '/admin/settings/seo')->name('settings');
         Route::livewire('/', 'pages::admin.index')->name('index');
     });
 });

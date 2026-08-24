@@ -1,9 +1,11 @@
 <?php
 
+use App\Enums\HiringStage;
 use App\Enums\JobStatus;
 use App\Models\Application;
 use App\Models\Company;
 use App\Models\Job;
+use App\Services\HiringTransparencyService;
 use App\Services\NotificationService;
 use Flux\Flux;
 use Livewire\Attributes\Computed;
@@ -45,6 +47,12 @@ new #[Title('Apply')] class extends Component {
             'resume_path' => $resumePath,
         ]);
 
+        app(HiringTransparencyService::class)->recordStage(
+            $application,
+            HiringStage::ApplicationReceived,
+            actor: null,
+        );
+
         app(NotificationService::class)->jobApplicationSubmitted($application);
 
         Flux::toast(variant: 'success', text: 'Application submitted.');
@@ -60,7 +68,7 @@ new #[Title('Apply')] class extends Component {
     #[Computed]
     public function passportUrl(): string
     {
-        return route('passport', auth()->user()->handle());
+        return route('devid', auth()->user()->handle());
     }
 
 }
@@ -70,7 +78,7 @@ new #[Title('Apply')] class extends Component {
     <div class="grid gap-6">
         <div>
             <flux:heading size="xl">Apply to {{ $job->title }}</flux:heading>
-            <flux:text>{{ $company->name }} · your passport travels with the application as proof.</flux:text>
+            <flux:text>{{ $company->name }} · your DevID travels with the application as proof.</flux:text>
         </div>
 
         <div class="rounded-xl border border-zinc-200 bg-white p-5 dark:border-zinc-700 dark:bg-zinc-800">
@@ -79,7 +87,7 @@ new #[Title('Apply')] class extends Component {
                 <div>
                     <div class="text-sm font-semibold">{{ auth()->user()->name }}</div>
                     <a href="{{ $this->passportUrl }}" wire:navigate class="text-xs text-accent hover:underline">
-                        {{ auth()->user()->handle() }} · public passport
+                        {{ auth()->user()->handle() }} · public DevID
                         @if (auth()->user()->isVerified())
                             <flux:badge size="sm" color="emerald" inset="top bottom">Verified</flux:badge>
                         @endif
@@ -97,7 +105,7 @@ new #[Title('Apply')] class extends Component {
                     <div>
                         <div class="text-sm font-semibold">How would you like to be reviewed?</div>
                         <p class="mt-1 text-sm text-zinc-600 dark:text-zinc-300">
-                            Submit with your evidence-backed passport, attach a PDF resume, or both — {{ $company->name }} will receive whatever you provide.
+                            Submit with your evidence-backed DevID, attach a PDF resume, or both — {{ $company->name }} will receive whatever you provide.
                         </p>
                     </div>
 
@@ -105,7 +113,7 @@ new #[Title('Apply')] class extends Component {
                         <div class="rounded-lg border border-accent/30 bg-accent/5 p-3">
                             <div class="flex items-center gap-2 text-sm font-medium text-accent">
                                 <flux:icon name="check-badge" variant="micro" />
-                                Passport
+                                DevID
                             </div>
                             <p class="mt-1 text-xs text-zinc-500">Your evidence, projects, vouches and magnitude — always included.</p>
                         </div>
@@ -141,7 +149,7 @@ new #[Title('Apply')] class extends Component {
             <div class="space-y-6">
                 <div>
                     <flux:heading size="lg">Apply to {{ $job->title }}</flux:heading>
-                    <flux:text>Your passport will be sent to {{ $company->name }}. Ready to apply?</flux:text>
+                    <flux:text>Your DevID will be sent to {{ $company->name }}. Ready to apply?</flux:text>
                 </div>
 
                 <div class="flex justify-end gap-3">

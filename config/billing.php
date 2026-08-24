@@ -50,7 +50,8 @@ return [
 
     'developer' => [
         'verification' => [
-            'price' => 8,
+            'price' => 17,
+            'monthly_price' => 8,
             'short_domain' => env('SHORT_DOMAIN', 'proo.dev'),
         ],
         'credits' => [

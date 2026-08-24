@@ -11,7 +11,7 @@ test('guests can open a verified developer short link', function () {
     ]);
 
     $this->get(route('passport.short', 'jane-doe'))
-        ->assertRedirect(route('passport', $user->handle()))
+        ->assertRedirect(route('devid', $user->handle()))
         ->assertSessionHasNoErrors();
 
     $this->get(route('passport.short', 'jane-doe'))
@@ -31,7 +31,7 @@ test('the short link works with a custom short_domain', function () {
     ]);
 
     $this->get(route('passport.short', 'sam-codes'))
-        ->assertRedirect(route('passport', $user->handle()));
+        ->assertRedirect(route('devid', $user->handle()));
 
     $this->followingRedirects()
         ->get(route('passport.short', 'sam-codes'))
@@ -52,7 +52,7 @@ test('the short link resolves the right user', function () {
     ]);
 
     $this->get(route('passport.short', 'sam-codes'))
-        ->assertRedirect(route('passport', $other->handle()));
+        ->assertRedirect(route('devid', $other->handle()));
 
     $this->followingRedirects()
         ->get(route('passport.short', 'sam-codes'))
@@ -65,7 +65,7 @@ test('the short link falls back to a username when no short_domain is set', func
     $user = User::factory()->create(['username' => 'legacy-dev']);
 
     $this->get(route('passport.short', 'legacy-dev'))
-        ->assertRedirect(route('passport', $user->handle()));
+        ->assertRedirect(route('devid', $user->handle()));
 });
 
 test('shortLink returns the short url for verified users', function () {
@@ -168,7 +168,7 @@ test('the profile page shows the short link section for verified users only', fu
     Livewire::actingAs($verified)
         ->test('pages::settings.profile')
         ->assertOk()
-        ->assertSee('Short passport link')
+        ->assertSee('Short DevID link')
         ->assertSee('/p/jane-doe');
 
     $plain = User::factory()->create();
@@ -176,5 +176,5 @@ test('the profile page shows the short link section for verified users only', fu
     Livewire::actingAs($plain)
         ->test('pages::settings.profile')
         ->assertOk()
-        ->assertDontSee('Short passport link');
+        ->assertDontSee('Short DevID link');
 });

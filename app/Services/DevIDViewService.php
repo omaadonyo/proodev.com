@@ -6,7 +6,7 @@ use App\Models\PassportView;
 use App\Models\User;
 use Illuminate\Support\Collection;
 
-class PassportViewService
+class DevIDViewService
 {
     /**
      * Record a passport view, deduped so the same viewer (or guest IP) only

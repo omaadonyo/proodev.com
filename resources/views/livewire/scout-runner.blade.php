@@ -25,25 +25,38 @@
                 Profiles scan every public repository — repos, projects, journal and magnitude build live as evidence is found.
             </p>
             @if (! auth()->user()->github_url)
-                <div class="mt-3 rounded-lg border border-amber-300/40 bg-amber-50 p-3 text-left text-xs text-amber-800 dark:border-amber-400/20 dark:bg-amber-400/10 dark:text-amber-200">
-                    <div class="flex items-start gap-2">
-                        <flux:icon name="exclamation-triangle" variant="micro" class="mt-0.5 shrink-0" />
-                        <div>
-                            <div class="text-[11px] font-semibold">Claiming work that isn't yours is treated as plagiarism</div>
-                            <p class="mt-1 text-[11px] leading-relaxed">
-                                You haven't linked a GitHub account, so ownership can't be verified. If you scout a repository that another ProoDev user already claimed — or one you can't show as your own — it will be flagged and removed.
-                                <a href="{{ route('profile.edit') }}" wire:navigate class="font-semibold text-amber-900 underline underline-offset-2 hover:no-underline dark:text-amber-100">Link your GitHub in settings</a> to verify yourself.
-                            </p>
-                        </div>
+                <div
+                    x-data="{ dismissed: localStorage.getItem('plagiarism-notice-dismissed') === '1' }"
+                    x-show="!dismissed"
+                    x-cloak
+                    class="relative mt-3 rounded-lg border border-amber-300/40 bg-amber-50 p-3 text-left text-xs text-amber-800 dark:border-amber-400/20 dark:bg-amber-400/10 dark:text-amber-200"
+                >
+                <button
+                    type="button"
+                    x-on:click="dismissed = true; localStorage.setItem('plagiarism-notice-dismissed', '1')"
+                    class="absolute end-1.5 top-1.5 inline-flex size-6 items-center justify-center rounded-md text-amber-500 transition hover:bg-amber-400/20 hover:text-amber-700 dark:hover:text-amber-100"
+                    aria-label="Dismiss notice"
+                >
+                    <flux:icon name="x-mark" variant="micro" />
+                </button>
+                <div class="flex items-start gap-2 pe-6">
+                    <flux:icon name="exclamation-triangle" variant="micro" class="mt-0.5 shrink-0" />
+                    <div>
+                        <div class="text-[11px] font-semibold">Claiming work that isn't yours is treated as plagiarism</div>
+                        <p class="mt-1 text-[11px] leading-relaxed">
+                            You haven't linked a GitHub account, so ownership can't be verified. If you scout a repository that another ProoDev user already claimed — or one you can't show as your own — it will be flagged and removed.
+                            <a href="{{ route('profile.edit') }}" wire:navigate class="font-semibold text-amber-900 underline underline-offset-2 hover:no-underline dark:text-amber-100">Link your GitHub in settings</a> to verify yourself.
+                        </p>
                     </div>
                 </div>
+            </div>
             @endif
         </form>
     @elseif ($phase === 'scouting')
         <div wire:poll.600ms="tick" class="grid gap-3 lg:grid-cols-[minmax(0,1fr)_280px]">
             {{-- Terminal --}}
-            <div class="overflow-hidden rounded-xl border border-zinc-800 bg-zinc-950 shadow-xl">
-                <div class="flex items-center gap-1.5 border-b border-zinc-800/80 px-3 py-2">
+            <div class="flex h-full max-h-[560px] flex-col overflow-hidden rounded-xl border border-zinc-800 bg-zinc-950 shadow-xl">
+                <div class="flex shrink-0 items-center gap-1.5 border-b border-zinc-800/80 px-3 py-2">
                     <span class="size-2.5 rounded-full bg-rose-500/80"></span>
                     <span class="size-2.5 rounded-full bg-amber-500/80"></span>
                     <span class="size-2.5 rounded-full bg-emerald-500/80"></span>
@@ -51,7 +64,7 @@
                     <span class="ms-auto font-mono text-xs tabular-nums text-zinc-600">{{ $this->progress }}%</span>
                 </div>
 
-                <div class="max-h-[420px] overflow-y-auto p-3 font-mono text-[12.5px] leading-6">
+                <div class="min-h-0 flex-1 overflow-y-auto p-3 font-mono text-[12.5px] leading-6">
                     {{-- Section checklist --}}
                     <div class="mb-3 grid gap-1 border-b border-zinc-800/60 pb-3">
                         @foreach ($this->sections as $section)
@@ -107,11 +120,11 @@
             </div>
 
             {{-- Live passport build --}}
-            <div class="overflow-hidden rounded-xl border border-zinc-200 bg-white shadow-lg dark:border-white/10 dark:bg-zinc-950/80">
-                <div class="flex items-center justify-between border-b border-zinc-200 px-3 py-2 dark:border-white/10">
+            <div class="flex h-full max-h-[560px] flex-col overflow-hidden rounded-xl border border-zinc-200 bg-white shadow-lg dark:border-white/10 dark:bg-zinc-950/80">
+                <div class="flex shrink-0 items-center justify-between border-b border-zinc-200 px-3 py-2 dark:border-white/10">
                     <span class="inline-flex items-center gap-1.5 text-xs font-semibold text-zinc-700 dark:text-zinc-300">
                         <flux:icon name="check-badge" variant="micro" class="text-emerald-500" />
-                        Passport build
+                        DevID build
                     </span>
                     <span class="inline-flex items-center gap-1.5 rounded-full bg-emerald-400/10 px-2.5 py-1 text-xs font-semibold text-emerald-600 dark:text-emerald-400">
                         <span class="size-1.5 animate-pulse rounded-full bg-emerald-500"></span>
@@ -119,7 +132,7 @@
                     </span>
                 </div>
 
-                <div class="grid gap-3 p-3">
+                <div class="grid min-h-0 flex-1 gap-3 overflow-y-auto p-3">
                     {{-- Profile --}}
                     <div class="flex items-center gap-3">
                         <div class="relative shrink-0">
@@ -163,7 +176,7 @@
                             <span class="tabular-nums text-zinc-500">Lv {{ $this->levelSnapshot['current'] }} · {{ number_format($this->xp) }} XP</span>
                         </div>
                         <div class="mt-2 h-1.5 overflow-hidden rounded-full bg-zinc-100 dark:bg-zinc-900">
-                            <div class="h-full rounded-full bg-accent transition-all duration-500" style="width: {{ $this->levelSnapshot['progress'] }}%"></div>
+                            <div class="h-full rounded-full bg-zinc-900 transition-all duration-500 dark:bg-white" style="width: {{ $this->levelSnapshot['progress'] }}%"></div>
                         </div>
                     </div>
 
@@ -172,7 +185,7 @@
                         <div>
                             <div class="mb-1.5 text-[10px] font-semibold uppercase tracking-widest text-zinc-500">Capabilities</div>
                             <div class="flex flex-wrap gap-1.5">
-                                @foreach (array_slice($this->passport['skills'], 0, 5) as $skill)
+                                @foreach ($this->passport['skills'] as $skill)
                                     <span class="inline-flex items-center gap-1.5 rounded-md bg-zinc-100 px-2 py-1 text-[11px] text-zinc-700 ring-1 ring-zinc-200 dark:bg-zinc-800/80 dark:text-zinc-200 dark:ring-white/10">
                                         <x-tech-logo :name="$skill" class="size-3.5 shrink-0" />
                                         {{ $skill }}
@@ -185,34 +198,34 @@
                     {{-- Magnitude factors --}}
                     <div>
                         <div class="mb-1.5 text-[10px] font-semibold uppercase tracking-widest text-zinc-500">Engineering Magnitude</div>
-                        @foreach (array_slice($this->passport['factors'], 0, 3) as $factor)
+                        @foreach ($this->passport['factors'] as $factor)
                             <div class="mt-1.5 flex items-center gap-2">
                                 <div class="w-24 shrink-0 truncate text-[11px] text-zinc-500">{{ $factor['label'] }}</div>
                                 <div class="h-1.5 flex-1 overflow-hidden rounded-full bg-zinc-100 dark:bg-zinc-900">
-                                    <div class="h-full rounded-full bg-gradient-to-r from-violet-500 to-cyan-400 transition-all duration-500" style="width: {{ ($factor['points'] / max(1, $factor['max'])) * 100 }}%"></div>
+                                    <div class="h-full rounded-full bg-zinc-900 dark:bg-white transition-all duration-500" style="width: {{ ($factor['points'] / max(1, $factor['max'])) * 100 }}%"></div>
                                 </div>
                                 <div class="w-8 shrink-0 text-right text-[10px] tabular-nums text-zinc-500">{{ $factor['points'] }}</div>
                             </div>
                         @endforeach
                     </div>
 
-                    {{-- Recent items --}}
+                    {{-- All scouted records --}}
                     <div class="grid gap-1.5">
-                        @foreach (array_slice($this->passport['evidence'], 0, 2) as $item)
+                        @foreach ($this->passport['evidence'] as $item)
                             <div class="flex items-center gap-2 rounded-md bg-zinc-50 px-2 py-1.5 text-xs dark:bg-zinc-900/70">
                                 <flux:icon name="folder-git-2" variant="micro" class="shrink-0 text-zinc-400" />
                                 <span class="min-w-0 flex-1 truncate text-zinc-700 dark:text-zinc-300">{{ $item }}</span>
                                 <span class="shrink-0 text-emerald-500">queued</span>
                             </div>
                         @endforeach
-                        @foreach (array_slice($this->passport['projects'], 0, 2) as $item)
+                        @foreach ($this->passport['projects'] as $item)
                             <div class="flex items-center gap-2 rounded-md bg-zinc-50 px-2 py-1.5 text-xs dark:bg-zinc-900/70">
                                 <flux:icon name="folder" variant="micro" class="shrink-0 text-accent" />
                                 <span class="min-w-0 flex-1 truncate text-zinc-700 dark:text-zinc-300">{{ $item }}</span>
                                 <span class="shrink-0 text-emerald-500">published</span>
                             </div>
                         @endforeach
-                        @foreach (array_slice($this->passport['journal'], 0, 2) as $item)
+                        @foreach ($this->passport['journal'] as $item)
                             <div class="flex items-center gap-2 rounded-md bg-zinc-50 px-2 py-1.5 text-xs dark:bg-zinc-900/70">
                                 <flux:icon name="book-open" variant="micro" class="shrink-0 text-amber-500" />
                                 <span class="min-w-0 flex-1 truncate text-zinc-700 dark:text-zinc-300">{{ $item }}</span>
@@ -288,10 +301,53 @@
                             <div class="text-[10px] font-semibold uppercase tracking-widest text-zinc-500">Engineering Magnitude</div>
                             <div class="mt-1 text-xl font-bold tabular-nums text-accent">{{ number_format($this->passport['magnitude']['total']) }}<span class="text-xs font-semibold text-zinc-500">/1000</span></div>
                         </div>
-                        <a href="{{ route('passport', auth()->user()->handle()) }}" wire:navigate class="inline-flex h-8 shrink-0 items-center gap-1.5 rounded-full bg-zinc-900 px-3.5 text-xs font-semibold text-white transition hover:bg-zinc-700 dark:bg-white dark:text-zinc-900 dark:hover:bg-zinc-200">
-                            View passport
+                        <a href="{{ route('devid', auth()->user()->handle()) }}" wire:navigate class="inline-flex h-8 shrink-0 items-center gap-1.5 rounded-full bg-zinc-900 px-3.5 text-xs font-semibold text-white transition hover:bg-zinc-700 dark:bg-white dark:text-zinc-900 dark:hover:bg-zinc-200">
+                            View DevID
                             <flux:icon name="arrow-right" variant="micro" />
                         </a>
+                    </div>
+                @endif
+
+                {{-- Every record scouted --}}
+                @if ($this->passport['evidence'] !== [])
+                    <div>
+                        <div class="mb-1.5 text-[10px] font-semibold uppercase tracking-widest text-zinc-500">Evidence — {{ count($this->passport['evidence']) }}</div>
+                        <div class="grid max-h-56 gap-1 overflow-y-auto">
+                            @foreach ($this->passport['evidence'] as $item)
+                                <div class="flex items-center gap-2 rounded-md bg-zinc-50 px-2 py-1.5 text-xs dark:bg-zinc-900/70">
+                                    <flux:icon name="folder-git-2" variant="micro" class="shrink-0 text-zinc-400" />
+                                    <span class="min-w-0 flex-1 truncate text-zinc-700 dark:text-zinc-300">{{ $item }}</span>
+                                </div>
+                            @endforeach
+                        </div>
+                    </div>
+                @endif
+
+                @if ($this->passport['projects'] !== [])
+                    <div>
+                        <div class="mb-1.5 text-[10px] font-semibold uppercase tracking-widest text-zinc-500">Projects published — {{ count($this->passport['projects']) }}</div>
+                        <div class="grid max-h-56 gap-1 overflow-y-auto">
+                            @foreach ($this->passport['projects'] as $item)
+                                <div class="flex items-center gap-2 rounded-md bg-zinc-50 px-2 py-1.5 text-xs dark:bg-zinc-900/70">
+                                    <flux:icon name="folder" variant="micro" class="shrink-0 text-accent" />
+                                    <span class="min-w-0 flex-1 truncate text-zinc-700 dark:text-zinc-300">{{ $item }}</span>
+                                </div>
+                            @endforeach
+                        </div>
+                    </div>
+                @endif
+
+                @if ($this->passport['journal'] !== [])
+                    <div>
+                        <div class="mb-1.5 text-[10px] font-semibold uppercase tracking-widest text-zinc-500">Journal entries — {{ count($this->passport['journal']) }}</div>
+                        <div class="grid max-h-56 gap-1 overflow-y-auto">
+                            @foreach ($this->passport['journal'] as $item)
+                                <div class="flex items-center gap-2 rounded-md bg-zinc-50 px-2 py-1.5 text-xs dark:bg-zinc-900/70">
+                                    <flux:icon name="book-open" variant="micro" class="shrink-0 text-amber-500" />
+                                    <span class="min-w-0 flex-1 truncate text-zinc-700 dark:text-zinc-300">{{ $item }}</span>
+                                </div>
+                            @endforeach
+                        </div>
                     </div>
                 @endif
             </div>

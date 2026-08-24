@@ -3,6 +3,7 @@
 namespace App\Services;
 
 use App\Enums\EvidenceType;
+use App\Support\GitHubApi;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Str;
 
@@ -85,8 +86,10 @@ class EvidenceScoutService
             throw new \InvalidArgumentException('We could not find a GitHub username in that URL.');
         }
 
+        // Profile URLs (github.com/user, ?tab=repositories…) resolve to the
+        // full public repository list so nothing is left behind.
         if (! $repo) {
-            throw new \InvalidArgumentException('We could not find a repository in that GitHub URL.');
+            return $this->githubProfileMaterial($handle, $url);
         }
 
         $info = $this->get("https://api.github.com/repos/{$handle}/{$repo}");
@@ -112,7 +115,51 @@ class EvidenceScoutService
             'tech_stack' => array_slice(array_values(array_filter([$info['language'] ?? null, ...$topics])), 0, 8),
             'stars' => (int) ($info['stargazers_count'] ?? 0),
             'forks' => (int) ($info['forks_count'] ?? 0),
+            'created_at' => $info['created_at'] ?? null,
+            'updated_at' => $info['updated_at'] ?? null,
+            'pushed_at' => $info['pushed_at'] ?? null,
             'content' => collect([$info['description'] ?? null, $readmeText])->filter()->implode("\n\n"),
+        ];
+    }
+
+    /**
+     * Aggregate material for a GitHub profile URL: the profile itself plus
+     * every public repository with its last-updated dates.
+     *
+     * @return array<string, mixed>
+     */
+    private function githubProfileMaterial(string $handle, string $url): array
+    {
+        $profile = $this->get("https://api.github.com/users/{$handle}");
+
+        if (! isset($profile['login'])) {
+            throw new \InvalidArgumentException("We could not find a GitHub profile for @{$handle}.");
+        }
+
+        $repos = app(RepoScanService::class)->scan($handle);
+        $normalized = (array) ($repos['repos'] ?? []);
+
+        if ($normalized === []) {
+            throw new \InvalidArgumentException("@{$handle} has no public repositories to import yet.");
+        }
+
+        return [
+            'title' => $profile['name'] ?? $profile['login'],
+            'description' => $profile['bio'] ?? null,
+            'demo_url' => "https://github.com/{$handle}?tab=repositories",
+            'repository_url' => null,
+            'tech_stack' => array_slice(collect($normalized)->pluck('language')->filter()->unique()->values()->all(), 0, 8),
+            'stars' => (int) collect($normalized)->sum('stars'),
+            'forks' => (int) collect($normalized)->sum('forks'),
+            'content' => collect($normalized)
+                ->map(fn (array $repo) => trim(implode(' — ', array_filter([
+                    $repo['full_name'],
+                    $repo['description'],
+                    $repo['language'] ? '['.$repo['language'].']' : null,
+                    $repo['pushed_at'] ? 'last updated '.Str::before((string) $repo['pushed_at'], 'T') : null,
+                ]))))
+                ->implode("\n"),
+            'repos' => $normalized,
         ];
     }
 
@@ -176,9 +223,9 @@ class EvidenceScoutService
             'archived' => false,
             'default_branch' => 'main',
             'content' => $material['content'] ?? null,
-            'created_at' => now()->toIso8601String(),
-            'updated_at' => now()->toIso8601String(),
-            'pushed_at' => now()->toIso8601String(),
+            'created_at' => $material['created_at'] ?? now()->toIso8601String(),
+            'updated_at' => $material['updated_at'] ?? now()->toIso8601String(),
+            'pushed_at' => $material['pushed_at'] ?? now()->toIso8601String(),
             'evidence_type' => $material['type'] ?? null,
             'source' => $material['source'] ?? 'web',
         ];
@@ -226,15 +273,7 @@ class EvidenceScoutService
      */
     private function get(string $url): array
     {
-        $response = Http::withHeaders(['User-Agent' => 'ProoDev-EvidenceScout'])
-            ->timeout(15)
-            ->get($url);
-
-        if ($response->failed()) {
-            return [];
-        }
-
-        return $response->json() ?: [];
+        return GitHubApi::get($url);
     }
 
     private function documentTitle(string $html): string

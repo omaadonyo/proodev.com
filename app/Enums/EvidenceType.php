@@ -11,6 +11,7 @@ enum EvidenceType: string
     case GithubRepository = 'github-repository';
     case GitlabRepository = 'gitlab-repository';
     case BitbucketRepository = 'bitbucket-repository';
+    case PullRequest = 'pull-request';
     case PersonalWebsite = 'personal-website';
     case PortfolioWebsite = 'portfolio-website';
     case BlogPost = 'blog-post';
@@ -30,6 +31,7 @@ enum EvidenceType: string
         'github-repository' => 'GitHub Repository',
         'gitlab-repository' => 'GitLab Repository',
         'bitbucket-repository' => 'Bitbucket Repository',
+        'pull-request' => 'Pull Request',
         'personal-website' => 'Personal Website',
         'portfolio-website' => 'Portfolio Website',
         'blog-post' => 'Blog Post',

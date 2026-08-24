@@ -160,7 +160,7 @@ new #[Title('Edit Job')] class extends Component
         </div>
 
         @if ($company->plan->isPaid())
-            <div class="rounded-xl border border-zinc-200 bg-white p-5 dark:border-zinc-800">
+            <div class="rounded-xl border border-zinc-200 bg-white p-5 shadow-sm transition-colors dark:border-zinc-700 dark:bg-zinc-800">
                 <div class="flex items-center justify-between gap-3">
                     <div>
                         <div class="text-sm font-semibold">Job post credits</div>
@@ -169,7 +169,7 @@ new #[Title('Edit Job')] class extends Component
                 </div>
             </div>
         @else
-            <div class="rounded-xl border border-zinc-200 bg-white p-5 dark:border-zinc-800">
+            <div class="rounded-xl border border-zinc-200 bg-white p-5 shadow-sm transition-colors dark:border-zinc-700 dark:bg-zinc-800">
                 <div class="flex flex-wrap items-center justify-between gap-3">
                     <div>
                         <div class="text-sm font-semibold">Job post credits</div>
@@ -178,7 +178,7 @@ new #[Title('Edit Job')] class extends Component
                     <flux:button size="sm" variant="subtle" :href="route('companies.manage', $company)" wire:navigate>Buy more</flux:button>
                 </div>
                 <div class="mt-3 h-2 overflow-hidden rounded-full bg-zinc-100 dark:bg-zinc-900">
-                    <div class="h-full rounded-full bg-accent transition-all" style="width: {{ min(100, ($company->usedJobPosts() / max(1, $company->jobPostCredits())) * 100) }}%"></div>
+                    <div class="h-full rounded-full bg-zinc-900 transition-all dark:bg-white" style="width: {{ min(100, ($company->usedJobPosts() / max(1, $company->jobPostCredits())) * 100) }}%"></div>
                 </div>
             </div>
         @endif

@@ -39,7 +39,7 @@
         @click="$flux.modal('open-{{ $event->id }}').show()"
         class="group flex cursor-pointer items-center gap-3 rounded-lg border border-zinc-200 bg-white px-3 py-1.5 transition hover:bg-zinc-50 dark:border-zinc-700 dark:bg-zinc-800 dark:hover:bg-zinc-700/40"
     >
-        <a href="{{ route('passport', $event->user->handle()) }}" wire:navigate @click.stop class="relative shrink-0">
+        <a href="{{ route('devid', $event->user->handle()) }}" wire:navigate @click.stop class="relative shrink-0">
             <flux:avatar :src="$event->user->avatarUrl()" :alt="$event->user->name" size="sm" class="rounded-lg transition group-hover:opacity-75" />
             @if ($presenceEnabled && $event->user->isOnline())
                 <span class="absolute -top-0.5 -right-0.5 size-2.5 rounded-full border-2 border-white bg-emerald-500 dark:border-zinc-800"></span>
@@ -47,7 +47,7 @@
         </a>
 
         <div class="flex min-w-0 flex-1 items-center gap-2">
-            <a href="{{ route('passport', $event->user->handle()) }}" wire:navigate @click.stop class="shrink-0 text-sm font-semibold text-zinc-900 hover:underline dark:text-zinc-100">
+            <a href="{{ route('devid', $event->user->handle()) }}" wire:navigate @click.stop class="shrink-0 text-sm font-semibold text-zinc-900 hover:underline dark:text-zinc-100">
                 {{ $event->user->name }}
             </a>
             <x-verified-badge :user="$event->user" compact />
@@ -74,7 +74,7 @@
         class="group flex h-full cursor-pointer flex-col rounded-xl border border-zinc-200 bg-white p-4 transition hover:bg-zinc-50 dark:border-zinc-700 dark:bg-zinc-800 dark:hover:bg-zinc-800/60"
     >
         <div class="flex items-start gap-3">
-            <a href="{{ route('passport', $event->user->handle()) }}" wire:navigate @click.stop class="relative shrink-0">
+            <a href="{{ route('devid', $event->user->handle()) }}" wire:navigate @click.stop class="relative shrink-0">
                 <flux:avatar :src="$event->user->avatarUrl()" :alt="$event->user->name" size="lg" class="rounded-xl transition group-hover:opacity-75" />
                 @if ($presenceEnabled && $event->user->isOnline())
                     <span class="absolute -top-0.5 -right-0.5 size-2.5 rounded-full border-2 border-white bg-emerald-500 dark:border-zinc-800"></span>
@@ -83,7 +83,7 @@
 
             <div class="min-w-0 flex-1">
                 <div class="flex flex-wrap items-center gap-x-2 gap-y-0.5">
-                    <a href="{{ route('passport', $event->user->handle()) }}" wire:navigate @click.stop class="text-sm font-semibold text-zinc-900 hover:underline dark:text-zinc-100">
+                    <a href="{{ route('devid', $event->user->handle()) }}" wire:navigate @click.stop class="text-sm font-semibold text-zinc-900 hover:underline dark:text-zinc-100">
                         {{ $event->user->name }}
                     </a>
                     <x-verified-badge :user="$event->user" compact />
@@ -135,7 +135,7 @@
                 <span class="font-medium text-zinc-500 dark:text-zinc-400">Lv {{ $event->user->level() }} · {{ number_format($event->user->experience_points) }} XP</span>
             </div>
             <div class="h-1.5 overflow-hidden rounded-full bg-zinc-100 dark:bg-zinc-900">
-                <div class="h-full rounded-full bg-gradient-to-r from-violet-500 to-cyan-400" style="width: {{ $event->user->levelProgress() }}%"></div>
+                <div class="h-full rounded-full bg-zinc-900 dark:bg-white" style="width: {{ $event->user->levelProgress() }}%"></div>
             </div>
         </div>
 
@@ -147,7 +147,7 @@
         class="group cursor-pointer rounded-xl border border-zinc-200 bg-white p-[calc(var(--spacing)*1)] transition hover:bg-zinc-50 dark:border-zinc-700 dark:bg-zinc-800 dark:hover:bg-zinc-800/60"
     >
     <div class="flex items-start gap-3">
-        <a href="{{ route('passport', $event->user->handle()) }}" wire:navigate @click.stop class="relative shrink-0">
+        <a href="{{ route('devid', $event->user->handle()) }}" wire:navigate @click.stop class="relative shrink-0">
             <flux:avatar :src="$event->user->avatarUrl()" :alt="$event->user->name" size="lg" class="rounded-xl transition group-hover:opacity-75" />
             @if ($presenceEnabled && $event->user->isOnline())
                 <span class="absolute -top-0.5 -right-0.5 size-2.5 rounded-full border-2 border-white bg-emerald-500 dark:border-zinc-800"></span>
@@ -156,7 +156,7 @@
 
         <div class="min-w-0 flex-1">
             <div class="flex flex-wrap items-center gap-x-2 gap-y-0.5">
-                <a href="{{ route('passport', $event->user->handle()) }}" wire:navigate @click.stop class="text-sm font-semibold text-zinc-900 hover:underline dark:text-zinc-100">
+                <a href="{{ route('devid', $event->user->handle()) }}" wire:navigate @click.stop class="text-sm font-semibold text-zinc-900 hover:underline dark:text-zinc-100">
                     {{ $event->user->name }}
                 </a>
                 <x-verified-badge :user="$event->user" compact />

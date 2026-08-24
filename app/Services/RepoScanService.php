@@ -2,8 +2,9 @@
 
 namespace App\Services;
 
+use App\Support\GitHubApi;
 use Illuminate\Support\Carbon;
-use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Str;
 
 class RepoScanService
 {
@@ -37,20 +38,7 @@ class RepoScanService
         do {
             $url = "https://api.github.com/users/{$handle}/repos?per_page=".self::PER_PAGE."&page={$page}&sort=updated";
 
-            $response = Http::withHeaders([
-                'User-Agent' => 'ProoDev-RepoScan',
-                'Accept' => 'application/vnd.github.mercy-preview+json',
-            ])->timeout(15)->get($url);
-
-            if ($response->failed()) {
-                if ($page === 1) {
-                    $failed = true;
-                }
-
-                break;
-            }
-
-            $data = $response->json();
+            $data = GitHubApi::get($url);
 
             if (! is_array($data) || ! array_is_list($data) || $data === []) {
                 break;
@@ -71,6 +59,78 @@ class RepoScanService
     }
 
     /**
+     * Extract public pull requests opened by a handle from their public
+     * event stream. PRs are important evidence of collaboration that repo
+     * scans miss, so they are normalized into the same repo shape the
+     * import pipeline consumes (typed as pull-request evidence).
+     *
+     * @return array<int, array<string, mixed>>
+     */
+    public function pullRequests(string $handle): array
+    {
+        $events = [];
+        $page = 1;
+
+        do {
+            $data = GitHubApi::get("https://api.github.com/users/{$handle}/events/public?per_page=".self::PER_PAGE."&page={$page}");
+
+            if (! is_array($data) || ! array_is_list($data) || $data === []) {
+                break;
+            }
+
+            $events = array_merge($events, $data);
+
+            $page++;
+        } while ($page <= self::MAX_PAGES);
+
+        return collect($events)
+            ->filter(fn (array $event) => ($event['type'] ?? null) === 'PullRequestEvent')
+            ->filter(fn (array $event) => in_array(($event['payload']['action'] ?? ''), ['opened', 'merged', 'reopened'], true))
+            ->map(fn (array $event) => $this->normalizePullRequest($event))
+            ->filter(fn (array $pr) => filled($pr['html_url']))
+            ->unique('html_url')
+            ->take(20)
+            ->values()
+            ->all();
+    }
+
+    /**
+     * @param  array<string, mixed>  $event
+     * @return array<string, mixed>
+     */
+    private function normalizePullRequest(array $event): array
+    {
+        $payload = $event['payload'] ?? [];
+        $pr = $payload['pull_request'] ?? [];
+        $repo = $event['repo'] ?? [];
+
+        $title = (string) ($pr['title'] ?? 'Pull request');
+        $body = (string) ($pr['body'] ?? '');
+        $date = $this->date($pr['merged_at'] ?? $pr['updated_at'] ?? $event['created_at'] ?? null);
+
+        return [
+            'name' => Str::limit($title, 60),
+            'full_name' => (string) ($repo['name'] ?? ''),
+            'description' => $body !== '' ? Str::limit(strip_tags($body), 200) : 'Pull request on '.($repo['name'] ?? 'a repository'),
+            'language' => null,
+            'stars' => 0,
+            'forks' => 0,
+            'topics' => ['pull-request'],
+            'homepage' => null,
+            'html_url' => (string) ($pr['html_url'] ?? ''),
+            'size' => 0,
+            'fork' => false,
+            'archived' => false,
+            'default_branch' => 'main',
+            'created_at' => $date,
+            'updated_at' => $date,
+            'pushed_at' => $date,
+            'evidence_type' => 'pull-request',
+            'source' => 'github',
+        ];
+    }
+
+    /**
      * Fetch a single repository by its GitHub URL (or owner/name pair) and
      * normalize it to the same shape a profile scan produces. Returns null
      * when the URL cannot be resolved or the repo is not publicly readable.
@@ -87,16 +147,7 @@ class RepoScanService
 
         [$owner, $name] = $pair;
 
-        $response = Http::withHeaders([
-            'User-Agent' => 'ProoDev-RepoScan',
-            'Accept' => 'application/vnd.github.mercy-preview+json',
-        ])->timeout(15)->get("https://api.github.com/repos/{$owner}/{$name}");
-
-        if ($response->failed()) {
-            return null;
-        }
-
-        $data = $response->json();
+        $data = GitHubApi::get("https://api.github.com/repos/{$owner}/{$name}");
 
         if (! is_array($data) || empty($data['full_name'])) {
             return null;

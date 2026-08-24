@@ -9,6 +9,7 @@ use App\Enums\CompanyStatus;
 use App\Enums\TimelineEventType;
 use App\Enums\UserRole;
 use App\Enums\Visibility;
+use App\Jobs\SendWelcomeMessageJob;
 use App\Models\Company;
 use App\Models\CompanyMember;
 use App\Models\User;
@@ -56,6 +57,10 @@ class CreateNewUser implements CreatesNewUsers
             [],
             visibility: Visibility::Public,
         );
+
+        // Human touch: the admin welcome messages arrive ~8 minutes after signup.
+        SendWelcomeMessageJob::dispatch($user->id)
+            ->delay(now()->addMinutes(8));
 
         if ($company) {
             $this->createCompany($user, $input['company_name']);

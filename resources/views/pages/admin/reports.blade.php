@@ -49,7 +49,7 @@ new #[Title('Reports')] class extends Component {
             ['key' => 'battles', 'label' => 'Battles', 'description' => 'Developer vs. developer skill battles.'],
             ['key' => 'linkedin-onboarding', 'label' => 'LinkedIn onboarding', 'description' => 'Sign up and import your profile with LinkedIn.'],
             ['key' => 'profile-completion', 'label' => 'Profile completion', 'description' => 'Guided steps that help developers finish their profile.'],
-            ['key' => 'evidence-pipeline', 'label' => 'Evidence pipeline', 'description' => 'Collect, validate and score project evidence for the passport.'],
+            ['key' => 'evidence-pipeline', 'label' => 'Evidence pipeline', 'description' => 'Collect, validate and score project evidence for the DevID.'],
             ['key' => 'companies', 'label' => 'Companies & careers', 'description' => 'Recruiter companies, jobs and applications.'],
             ['key' => 'credits', 'label' => 'Credits', 'description' => 'Purchase credit bundles to unlock scouting and analysis.'],
             ['key' => 'verification', 'label' => 'Verification', 'description' => 'Paid developer and company verification badges.'],

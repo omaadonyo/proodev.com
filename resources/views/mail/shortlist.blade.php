@@ -79,7 +79,7 @@
         </table>
 
         <p class="muted" style="font-size: 12px;">
-            Passports: @foreach ($rows as $row) <a href="{{ $row['passport_url'] ?? '#' }}">{{ $row['username'] ?? $row['name'] }}</a>@if (! $loop->last) · @endif @endforeach
+            DevIDs: @foreach ($rows as $row) <a href="{{ $row['passport_url'] ?? '#' }}">{{ $row['username'] ?? $row['name'] }}</a>@if (! $loop->last) · @endif @endforeach
         </p>
     @endif
 

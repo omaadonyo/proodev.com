@@ -1,7 +1,7 @@
 <x-mail.layout :subject="'Warning: repository removed for plagiarism — '.$repoName" docLabel="PLAGIARISM WARNING">
     <h1>Plagiarism warning</h1>
     <p class="lead">
-        A repository you added to your evidence library isn't your work, so we removed it before it reached your passport.
+        A repository you added to your evidence library isn't your work, so we removed it before it reached your DevID.
     </p>
 
     <div class="card">
@@ -39,7 +39,7 @@
 
     @if (! empty($passportUrl))
         <div class="btn-row">
-            <a class="btn" href="{{ $passportUrl }}">View my passport</a>
+            <a class="btn" href="{{ $passportUrl }}">View my DevID</a>
         </div>
     @endif
 </x-mail.layout>

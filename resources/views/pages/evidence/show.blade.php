@@ -64,9 +64,9 @@ new #[Title('Evidence')] class extends Component
                     <flux:icon name="arrow-path" variant="micro" />
                     Re-analyze
                 </flux:button>
-                <flux:button variant="primary" size="sm" :href="route('passport', auth()->user()->handle())" wire:navigate>
+                <flux:button variant="primary" size="sm" :href="route('devid', auth()->user()->handle())" wire:navigate>
                     <flux:icon name="arrow-left" variant="micro" />
-                    Back to passport
+                    Back to DevID
                 </flux:button>
             </div>
         </div>
@@ -140,7 +140,7 @@ new #[Title('Evidence')] class extends Component
                                     <div class="flex items-center gap-3">
                                         <div class="w-32 shrink-0 text-xs font-medium text-zinc-700 dark:text-zinc-200">{{ $skill['name'] ?? '' }}</div>
                                         <div class="h-1.5 flex-1 overflow-hidden rounded-full bg-zinc-100 dark:bg-zinc-900">
-                                            <div class="h-full rounded-full bg-gradient-to-r from-violet-500 to-cyan-400" style="width: {{ $skill['confidence'] ?? 0 }}%"></div>
+                                            <div class="h-full rounded-full bg-zinc-900 dark:bg-white" style="width: {{ $skill['confidence'] ?? 0 }}%"></div>
                                         </div>
                                         <div class="w-10 shrink-0 text-right text-xs tabular-nums text-zinc-500">{{ $skill['confidence'] ?? 0 }}</div>
                                     </div>

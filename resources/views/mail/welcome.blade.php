@@ -27,7 +27,7 @@
 
     <p class="muted" style="font-size: 12px; margin-bottom: 8px;">
         Your username is <strong style="color:#1a202c">{{ $user->handle() }}</strong> — view your public
-        <a href="{{ route('passport', $user->handle()) }}">passport</a> anytime.
+        <a href="{{ route('devid', $user->handle()) }}">passport</a> anytime.
     </p>
     <p class="muted" style="font-size: 12px;">
         Questions? Just reply to this email and we'll help you out.

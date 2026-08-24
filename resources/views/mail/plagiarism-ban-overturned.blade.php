@@ -2,7 +2,7 @@
     <h1>Your account has been reinstated</h1>
     <p class="lead">
         Our team reviewed your case and overturned the plagiarism ban. Your account is active
-        again and the public notice has been removed from your passport.
+        again and the public notice has been removed from your DevID.
     </p>
 
     <div class="card">
@@ -25,7 +25,7 @@
 
     <h2>What now?</h2>
     <p>
-        Sign back in and continue building your passport. If the repository was genuinely yours,
+        Sign back in and continue building your DevID. If the repository was genuinely yours,
         add it again — the guard verifies ownership automatically.
     </p>
     <p>
@@ -34,7 +34,7 @@
 
     @if (! empty($passportUrl))
         <div class="btn-row">
-            <a class="btn" href="{{ $passportUrl }}">View my passport</a>
+            <a class="btn" href="{{ $passportUrl }}">View my DevID</a>
         </div>
     @endif
 

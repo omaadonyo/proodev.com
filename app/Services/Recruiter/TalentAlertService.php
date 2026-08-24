@@ -123,7 +123,7 @@ class TalentAlertService
                 'headline' => $user->headline,
                 'location' => $user->location,
                 'avatar' => $user->avatarUrl(),
-                'passport_url' => route('passport', $user->handle()),
+                'passport_url' => route('devid', $user->handle()),
                 'evidence_count' => $user->evidence_count,
                 'reputation' => (int) $user->reputation_score,
                 'magnitude' => $this->magnitude->breakdown($user)['total'],

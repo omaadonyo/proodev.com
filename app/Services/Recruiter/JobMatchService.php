@@ -201,7 +201,7 @@ class JobMatchService
             'email' => $user->email,
             'skills' => $user->skills->pluck('name')->take(6)->implode(', '),
             'evidence_count' => (int) $user->evidence_count,
-            'passport_url' => route('passport', $user->handle()),
+            'passport_url' => route('devid', $user->handle()),
             'avatar' => $user->avatarUrl(),
         ])->all();
     }

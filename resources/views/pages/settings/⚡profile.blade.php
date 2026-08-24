@@ -180,7 +180,7 @@ new #[Title('Profile settings')] class extends Component
     }
 
     /**
-     * Update the short shareable passport link for a verified developer.
+     * Update the short shareable DevID link for a verified developer.
      */
     public function updateShortDomain(): void
     {
@@ -247,7 +247,7 @@ new #[Title('Profile settings')] class extends Component
 
     <flux:heading class="sr-only">{{ __('Profile settings') }}</flux:heading>
 
-    <x-pages::settings.layout :heading="__('Profile')" :subheading="__('Update your name, email and passport details')">
+    <x-pages::settings.layout :heading="__('Profile')" :subheading="__('Update your name, email and DevID details')">
         <form wire:submit="updateProfileInformation" class="my-6 w-full space-y-6">
             <div class="flex items-center gap-5 rounded-xl border border-zinc-200 p-5 dark:border-white/10">
                 <div class="relative shrink-0">
@@ -288,7 +288,7 @@ new #[Title('Profile settings')] class extends Component
             <div class="grid gap-6 sm:grid-cols-2">
                 <flux:input wire:model="name" :label="__('Name')" type="text" required autofocus autocomplete="name" />
 
-                <flux:input wire:model="username" :label="__('Username')" type="text" required autocomplete="username" hint="Used in your public passport URL." />
+                <flux:input wire:model="username" :label="__('Username')" type="text" required autocomplete="username" hint="Used in your public DevID URL." />
             </div>
 
             <div>
@@ -314,8 +314,8 @@ new #[Title('Profile settings')] class extends Component
             </div>
 
             <div class="border-t border-zinc-100 pt-6 dark:border-white/10">
-                <flux:heading size="sm">{{ __('Passport details') }}</flux:heading>
-                <flux:text class="mt-1">{{ __('Shown publicly on your passport.') }}</flux:text>
+                <flux:heading size="sm">{{ __('DevID details') }}</flux:heading>
+                <flux:text class="mt-1">{{ __('Shown publicly on your DevID.') }}</flux:text>
 
                 <div class="mt-4 grid gap-6">
                     <flux:input wire:model="headline" :label="__('Headline')" type="text" maxlength="120" placeholder="Full-stack engineer building real-time products" />
@@ -332,7 +332,7 @@ new #[Title('Profile settings')] class extends Component
                         <flux:input wire:model="linkedin_url" :label="__('LinkedIn URL')" type="url" placeholder="https://linkedin.com/in/you" />
                     </div>
 
-                    <flux:switch wire:model="public_passport" label="Make my passport public" description="Anyone with the link can see your passport, evidence, projects and vouches." />
+                    <flux:switch wire:model="public_passport" label="Make my DevID public" description="Anyone with the link can see your DevID, evidence, projects and vouches." />
                 </div>
             </div>
 
@@ -341,7 +341,7 @@ new #[Title('Profile settings')] class extends Component
                     <div class="flex flex-wrap items-center justify-between gap-3">
                         <div class="flex items-center gap-2">
                             <flux:icon name="link" class="size-4 text-emerald-600 dark:text-emerald-400" />
-                            <flux:heading size="sm">{{ __('Short passport link') }}</flux:heading>
+                            <flux:heading size="sm">{{ __('Short DevID link') }}</flux:heading>
                         </div>
                         @if ($this->shortLink)
                             <div
@@ -362,7 +362,7 @@ new #[Title('Profile settings')] class extends Component
                             </div>
                         @endif
                     </div>
-                    <flux:text class="mt-1">Choose a short name to share — anyone with the link opens your passport.</flux:text>
+                    <flux:text class="mt-1">Choose a short name to share — anyone with the link opens your DevID.</flux:text>
 
                     <div class="mt-3 flex items-end gap-2">
                         <div class="flex-1">
@@ -409,7 +409,7 @@ new #[Title('Profile settings')] class extends Component
                 <flux:switch
                     wire:model="email_scans_evidence"
                     label="{{ __('Scans & evidence') }}"
-                    description="{{ __('Email me when a scan finishes or new evidence is added to my passport.') }}"
+                    description="{{ __('Email me when a scan finishes or new evidence is added to my DevID.') }}"
                 />
 
                 <flux:switch

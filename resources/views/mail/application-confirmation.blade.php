@@ -27,6 +27,6 @@
     <div class="divider"></div>
 
     <p class="muted" style="font-size: 12px;">
-        The hiring team reviews each application with your passport — real evidence, not self-reported claims.
+        The hiring team reviews each application with your DevID — real evidence, not self-reported claims.
     </p>
 </x-mail.layout>

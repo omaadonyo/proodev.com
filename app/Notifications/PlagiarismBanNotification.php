@@ -28,7 +28,7 @@ class PlagiarismBanNotification extends Notification implements ShouldQueue
             'title' => 'Account banned for plagiarism',
             'body' => 'You repeatedly claimed other developers’ repositories as your own. Your account has been banned and a public notice added to your passport.',
             'icon' => 'hand-raised',
-            'url' => $offender ? route('passport', $offender->handle(), absolute: false) : null,
+            'url' => $offender ? route('devid', $offender->handle(), absolute: false) : null,
         ];
     }
 }

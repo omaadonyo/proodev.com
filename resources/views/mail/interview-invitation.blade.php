@@ -48,7 +48,7 @@
     </p>
 
     <div class="btn-row">
-        <a class="btn" href="{{ route('passport', $interview->candidate->username) }}">View my passport</a>
+        <a class="btn" href="{{ route('devid', $interview->candidate->username) }}">View my DevID</a>
         <a class="btn-ghost" href="{{ route('wirechat.chats.chats') }}">Open messages</a>
     </div>
 

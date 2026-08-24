@@ -216,19 +216,15 @@ new #[Title('News')] class extends Component
 }
 ?>
 
-<div class="grid gap-6">
+<x-pages::admin.settings.layout :heading="__('News')" :subheading="__('Publish announcements, changelogs, and community updates.')">
     <div class="flex flex-wrap items-center justify-between gap-4">
-        <div>
-            <flux:heading size="xl">News</flux:heading>
-            <flux:text>Publish announcements, changelogs, and community updates.</flux:text>
-        </div>
         <flux:button variant="primary" wire:click="create">
             <flux:icon name="plus" variant="micro" />
             Write article
         </flux:button>
     </div>
 
-    <div class="grid grid-cols-2 gap-4 lg:grid-cols-4">
+    <div class="mt-4 grid grid-cols-2 gap-4 lg:grid-cols-4">
         <div class="rounded-lg border border-zinc-200 bg-white p-3 dark:border-zinc-700 dark:bg-zinc-800">
             <div class="text-xs text-zinc-500">Total articles</div>
             <div class="text-2xl font-bold">{{ number_format($this->overview['total']) }}</div>
@@ -347,7 +343,7 @@ new #[Title('News')] class extends Component
 
             <flux:field>
                 <flux:label>Title</flux:label>
-                <flux:input wire:model="form.title" placeholder="e.g. v2.0 of the ProoDev Passport is here" wire:keydown.enter.prevent />
+                <flux:input wire:model="form.title" placeholder="e.g. v2.0 of the ProoDev DevID is here" wire:keydown.enter.prevent />
                 <flux:error name="form.title" />
             </flux:field>
 
@@ -390,4 +386,4 @@ new #[Title('News')] class extends Component
             </div>
         </form>
     </flux:modal>
-</div>
+</x-pages::admin.settings.layout>

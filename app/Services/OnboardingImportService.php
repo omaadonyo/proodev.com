@@ -17,9 +17,9 @@ use App\Models\JournalEntry;
 use App\Models\Project;
 use App\Models\TimelineEvent;
 use App\Models\User;
+use App\Support\GitHubApi;
 use Carbon\Carbon;
 use Carbon\CarbonInterface;
-use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Str;
 
 class OnboardingImportService
@@ -32,11 +32,21 @@ class OnboardingImportService
 
     public const XP_SKILL_DETECTED = 5;
 
-    public const MAX_EVIDENCE = 30;
+    public const MAX_EVIDENCE = 300;
 
-    public const MAX_PROJECTS = 4;
+    public const MAX_PROJECTS = 100;
 
-    public const MAX_JOURNAL = 8;
+    public const MAX_JOURNAL = 100;
+
+    /**
+     * How much is imported inline during a live scout before the rest is
+     * handed to the background queue.
+     */
+    public const INLINE_EVIDENCE = 12;
+
+    public const INLINE_PROJECTS = 4;
+
+    public const INLINE_JOURNAL = 4;
 
     public function __construct(
         private RepoScanService $scanner,
@@ -68,6 +78,16 @@ class OnboardingImportService
             ->values()
             ->take(self::MAX_EVIDENCE)
             ->all();
+    }
+
+    /**
+     * Whether a normalized repo payload is an actual repository (not a
+     * pull request or other lightweight evidence item).
+     */
+    public function isRepository(array $repo): bool
+    {
+        return ($repo['evidence_type'] ?? null) !== 'pull-request'
+            && in_array((string) ($repo['source'] ?? 'github'), ['github', 'gitlab', 'bitbucket'], true);
     }
 
     /**
@@ -180,7 +200,7 @@ class OnboardingImportService
 
     /**
      * Draft and publish a project from a scanned repo, dated from the repo's
-     * own history so the passport reflects when the work actually happened.
+     * own history so the DevID reflects when the work actually happened.
      *
      * @param  array<string, mixed>  $repo
      */
@@ -269,12 +289,21 @@ class OnboardingImportService
     {
         $title = 'Started '.$repo['name'];
 
+        $existing = JournalEntry::where('user_id', $user->id)->where('title', $title)->first();
+
+        if ($existing) {
+            return $existing;
+        }
+
+        $lastUpdated = $this->repoDate($repo['pushed_at'] ?? $repo['updated_at'] ?? null);
+
         $content = collect([
             "I started building {$repo['name']} to solve a real problem.",
             $repo['description'] ? 'The idea: '.$repo['description'].'.' : null,
             $repo['language'] ? "It is built with {$repo['language']}." : null,
             $repo['topics'] !== [] ? 'Focus areas: '.implode(', ', array_slice($repo['topics'], 0, 4)).'.' : null,
             $repo['stars'] > 0 ? "The work has earned {$repo['stars']} stars and {$repo['forks']} forks from the community." : null,
+            $lastUpdated ? 'Last updated '.$lastUpdated->format('F j, Y').', keeping it alive and evolving since.' : null,
             'Repository: '.$repo['html_url'],
         ])->filter()->implode("\n\n");
 
@@ -398,15 +427,7 @@ class OnboardingImportService
         }
 
         try {
-            $response = Http::withHeaders(['User-Agent' => 'ProoDev-RepoScan'])
-                ->timeout(15)
-                ->get("https://api.github.com/repos/{$owner}/{$repo['name']}/readme");
-
-            if ($response->failed()) {
-                return '';
-            }
-
-            $data = $response->json() ?: [];
+            $data = GitHubApi::get("https://api.github.com/repos/{$owner}/{$repo['name']}/readme");
 
             if (! isset($data['content'])) {
                 return '';

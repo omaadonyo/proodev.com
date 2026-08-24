@@ -97,7 +97,7 @@ new #[Title('Home')] class extends Component
                             <span class="text-sm font-semibold tabular-nums text-accent">{{ $this->profileCompletion }}%</span>
                         </div>
                         <div class="mt-2 h-2 overflow-hidden rounded-full bg-zinc-100 dark:bg-zinc-900">
-                            <div class="h-full rounded-full bg-gradient-to-r from-violet-500 to-cyan-400 transition-all" style="width: {{ $this->profileCompletion }}%"></div>
+                            <div class="h-full rounded-full bg-zinc-900 dark:bg-white transition-all" style="width: {{ $this->profileCompletion }}%"></div>
                         </div>
                     </div>
                     <a href="{{ route('onboarding') }}" wire:navigate class="inline-flex h-8 items-center gap-1.5 rounded-full bg-zinc-900 px-4 text-sm font-semibold text-white transition hover:bg-zinc-700 dark:bg-white dark:text-zinc-900 dark:hover:bg-zinc-200">
@@ -111,6 +111,47 @@ new #[Title('Home')] class extends Component
         <div class="mb-5">
             <livewire:scout-runner />
         </div>
+
+        {{-- Hiring Transparency gate --}}
+        @unless (auth()->user()->is_verified)
+            <div
+                x-data="{ dismissed: localStorage.getItem('hiring-transparency-dismissed') === '1' }"
+                x-show="!dismissed"
+                x-cloak
+                class="relative mb-5 rounded-xl border border-zinc-200 bg-white p-4 dark:border-zinc-700 dark:bg-zinc-800"
+            >
+                <button
+                    type="button"
+                    x-on:click="dismissed = true; localStorage.setItem('hiring-transparency-dismissed', '1')"
+                    class="absolute end-2 top-2 inline-flex size-6 items-center justify-center rounded-md text-zinc-400 transition hover:bg-zinc-100 hover:text-zinc-700 dark:hover:bg-white/10 dark:hover:text-zinc-200"
+                    aria-label="Dismiss"
+                >
+                    <flux:icon name="x-mark" variant="micro" />
+                </button>
+                <div class="flex flex-wrap items-start justify-between gap-4 pe-6">
+                    <div class="min-w-0 flex-1">
+                        <div class="flex items-center gap-2">
+                            <span class="text-sm font-semibold text-zinc-900 dark:text-white">Hiring Transparency</span>
+                            <flux:icon name="lock-closed" variant="micro" class="text-amber-500" />
+                        </div>
+                        <p class="mt-1 text-xs leading-relaxed text-zinc-500">
+                            See what happens after you apply — application received, reviewed, shortlisted, interview and
+                            decision. Verify your DevID to unlock your timelines, recruiter activity and employer updates.
+                        </p>
+                    </div>
+                    <flux:button size="sm" variant="primary" href="{{ route('verify') }}" wire:navigate class="shrink-0">
+                        Verify Your DevID
+                    </flux:button>
+                </div>
+                <div class="mt-3 flex flex-wrap gap-1.5 opacity-60">
+                    @foreach (['Application received', 'Profile reviewed', 'Shortlisted', 'Interview', 'Decision'] as $milestone)
+                        <span class="inline-flex items-center gap-1 rounded-full bg-zinc-100 px-2 py-0.5 text-[10px] font-medium text-zinc-600 blur-[1px] dark:bg-zinc-900 dark:text-zinc-400">
+                            {{ $milestone }}
+                        </span>
+                    @endforeach
+                </div>
+            </div>
+        @endunless
 
         <div class="mb-5 flex flex-wrap items-center gap-2">
             <button
