@@ -130,7 +130,7 @@ class RightPanel extends Component
             }
 
             $service->consumeChatStreak($freshViewer);
-            Flux::toast(variant: 'success', text: 'Free chat started — 5 minutes remaining. Verify to keep chatting forever.');
+            Flux::toast(variant: 'success', text: 'Free chat started - 5 minutes remaining. Verify to keep chatting forever.');
         }
 
         $conversation = $viewer->createConversationWith($target);

@@ -368,7 +368,7 @@ class ScoutRunner extends Component
         }
 
         if (($this->scan['failed'] ?? false) || ($repos === [] && $pullRequests === [])) {
-            $this->log[] = $this->term('warn', 'No public repositories found — nothing to import.');
+            $this->log[] = $this->term('warn', 'No public repositories found - nothing to import.');
         } else {
             if ($repos !== []) {
                 $this->log[] = $this->term('ok', 'Scanned '.count($repos).' public repositories', '+'.count($repos).' repos');
@@ -429,7 +429,7 @@ class ScoutRunner extends Component
 
             $this->log[] = $this->term(
                 'info',
-                'Queued '.number_format($this->queued).' item'.($this->queued === 1 ? '' : 's').' for background scanning — they will appear on your DevID shortly.',
+                'Queued '.number_format($this->queued).' item'.($this->queued === 1 ? '' : 's').' for background scanning - they will appear on your DevID shortly.',
             );
         }
 
@@ -512,11 +512,11 @@ class ScoutRunner extends Component
             return;
         }
 
-        // Build headline: primary tech + repo title, e.g. "Laravel Developer — Building payments-core"
+        // Build headline: primary tech + repo title, e.g. "Laravel Developer - Building payments-core"
         if ($needsHeadline) {
             $primaryTech = $techStack[0] ?? $repo['language'] ?? null;
             if ($primaryTech && $title) {
-                $headline = $primaryTech.' Developer — '.$title;
+                $headline = $primaryTech.' Developer - '.$title;
             } elseif ($primaryTech) {
                 $headline = $primaryTech.' Developer';
             } elseif ($description) {
@@ -551,7 +551,7 @@ class ScoutRunner extends Component
 
             $bio = implode(' · ', array_filter($parts));
             if ($bio === '') {
-                $bio = $title ? 'Highlights from '.$title.' — evidence-backed work on ProoDev.' : null;
+                $bio = $title ? 'Highlights from '.$title.' - evidence-backed work on ProoDev.' : null;
             }
             if ($bio) {
                 $user->bio = Str::limit($bio, 500);
@@ -617,7 +617,7 @@ class ScoutRunner extends Component
                 $this->log[] = $this->term('dim', '  → '.$title.' · queued for AI analysis');
             }
         } else {
-            $this->log[] = $this->term('dim', 'Already in your library — nothing new imported');
+            $this->log[] = $this->term('dim', 'Already in your library - nothing new imported');
         }
 
         if ($step['index'] >= $step['total']) {
@@ -707,7 +707,7 @@ class ScoutRunner extends Component
         $user = auth()->user();
 
         if ($this->xp > 0) {
-            app(ExperienceService::class)->award($user, $this->xp, 'Scout — work imported from '.$this->url);
+            app(ExperienceService::class)->award($user, $this->xp, 'Scout - work imported from '.$this->url);
         }
 
         $fresh = $user->fresh();
@@ -728,12 +728,12 @@ class ScoutRunner extends Component
         ];
 
         if ($this->queued > 0) {
-            $this->log[] = $this->term('info', number_format($this->queued).' item'.($this->queued === 1 ? '' : 's').' importing in the background — your DevID keeps updating.');
+            $this->log[] = $this->term('info', number_format($this->queued).' item'.($this->queued === 1 ? '' : 's').' importing in the background - your DevID keeps updating.');
         }
 
         $this->log[] = $this->term(
             'ok',
-            'Level '.$this->passport['level']['current'].' · '.$this->passport['level']['title'].' — '.$this->passport['magnitude']['total'].'/1000 magnitude',
+            'Level '.$this->passport['level']['current'].' · '.$this->passport['level']['title'].' - '.$this->passport['magnitude']['total'].'/1000 magnitude',
             $fresh->experience_points.' XP',
         );
 

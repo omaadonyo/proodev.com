@@ -46,7 +46,7 @@ class VouchDialog extends Component
         try {
             app(CreateVouchAction::class)->handle(auth()->user(), $this->form->data());
 
-            Flux::toast(variant: 'success', text: 'Vouch sent. It carries responsibility — and counts.');
+            Flux::toast(variant: 'success', text: 'Vouch sent. It carries responsibility - and counts.');
         } catch (\DomainException $e) {
             Flux::toast(variant: 'danger', text: $e->getMessage());
 
