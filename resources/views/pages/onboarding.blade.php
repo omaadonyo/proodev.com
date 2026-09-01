@@ -810,7 +810,7 @@ class extends Component
                                     <span class="text-cyan-400">{{ $this->spinner }}</span>
                                     <span class="text-zinc-200">{{ $section['label'] }}</span>
                                 @else
-                                    <span class="text-zinc-700">â,‹</span>
+                                    <span class="text-zinc-700">â€”</span>
                                     <span class="text-zinc-600">{{ $section['label'] }}</span>
                                 @endif
                             </div>

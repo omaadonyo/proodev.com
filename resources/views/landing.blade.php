@@ -655,7 +655,7 @@
 
                 <div class="relative mt-10">
                     <div class="pointer-events-none absolute inset-0 -z-10 rounded-full bg-zinc-900/10 blur-3xl" aria-hidden="true"></div>
-                    <div class="relative w-full h-[400px] overflow-hidden rounded-xl sm:h-[500px]">
+                    <div class="relative z-10 w-full h-[400px] overflow-hidden rounded-xl sm:h-[500px]">
                         <canvas id="talent-globe" class="block size-full cursor-grab active:cursor-grabbing" aria-label="3D globe of developers"></canvas>
 
                         <div id="globe-tooltip" class="absolute z-20 hidden w-72 -translate-x-1/2 rounded-lg border border-zinc-200 bg-white/95 p-4 shadow-2xl shadow-zinc-900/20 backdrop-blur-xl dark:border-white/10 dark:bg-zinc-900/95 dark:shadow-black/40" data-tooltip-interactive>
