@@ -1194,8 +1194,8 @@
                     ctx.fillRect(cx - R - 2, cy - R - 2, R * 2 + 4, R * 2 + 4);
                     ctx.restore();
 
-                    // Continents - lighter zinc dots
-                    var dotR = Math.max(1.4, Math.min(3.0, R * 0.0085));
+                    // Continents - horizontal strokes to read as land masses
+                    var dotR = Math.max(1.2, Math.min(2.8, R * 0.008));
                     var cY = cosY, sY = sinY, cP = cosP, sP = sinP;
                     for (var i = 0; i < landDots.length; i++) {
                         var v = landDots[i];
@@ -1210,7 +1210,7 @@
                         var depth = z2 * 0.6 + 0.4;
                         var dr = dotR * (0.6 + 0.4 * depth);
                         ctx.beginPath();
-                        ctx.arc(sx, sy, dr, 0, Math.PI * 2);
+                        ctx.ellipse(sx, sy, dr * 1.9, dr * 0.85, 0, 0, Math.PI * 2);
                         ctx.fillStyle = 'rgba(113,113,122,' + (0.32 + 0.28 * depth).toFixed(3) + ')';
                         ctx.fill();
                     }
