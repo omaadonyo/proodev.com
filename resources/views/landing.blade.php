@@ -1167,7 +1167,7 @@
                         var z = v[2];
                         var sx = cx + R * v[0];
                         var sy = cy - R * v[1];
-                        var r = Math.max(3.5, Math.min(7.5, 4 + (dev.reputation || 0) / 120)) * zoom;
+                        var r = Math.max(6, Math.min(11, 7 + (dev.reputation || 0) / 80)) * zoom;
                         points.push({ dev: dev, sx: sx, sy: sy, z: z, r: r });
                     }
                 }
@@ -1194,8 +1194,8 @@
                     ctx.fillRect(cx - R - 2, cy - R - 2, R * 2 + 4, R * 2 + 4);
                     ctx.restore();
 
-                    // Continents - dense zinc dots for realistic land masses
-                    var dotR = Math.max(1.4, Math.min(3.2, R * 0.009));
+                    // Continents - lighter zinc dots
+                    var dotR = Math.max(1.4, Math.min(3.0, R * 0.0085));
                     var cY = cosY, sY = sinY, cP = cosP, sP = sinP;
                     for (var i = 0; i < landDots.length; i++) {
                         var v = landDots[i];
@@ -1211,7 +1211,7 @@
                         var dr = dotR * (0.6 + 0.4 * depth);
                         ctx.beginPath();
                         ctx.arc(sx, sy, dr, 0, Math.PI * 2);
-                        ctx.fillStyle = 'rgba(39,39,42,' + (0.55 + 0.35 * depth).toFixed(3) + ')';
+                        ctx.fillStyle = 'rgba(113,113,122,' + (0.32 + 0.28 * depth).toFixed(3) + ')';
                         ctx.fill();
                     }
 
