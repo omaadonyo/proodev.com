@@ -4320,34 +4320,55 @@ var CONTINENTS = [
                     ctx.fillRect(cx - R - 2, cy - R - 2, R * 2 + 4, R * 2 + 4);
                     ctx.restore();
 
-                    // Continents - accurate polygons (South Africa bulge correct)
+                    // Continents - accurate polygons with horizon clipping (no tearing)
                     var cY2 = cosY, sY2 = sinY, cP2 = cosP, sP2 = sinP;
                     ctx.save();
                     ctx.beginPath(); ctx.arc(cx, cy, R, 0, Math.PI * 2); ctx.clip();
                     for (var ci = 0; ci < continentsVec.length; ci++) {
                         var ring = continentsVec[ci];
-                        ctx.beginPath();
-                        var started = false;
+                        var pts = [];
                         var avgZ = 0;
                         for (var vi = 0; vi < ring.length; vi++) {
                             var v2 = ring[vi];
                             var x2 = v2[0] * cY2 + v2[2] * sY2;
                             var z2t = -v2[0] * sY2 + v2[2] * cY2;
                             var y2t = v2[1];
-                            var y2p = y2t * cP2 - z2t * sP2;
-                            var z2p = y2t * sP2 + z2t * cP2;
-                            avgZ += z2p;
-                            if (z2p <= 0) { started = false; continue; }
-                            var sx2 = cx + R * x2;
-                            var sy2 = cy - R * y2p;
-                            if (!started) { ctx.moveTo(sx2, sy2); started = true; } else { ctx.lineTo(sx2, sy2); }
+                            pts.push({ x: x2, y: y2t, z: z2t });
+                            avgZ += y2t * sP2 + z2t * cP2;
+                        }
+                        avgZ /= ring.length;
+                        if (avgZ < -0.25) continue;
+                        ctx.beginPath();
+                        var started = false;
+                        for (var vi2 = 0; vi2 < pts.length; vi2++) {
+                            var cur = pts[vi2];
+                            var nxt = pts[(vi2 + 1) % pts.length];
+                            var curYp = cur.y * cP2 - cur.z * sP2;
+                            var curZp = cur.y * sP2 + cur.z * cP2;
+                            var nxtYp = nxt.y * cP2 - nxt.z * sP2;
+                            var nxtZp = nxt.y * sP2 + nxt.z * cP2;
+                            var curFront = curZp > 0;
+                            var nxtFront = nxtZp > 0;
+                            if (curFront) {
+                                var sx2 = cx + R * cur.x;
+                                var sy2 = cy - R * curYp;
+                                if (!started) { ctx.moveTo(sx2, sy2); started = true; } else { ctx.lineTo(sx2, sy2); }
+                            }
+                            if (curFront !== nxtFront) {
+                                var t = curZp / (curZp - nxtZp);
+                                var ix = cur.x + t * (nxt.x - cur.x);
+                                var iy = cur.y + t * (nxt.y - cur.y);
+                                var iz = cur.z + t * (nxt.z - cur.z);
+                                var iYp = iy * cP2 - iz * sP2;
+                                var sxI = cx + R * ix;
+                                var syI = cy - R * iYp;
+                                if (curFront) { ctx.lineTo(sxI, syI); }
+                                else { ctx.moveTo(sxI, syI); started = true; }
+                            }
                         }
                         if (!started) continue;
-                        avgZ /= ring.length;
-                        // fade back-facing polygons
-                        var op = avgZ > 0 ? 0.42 : 0;
-                        if (op <= 0) continue;
                         ctx.closePath();
+                        var op = Math.max(0, Math.min(0.42, 0.42 * (avgZ * 1.2 + 0.6)));
                         ctx.fillStyle = 'rgba(82,82,91,' + op.toFixed(3) + ')';
                         ctx.fill();
                         ctx.strokeStyle = 'rgba(82,82,91,0.18)';
