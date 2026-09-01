@@ -13,7 +13,6 @@
                         <div class="rounded-xl border border-zinc-200 bg-white overflow-hidden dark:border-white/10 dark:bg-zinc-950/60">
                             <div class="flex items-center justify-between border-b border-zinc-100 px-4 py-2.5 dark:border-white/5">
                                 <span class="text-xs font-semibold uppercase tracking-wider text-zinc-400">Sponsored</span>
-                                <flux:icon name="megaphone" variant="mini" class="size-3.5 text-zinc-400" />
                             </div>
                             @foreach ($ads as $ad)
                                 <a href="{{ $ad->target_url ?: '#' }}" target="_blank" rel="noopener noreferrer sponsored" class="group block">
@@ -37,7 +36,6 @@
                         <div class="rounded-xl border border-zinc-200 bg-white overflow-hidden dark:border-white/10 dark:bg-zinc-950/60">
                             <div class="flex items-center justify-between border-b border-zinc-100 px-4 py-2.5 dark:border-white/5">
                                 <span class="text-xs font-semibold uppercase tracking-wider text-zinc-400">Our Sponsors</span>
-                                <flux:icon name="heart" variant="mini" class="size-3.5 text-amber-500" />
                             </div>
                             <div class="grid grid-cols-2 gap-3 p-4 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5">
                                 @foreach ($sponsors as $sponsor)
