@@ -86,6 +86,33 @@
                 border-color: rgb(255 255 255 / 0.08);
                 box-shadow: 0 8px 30px rgb(0 0 0 / 0.45);
             }
+            .section-contained { position: relative; }
+            .section-contained::before,
+            .section-contained::after {
+                content: '';
+                position: absolute;
+                top: 0;
+                bottom: 0;
+                width: 1px;
+                background: rgb(228 228 231 / 0.6);
+                z-index: 1;
+            }
+            .dark .section-contained::before { background: rgb(255 255 255 / 0.06); }
+            .dark .section-contained::after  { background: rgb(255 255 255 / 0.06); }
+            .section-contained::before { left: calc(50% - 40rem); }
+            .section-contained::after  { right: calc(50% - 40rem); }
+            @media (max-width: 1280px) {
+                .section-contained::before { left: 1rem; }
+                .section-contained::after  { right: 1rem; }
+            }
+            @media (min-width: 640px) and (max-width: 1280px) {
+                .section-contained::before { left: 1.5rem; }
+                .section-contained::after  { right: 1.5rem; }
+            }
+            @media (min-width: 1024px) and (max-width: 1280px) {
+                .section-contained::before { left: 2rem; }
+                .section-contained::after  { right: 2rem; }
+            }
         </style>
     </head>
     <body class="min-h-screen overflow-x-clip bg-white text-zinc-900 antialiased selection:bg-[#3750eb]/30 dark:bg-zinc-950 dark:text-zinc-100">
@@ -127,8 +154,8 @@
         <header class="site-header fixed inset-x-0 top-0 z-50 border-b backdrop-blur-xl supports-[backdrop-filter]:bg-white/60 supports-[backdrop-filter]:dark:bg-zinc-950/50">
             <nav class="mx-auto flex h-16 max-w-7xl items-center justify-between gap-4 px-4 sm:px-6 lg:px-8">
                 <a href="{{ route('welcome') }}" class="flex items-center gap-2.5">
-                    <img src="{{ asset('images/logo-black.png') }}" alt="ProoDev" class="h-7 w-auto dark:hidden" />
-                    <img src="{{ asset('images/logo-white.png') }}" alt="ProoDev" class="hidden h-7 w-auto dark:block" />
+                    <img src="{{ asset('logo-black.svg') }}" alt="ProoDev" class="h-7 w-auto dark:hidden" />
+                    <img src="{{ asset('logo-white.svg') }}" alt="ProoDev" class="hidden h-7 w-auto dark:block" />
                     <span class="hidden rounded-full bg-[#3750eb]/10 px-2.5 py-0.5 text-[10px] font-semibold uppercase tracking-wider text-[#3750eb] sm:inline-block dark:text-[#8f9dff]">For companies</span>
                 </a>
 
@@ -165,7 +192,7 @@
         </header>
 
         {{-- ===================== HERO + LIVE SEARCH PREVIEW ===================== --}}
-        <section id="top" class="relative mx-auto max-w-7xl px-4 pb-16 pt-28 sm:px-6 sm:pt-36 lg:px-8">
+        <section id="top" class="section-contained relative mx-auto max-w-7xl px-4 pb-16 pt-28 sm:px-6 sm:pt-36 lg:px-8">
             <div class="mx-auto max-w-4xl animate-fade-up text-center">
                 <a href="#preview" class="inline-flex items-center gap-2 rounded-full border border-zinc-200 bg-white/60 px-4 py-1.5 text-xs font-medium text-zinc-600 transition hover:border-[#3750eb]/40 hover:text-zinc-900 dark:border-white/10 dark:bg-white/5 dark:text-zinc-300 dark:hover:text-white">
                     <span class="relative flex size-2">
@@ -373,7 +400,7 @@
         </section>
 
         {{-- ===================== WHY EVIDENCE BEATS RESUMES ===================== --}}
-        <section id="why" class="relative overflow-hidden border-t border-zinc-200 dark:border-white/5">
+        <section id="why" class="section-contained relative overflow-hidden border-t border-zinc-200 dark:border-white/5">
             <div class="relative mx-auto max-w-7xl px-4 py-16 sm:px-6 lg:px-8">
                 <div class="mx-auto max-w-2xl text-center">
                     <p class="text-sm font-semibold uppercase tracking-widest text-[#3750eb] dark:text-[#8f9dff]">Why evidence beats resumes</p>
@@ -426,7 +453,7 @@
         </section>
 
         {{-- ===================== THE RECRUITING TOOLKIT ===================== --}}
-        <section id="tools" class="relative overflow-hidden border-t border-zinc-200 dark:border-white/5">
+        <section id="tools" class="section-contained relative overflow-hidden border-t border-zinc-200 dark:border-white/5">
             <div class="relative mx-auto max-w-7xl px-4 py-16 sm:px-6 lg:px-8">
                 <div class="mx-auto max-w-2xl text-center">
                     <p class="text-sm font-semibold uppercase tracking-widest text-[#3750eb] dark:text-[#8f9dff]">The recruiting toolkit</p>
@@ -455,7 +482,7 @@
         </section>
 
         {{-- ===================== HOW IT WORKS FOR COMPANIES ===================== --}}
-        <section id="how" class="relative overflow-hidden border-t border-zinc-200 dark:border-white/5">
+        <section id="how" class="section-contained relative overflow-hidden border-t border-zinc-200 dark:border-white/5">
             <div class="relative mx-auto max-w-7xl px-4 py-16 sm:px-6 lg:px-8">
                 <div class="mx-auto max-w-2xl text-center">
                     <p class="text-sm font-semibold uppercase tracking-widest text-[#3750eb] dark:text-[#8f9dff]">How it works</p>
@@ -486,7 +513,7 @@
         </section>
 
         {{-- ===================== LIVE NETWORK MARQUEE ===================== --}}
-        <section class="relative overflow-hidden border-t border-zinc-200 py-14 dark:border-white/5">
+        <section class="section-contained relative overflow-hidden border-t border-zinc-200 py-14 dark:border-white/5">
             <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
                 <div class="mx-auto max-w-2xl text-center">
                     <h2 class="text-2xl font-bold tracking-tight text-zinc-900 sm:text-3xl dark:text-white">Engineers with proof, all over the world</h2>
@@ -528,7 +555,7 @@
         </section>
 
         {{-- ===================== PRICING ===================== --}}
-        <section id="pricing" class="relative overflow-hidden border-t border-zinc-200 dark:border-white/5">
+        <section id="pricing" class="section-contained relative overflow-hidden border-t border-zinc-200 dark:border-white/5">
             <div class="relative mx-auto max-w-7xl px-4 py-16 sm:px-6 lg:px-8">
                 <div class="mx-auto max-w-2xl text-center">
                     <p class="text-sm font-semibold uppercase tracking-widest text-[#3750eb] dark:text-[#8f9dff]">Pricing</p>
@@ -643,7 +670,7 @@
         </section>
 
         {{-- ===================== FAQ ===================== --}}
-        <section id="faq" class="relative overflow-hidden border-t border-zinc-200 dark:border-white/5">
+        <section id="faq" class="section-contained relative overflow-hidden border-t border-zinc-200 dark:border-white/5">
             <div class="relative mx-auto max-w-3xl px-4 py-16 sm:px-6 lg:px-8">
                 <div class="mx-auto max-w-2xl text-center">
                     <p class="text-sm font-semibold uppercase tracking-widest text-[#3750eb] dark:text-[#8f9dff]">FAQ</p>
@@ -677,7 +704,7 @@
         </section>
 
         {{-- ===================== CTA ===================== --}}
-        <section class="mx-auto max-w-7xl px-4 pb-16 sm:px-6 lg:px-8">
+        <section class="section-contained mx-auto max-w-7xl px-4 pb-16 sm:px-6 lg:px-8">
             <div class="relative overflow-hidden rounded-2xl border border-zinc-200 bg-gradient-to-br from-[#f1f4ff] via-white to-[#eef1ff] px-6 py-16 text-center sm:px-16 dark:border-white/10 dark:from-[#3750eb]/25 dark:via-zinc-900 dark:to-[#3750eb]/10">
                 <div class="pointer-events-none absolute inset-0 -z-10 bg-[#3750eb]/5 blur-3xl" aria-hidden="true"></div>
                 <div class="relative">
@@ -704,18 +731,49 @@
 
         {{-- ===================== FOOTER ===================== --}}
         <footer class="relative overflow-hidden border-t border-zinc-200 dark:border-white/5">
-            <div class="relative mx-auto flex max-w-7xl flex-col items-center justify-between gap-6 px-4 py-10 sm:flex-row sm:px-6 lg:px-8">
-                <div class="flex items-center gap-2.5">
-                    <img src="{{ asset('images/logo-black.png') }}" alt="ProoDev" class="h-5 w-auto dark:hidden" />
-                    <img src="{{ asset('images/logo-white.png') }}" alt="ProoDev" class="hidden h-5 w-auto dark:block" />
+            <div class="mx-auto max-w-7xl px-4 pt-16 pb-8 sm:px-6 lg:px-8">
+                <div class="grid gap-10 sm:grid-cols-2 lg:grid-cols-4">
+                    <div class="lg:col-span-1">
+                        <div class="flex items-center gap-2.5">
+                            <img src="{{ asset('logo-black.svg') }}" alt="ProoDev" class="h-6 w-auto dark:hidden" />
+                            <img src="{{ asset('logo-white.svg') }}" alt="ProoDev" class="hidden h-6 w-auto dark:block" />
+                        </div>
+                        <p class="mt-4 max-w-xs text-sm leading-relaxed text-zinc-500">Hire engineers who can prove what they've built. Evidence-backed engineering identities for companies.</p>
+                    </div>
+                    <div>
+                        <h3 class="text-sm font-semibold text-zinc-900 dark:text-white">Product</h3>
+                        <ul class="mt-4 space-y-2.5 text-sm text-zinc-500">
+                            <li><a href="{{ route('for-companies') }}" class="transition hover:text-zinc-900 dark:hover:text-white">For Companies</a></li>
+                            <li><a href="{{ route('developers') }}" class="transition hover:text-zinc-900 dark:hover:text-white">Verified Directory</a></li>
+                            <li><a href="{{ route('jobs.index') }}" class="transition hover:text-zinc-900 dark:hover:text-white">Open Roles</a></li>
+                            <li><a href="{{ url('/devid') }}" class="transition hover:text-zinc-900 dark:hover:text-white">DevID</a></li>
+                        </ul>
+                    </div>
+                    <div>
+                        <h3 class="text-sm font-semibold text-zinc-900 dark:text-white">Company</h3>
+                        <ul class="mt-4 space-y-2.5 text-sm text-zinc-500">
+                            <li><a href="{{ route('for-companies') }}" class="transition hover:text-zinc-900 dark:hover:text-white">About</a></li>
+                            <li><a href="{{ route('news.index') }}" class="transition hover:text-zinc-900 dark:hover:text-white">News</a></li>
+                            @auth
+                                <li><a href="{{ route('home') }}" class="transition hover:text-zinc-900 dark:hover:text-white">Dashboard</a></li>
+                            @else
+                                <li><a href="{{ route('login') }}" class="transition hover:text-zinc-900 dark:hover:text-white">Sign in</a></li>
+                                <li><a href="{{ route('register') }}" class="transition hover:text-zinc-900 dark:hover:text-white">Register</a></li>
+                            @endauth
+                        </ul>
+                    </div>
+                    <div>
+                        <h3 class="text-sm font-semibold text-zinc-900 dark:text-white">Legal</h3>
+                        <ul class="mt-4 space-y-2.5 text-sm text-zinc-500">
+                            <li><a href="{{ route('privacy') }}" class="transition hover:text-zinc-900 dark:hover:text-white">Privacy Policy</a></li>
+                            <li><a href="{{ route('terms') }}" class="transition hover:text-zinc-900 dark:hover:text-white">Terms &amp; Conditions</a></li>
+                            <li><a href="{{ route('cookies') }}" class="transition hover:text-zinc-900 dark:hover:text-white">Cookie Policy</a></li>
+                        </ul>
+                    </div>
                 </div>
-                <p class="text-sm text-zinc-500">(c) {{ date('Y') }} {{ config('app.name', 'ProoDev') }}. Proof over claims.</p>
-                <div class="flex items-center gap-4 text-sm text-zinc-500">
-                    <a href="{{ route('welcome') }}" class="transition hover:text-zinc-900 dark:hover:text-white">For developers</a>
-                    <a href="{{ route('news.index') }}" class="transition hover:text-zinc-900 dark:hover:text-white">News</a>
-                    <a href="{{ route('privacy') }}" class="transition hover:text-zinc-900 dark:hover:text-white">Privacy</a>
-                    <a href="{{ route('terms') }}" class="transition hover:text-zinc-900 dark:hover:text-white">Terms</a>
-                    <a href="{{ route('cookies') }}" class="transition hover:text-zinc-900 dark:hover:text-white">Cookies</a>
+                <div class="mt-12 flex flex-col items-center justify-between gap-3 border-t border-zinc-200 pt-6 sm:flex-row dark:border-white/5">
+                    <p class="text-xs text-zinc-400">&copy; {{ date('Y') }} {{ config('app.name', 'ProoDev') }}. Proof over claims.</p>
+                    <p class="text-xs text-zinc-400">Built for companies who hire engineers based on evidence.</p>
                 </div>
             </div>
         </footer>

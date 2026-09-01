@@ -70,6 +70,33 @@
                 border-color: rgb(255 255 255 / 0.08);
                 box-shadow: 0 8px 30px rgb(0 0 0 / 0.45);
             }
+            .section-contained { position: relative; }
+            .section-contained::before,
+            .section-contained::after {
+                content: '';
+                position: absolute;
+                top: 0;
+                bottom: 0;
+                width: 1px;
+                background: rgb(228 228 231 / 0.6);
+                z-index: 1;
+            }
+            .dark .section-contained::before { background: rgb(255 255 255 / 0.06); }
+            .dark .section-contained::after  { background: rgb(255 255 255 / 0.06); }
+            .section-contained::before { left: calc(50% - 40rem); }
+            .section-contained::after  { right: calc(50% - 40rem); }
+            @media (max-width: 1280px) {
+                .section-contained::before { left: 1rem; }
+                .section-contained::after  { right: 1rem; }
+            }
+            @media (min-width: 640px) and (max-width: 1280px) {
+                .section-contained::before { left: 1.5rem; }
+                .section-contained::after  { right: 1.5rem; }
+            }
+            @media (min-width: 1024px) and (max-width: 1280px) {
+                .section-contained::before { left: 2rem; }
+                .section-contained::after  { right: 2rem; }
+            }
         </style>
     </head>
     <body class="min-h-screen overflow-x-clip bg-white text-zinc-900 antialiased selection:bg-zinc-900/20 dark:bg-zinc-950 dark:text-zinc-100">
@@ -118,7 +145,7 @@
                     @else
                         <a href="{{ route('login') }}" class="hidden rounded-lg px-3 py-2 text-sm font-medium text-zinc-600 transition hover:text-zinc-900 sm:inline-block dark:text-zinc-300 dark:hover:text-white">Sign in</a>
                         <a href="{{ route('register') }}" class="inline-flex items-center rounded-full bg-[#3750eb] px-4 py-2 text-sm font-semibold text-white shadow-lg shadow-[#3750eb]/25 transition hover:opacity-90">
-                            Build My DevID
+                            Create Your DevID
                         </a>
                     @endauth
                     <x-theme-toggle />
@@ -127,7 +154,7 @@
         </header>
 
         {{-- ===================== HERO ===================== --}}
-        <section class="relative mx-auto max-w-7xl px-4 pb-16 pt-32 text-center sm:px-6 sm:pt-40 lg:px-8">
+        <section class="section-contained relative mx-auto max-w-7xl px-4 pb-16 pt-32 text-center sm:px-6 sm:pt-40 lg:px-8">
             <div class="relative mx-auto max-w-3xl animate-fade-up">
                 <p class="text-sm font-semibold uppercase tracking-widest text-zinc-900 dark:text-white">ProoDev for developers</p>
                 <h1 class="mt-4 text-4xl font-bold tracking-tight text-zinc-900 sm:text-6xl dark:text-white">
@@ -142,12 +169,12 @@
                 <div class="mt-10 flex flex-col items-center justify-center gap-3 sm:flex-row">
                     @auth
                         <a href="{{ route('home') }}" class="inline-flex w-full items-center justify-center gap-2 rounded-xl bg-[#3750eb] px-6 py-3 text-sm font-semibold text-white shadow-xl shadow-[#3750eb]/25 transition hover:opacity-90 sm:w-auto">
-                            Build My DevID
+                            Create Your DevID
                             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="size-4"><path fill-rule="evenodd" d="{{ $icon['arrow-right'] }}" clip-rule="evenodd"/></svg>
                         </a>
                     @else
                         <a href="{{ route('register') }}" class="inline-flex w-full items-center justify-center gap-2 rounded-xl bg-[#3750eb] px-6 py-3 text-sm font-semibold text-white shadow-xl shadow-[#3750eb]/25 transition hover:opacity-90 sm:w-auto">
-                            Build My DevID
+                            Create Your DevID
                             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="size-4"><path fill-rule="evenodd" d="{{ $icon['arrow-right'] }}" clip-rule="evenodd"/></svg>
                         </a>
                     @endauth
@@ -161,7 +188,7 @@
         </section>
 
         {{-- ===================== WORKFLOW ===================== --}}
-        <section id="how-it-works" class="relative overflow-hidden border-t border-zinc-200 bg-zinc-50 dark:border-white/5 dark:bg-white/[0.02]">
+        <section id="how-it-works" class="section-contained relative overflow-hidden border-t border-zinc-200 bg-zinc-50 dark:border-white/5 dark:bg-white/[0.02]">
             <div class="relative mx-auto max-w-7xl px-4 py-16 sm:px-6 lg:px-8">
                 <div class="mx-auto max-w-2xl text-center">
                     <p class="text-sm font-semibold uppercase tracking-widest text-zinc-900 dark:text-white">How it works</p>
@@ -176,7 +203,7 @@
                         ['n' => '04', 'title' => 'Get Discovered', 'copy' => 'Recruiters and companies can discover developers based on demonstrated capabilities.'],
                         ['n' => '05', 'title' => 'Find Better Opportunities', 'copy' => 'Apply using your DevID and evidence instead of starting every application from scratch.'],
                     ] as $step)
-                        <div class="relative rounded-lg border border-zinc-200 bg-white p-4 transition duration-300 hover:-translate-y-1 hover:border-zinc-900 hover:shadow-xl hover:shadow-zinc-900/10 dark:border-white/10 dark:bg-zinc-950/60 dark:hover:border-white/25 dark:hover:bg-white/[0.04]">
+                        <div class="relative rounded-lg border border-zinc-200 bg-white p-4 transition duration-300 hover:-translate-y-1 hover:border-zinc-900 hover:shadow-xl hover:shadow-zinc-900/10 dark:border-white/10 dark:bg-zinc-900/50 dark:hover:border-white/25 dark:hover:bg-white/[0.04]">
                             <span class="inline-flex items-center rounded-full bg-zinc-950 px-3 py-1 text-xs font-bold tracking-widest text-white ring-1 ring-zinc-200 dark:bg-white dark:text-zinc-950 dark:ring-white/10">{{ $step['n'] }}</span>
                             <h3 class="mt-4 text-base font-semibold text-zinc-900 dark:text-white">{{ $step['title'] }}</h3>
                             <p class="mt-2 text-sm leading-relaxed text-zinc-600 dark:text-zinc-400">{{ $step['copy'] }}</p>
@@ -187,7 +214,7 @@
         </section>
 
         {{-- ===================== ACHIEVEMENT TRANSFORMATION ===================== --}}
-        <section class="relative overflow-hidden border-t border-zinc-200 dark:border-white/5">
+        <section class="section-contained relative overflow-hidden border-t border-zinc-200 dark:border-white/5">
             <div class="relative mx-auto max-w-7xl px-4 py-16 sm:px-6 lg:px-8">
                 <div class="mx-auto max-w-2xl text-center">
                     <p class="text-sm font-semibold uppercase tracking-widest text-zinc-900 dark:text-white">Engineering achievements</p>
@@ -195,7 +222,7 @@
                 </div>
 
                 <div class="mx-auto mt-14 grid max-w-5xl items-stretch gap-5 lg:grid-cols-2">
-                    <div class="flex flex-col rounded-xl border border-zinc-200 bg-white p-5 dark:border-white/10 dark:bg-zinc-950/60">
+                    <div class="flex flex-col rounded-xl border border-zinc-200 bg-white p-5 dark:border-white/10 dark:bg-zinc-900/50">
                         <div class="text-[10px] font-semibold uppercase tracking-widest text-zinc-400">Before</div>
                         <div class="mt-4 rounded-lg border border-zinc-200 bg-zinc-50 p-4 font-mono text-sm dark:border-white/10 dark:bg-zinc-900/70">
                             <div class="flex items-center gap-2">
@@ -208,7 +235,7 @@
 
                     <div class="relative flex flex-col rounded-xl border border-zinc-300 dark:border-white/15 bg-gradient-to-br from-zinc-100 to-white p-5 shadow-lg shadow-zinc-900/10 dark:border-zinc-300 dark:border-white/15 dark:from-white/10 dark:to-zinc-950/60">
                         <div class="text-[10px] font-semibold uppercase tracking-widest text-zinc-900 dark:text-white">After: engineering achievement</div>
-                        <div class="mt-4 rounded-lg border border-zinc-200 bg-white p-4 dark:bg-zinc-950/60">
+                        <div class="mt-4 rounded-lg border border-zinc-200 bg-white p-4 dark:bg-zinc-900/50">
                             <p class="text-base font-semibold text-zinc-900 dark:text-white">Solved a high-complexity concurrency problem.</p>
                             <div class="mt-4 grid gap-3 sm:grid-cols-2">
                                 <div>
@@ -243,7 +270,7 @@
         </section>
 
         {{-- ===================== OPEN SOURCE ===================== --}}
-        <section class="relative overflow-hidden border-t border-zinc-200 bg-zinc-50 dark:border-white/5 dark:bg-white/[0.02]">
+        <section class="section-contained relative overflow-hidden border-t border-zinc-200 bg-zinc-50 dark:border-white/5 dark:bg-white/[0.02]">
             <div class="relative mx-auto max-w-7xl px-4 py-16 sm:px-6 lg:px-8">
                 <div class="mx-auto max-w-2xl text-center">
                     <p class="text-sm font-semibold uppercase tracking-widest text-zinc-900 dark:text-white">Open source</p>
@@ -251,7 +278,7 @@
                 </div>
 
                 <div class="mx-auto mt-12 max-w-3xl space-y-4">
-                    <div class="rounded-xl border border-zinc-200 bg-white p-4 dark:border-white/10 dark:bg-zinc-950/60">
+                    <div class="rounded-xl border border-zinc-200 bg-white p-4 dark:border-white/10 dark:bg-zinc-900/50">
                         <div class="text-[10px] font-semibold uppercase tracking-widest text-zinc-400">Instead of</div>
                         <p class="mt-1.5 font-mono text-sm text-zinc-500">"Contributed to Filament"</p>
                     </div>
@@ -267,7 +294,7 @@
                                 <div class="text-[10px] font-semibold uppercase tracking-widest text-zinc-400">Demonstrated</div>
                                 <div class="mt-1.5 flex flex-wrap gap-1.5">
                                     @foreach (['PHP', 'Laravel', 'Component Architecture', 'Testing'] as $skill)
-                                        <span class="rounded-md bg-white/80 px-2 py-1 text-[11px] text-zinc-700 ring-1 ring-zinc-200 dark:bg-zinc-950/60 dark:text-zinc-200 dark:ring-white/10">{{ $skill }}</span>
+                                        <span class="rounded-md bg-white/80 px-2 py-1 text-[11px] text-zinc-700 ring-1 ring-zinc-200 dark:bg-zinc-900/50 dark:text-zinc-200 dark:ring-white/10">{{ $skill }}</span>
                                     @endforeach
                                 </div>
                             </div>
@@ -281,7 +308,7 @@
         </section>
 
         {{-- ===================== OPPORTUNITIES ===================== --}}
-        <section class="relative overflow-hidden border-t border-zinc-200 dark:border-white/5">
+        <section class="section-contained relative overflow-hidden border-t border-zinc-200 dark:border-white/5">
             <div class="relative mx-auto max-w-7xl px-4 py-16 sm:px-6 lg:px-8">
                 <div class="mx-auto max-w-2xl text-center">
                     <p class="text-sm font-semibold uppercase tracking-widest text-zinc-900 dark:text-white">Opportunities</p>
@@ -291,7 +318,7 @@
                 </div>
 
                 <div class="mx-auto mt-14 grid max-w-4xl items-stretch gap-5 lg:grid-cols-2">
-                    <div class="rounded-xl border border-zinc-200 bg-white p-5 dark:border-white/10 dark:bg-zinc-950/60">
+                    <div class="rounded-xl border border-zinc-200 bg-white p-5 dark:border-white/10 dark:bg-zinc-900/50">
                         <div class="text-[10px] font-semibold uppercase tracking-widest text-zinc-400">Your DevID</div>
                         <div class="mt-3 rounded-lg border border-zinc-200 bg-zinc-50 p-4 dark:border-white/10 dark:bg-zinc-900/70">
                             <div class="text-sm font-semibold text-zinc-900 dark:text-white">Senior Laravel Engineer profile</div>
@@ -312,7 +339,7 @@
                             </div>
                             <span class="inline-flex items-center rounded-full bg-emerald-400/10 px-3 py-1 text-sm font-bold tabular-nums text-emerald-600 dark:text-emerald-400">94% Work Match</span>
                         </div>
-                        <div class="mt-4 rounded-lg border border-zinc-200 bg-white/70 p-3 dark:border-white/10 dark:bg-zinc-950/60">
+                        <div class="mt-4 rounded-lg border border-zinc-200 bg-white/70 p-3 dark:border-white/10 dark:bg-zinc-900/50">
                             <div class="text-[10px] font-semibold uppercase tracking-widest text-zinc-400">Why you match</div>
                             <p class="mt-1 text-sm leading-relaxed text-zinc-600 dark:text-zinc-300">Your evidence maps directly onto what this role needs. Apply with your work instead of starting from scratch.</p>
                         </div>
@@ -326,7 +353,7 @@
         </section>
 
         {{-- ===================== DEVID GROWS ===================== --}}
-        <section class="relative overflow-hidden border-t border-zinc-200 dark:border-white/5">
+        <section class="section-contained relative overflow-hidden border-t border-zinc-200 dark:border-white/5">
             <div class="relative mx-auto max-w-7xl px-4 py-16 sm:px-6 lg:px-8">
                 <div class="mx-auto max-w-2xl text-center">
                     <p class="text-sm font-semibold uppercase tracking-widest text-zinc-900 dark:text-white">Your DevID</p>
@@ -347,7 +374,7 @@
                         ] as $moment)
                             <li class="relative">
                                 <span class="absolute -start-[31px] top-1 size-3.5 rounded-full border-2 border-white bg-[#3750eb] dark:border-zinc-950"></span>
-                                <div class="rounded-lg border border-zinc-200 bg-white p-3.5 dark:border-white/10 dark:bg-zinc-950/60">
+                                <div class="rounded-lg border border-zinc-200 bg-white p-3.5 dark:border-white/10 dark:bg-zinc-900/50">
                                     <span class="text-[10px] font-bold uppercase tracking-widest text-zinc-900 dark:text-white">{{ $moment[0] }}</span>
                                     <p class="mt-0.5 text-sm font-medium text-zinc-800 dark:text-zinc-200">{{ $moment[1] }}</p>
                                 </div>
@@ -359,7 +386,7 @@
         </section>
 
         {{-- ===================== FINAL CTA ===================== --}}
-        <section class="mx-auto max-w-7xl px-4 pb-20 sm:px-6 lg:px-8">
+        <section class="section-contained mx-auto max-w-7xl px-4 pb-20 sm:px-6 lg:px-8">
             <div class="relative overflow-hidden rounded-xl border border-zinc-200 bg-gradient-to-br from-zinc-100 via-white to-zinc-50 px-6 py-16 text-center sm:px-16 dark:border-white/10 dark:from-white/10 dark:via-zinc-900 dark:to-white/5">
                 <div class="relative">
                     <h2 class="mx-auto max-w-2xl text-3xl font-bold tracking-tight text-zinc-900 sm:text-5xl dark:text-white">
@@ -370,18 +397,18 @@
                     </p>
                     <div class="mt-8 flex flex-col items-center justify-center gap-3 sm:flex-row">
                         @auth
-                            <a href="{{ route('home') }}" class="inline-flex w-full items-center justify-center gap-2 rounded-xl bg-zinc-900 px-6 py-3 text-sm font-semibold text-white! transition hover:bg-zinc-700 sm:w-auto dark:bg-white dark:text-zinc-900! dark:hover:bg-zinc-200">
-                                Build My DevID
+                            <a href="{{ route('home') }}" class="inline-flex w-full items-center justify-center gap-2 rounded-xl bg-[#3750eb] px-6 py-3 text-sm font-semibold text-white shadow-xl shadow-[#3750eb]/25 transition hover:opacity-90 sm:w-auto">
+                                Create Your DevID
                                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="size-4"><path fill-rule="evenodd" d="{{ $icon['arrow-right'] }}" clip-rule="evenodd"/></svg>
                             </a>
                         @else
-                            <a href="{{ route('register') }}" class="inline-flex w-full items-center justify-center gap-2 rounded-xl bg-zinc-900 px-6 py-3 text-sm font-semibold text-white! transition hover:bg-zinc-700 sm:w-auto dark:bg-white dark:text-zinc-900! dark:hover:bg-zinc-200">
-                                Build My DevID
+                            <a href="{{ route('register') }}" class="inline-flex w-full items-center justify-center gap-2 rounded-xl bg-[#3750eb] px-6 py-3 text-sm font-semibold text-white shadow-xl shadow-[#3750eb]/25 transition hover:opacity-90 sm:w-auto">
+                                Create Your DevID
                                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="size-4"><path fill-rule="evenodd" d="{{ $icon['arrow-right'] }}" clip-rule="evenodd"/></svg>
                             </a>
                         @endauth
-                        <a href="{{ route('jobs.index') }}" class="inline-flex w-full items-center justify-center rounded-xl border border-zinc-300 bg-white/60 px-6 py-3 text-sm font-semibold text-zinc-700 transition hover:bg-white sm:w-auto dark:border-white/20 dark:bg-white/5 dark:text-white dark:hover:bg-white/10">
-                            Explore Opportunities
+                        <a href="{{ route('jobs.index') }}" class="inline-flex w-full items-center justify-center rounded-xl border border-zinc-200 bg-white/60 px-6 py-3 text-sm font-semibold text-zinc-700 transition hover:border-zinc-300 hover:bg-white sm:w-auto dark:border-white/10 dark:bg-white/5 dark:text-zinc-200 dark:hover:border-white/25 dark:hover:bg-white/10">
+                            Find Opportunities
                         </a>
                     </div>
                     <p class="mt-8 text-sm font-medium text-zinc-500 dark:text-zinc-400">Your work. Your achievements. Your next opportunity.</p>
@@ -393,29 +420,49 @@
 
         {{-- ===================== FOOTER ===================== --}}
         <footer class="relative overflow-hidden border-t border-zinc-200 dark:border-white/5">
-            <div class="relative mx-auto flex max-w-7xl flex-col items-center justify-between gap-6 px-4 py-10 sm:flex-row sm:px-6 lg:px-8">
-                <div class="flex items-center gap-2.5">
-                    <img src="{{ asset('images/logo-black.png') }}" alt="ProoDev" class="h-5 w-auto dark:hidden" />
-                    <img src="{{ asset('images/logo-white.png') }}" alt="ProoDev" class="hidden h-5 w-auto dark:block" />
+            <div class="mx-auto max-w-7xl px-4 pt-16 pb-8 sm:px-6 lg:px-8">
+                <div class="grid gap-10 sm:grid-cols-2 lg:grid-cols-4">
+                    <div class="lg:col-span-1">
+                        <div class="flex items-center gap-2.5">
+                            <img src="{{ asset('logo-black.svg') }}" alt="ProoDev" class="h-6 w-auto dark:hidden" />
+                            <img src="{{ asset('logo-white.svg') }}" alt="ProoDev" class="hidden h-6 w-auto dark:block" />
+                        </div>
+                        <p class="mt-4 max-w-xs text-sm leading-relaxed text-zinc-500">Show what you've built. Get noticed by the right people. Evidence-backed engineering identities for developers.</p>
+                    </div>
+                    <div>
+                        <h3 class="text-sm font-semibold text-zinc-900 dark:text-white">Product</h3>
+                        <ul class="mt-4 space-y-2.5 text-sm text-zinc-500">
+                            <li><a href="{{ route('home') }}" class="transition hover:text-zinc-900 dark:hover:text-white">Dashboard</a></li>
+                            <li><a href="{{ route('developers') }}" class="transition hover:text-zinc-900 dark:hover:text-white">Verified Directory</a></li>
+                            <li><a href="{{ route('jobs.index') }}" class="transition hover:text-zinc-900 dark:hover:text-white">Open Roles</a></li>
+                            <li><a href="{{ url('/devid') }}" class="transition hover:text-zinc-900 dark:hover:text-white">DevID</a></li>
+                        </ul>
+                    </div>
+                    <div>
+                        <h3 class="text-sm font-semibold text-zinc-900 dark:text-white">Company</h3>
+                        <ul class="mt-4 space-y-2.5 text-sm text-zinc-500">
+                            <li><a href="{{ route('for-companies') }}" class="transition hover:text-zinc-900 dark:hover:text-white">About</a></li>
+                            <li><a href="{{ route('news.index') }}" class="transition hover:text-zinc-900 dark:hover:text-white">News</a></li>
+                            @auth
+                                <li><a href="{{ route('home') }}" class="transition hover:text-zinc-900 dark:hover:text-white">Dashboard</a></li>
+                            @else
+                                <li><a href="{{ route('login') }}" class="transition hover:text-zinc-900 dark:hover:text-white">Sign in</a></li>
+                                <li><a href="{{ route('register') }}" class="transition hover:text-zinc-900 dark:hover:text-white">Register</a></li>
+                            @endauth
+                        </ul>
+                    </div>
+                    <div>
+                        <h3 class="text-sm font-semibold text-zinc-900 dark:text-white">Legal</h3>
+                        <ul class="mt-4 space-y-2.5 text-sm text-zinc-500">
+                            <li><a href="{{ route('privacy') }}" class="transition hover:text-zinc-900 dark:hover:text-white">Privacy Policy</a></li>
+                            <li><a href="{{ route('terms') }}" class="transition hover:text-zinc-900 dark:hover:text-white">Terms &amp; Conditions</a></li>
+                            <li><a href="{{ route('cookies') }}" class="transition hover:text-zinc-900 dark:hover:text-white">Cookie Policy</a></li>
+                        </ul>
+                    </div>
                 </div>
-                <p class="text-sm text-zinc-500">(c) {{ date('Y') }} {{ config('app.name', 'ProoDev') }}. Proof over claims.</p>
-                <div class="flex items-center gap-4 text-sm text-zinc-500">
-                    <a href="{{ route('news.index') }}" class="transition hover:text-zinc-900 dark:hover:text-white">News</a>
-                    @auth
-                        <a href="{{ route('home') }}" class="transition hover:text-zinc-900 dark:hover:text-white">Dashboard</a>
-                        <a href="{{ route('jobs.index') }}" class="transition hover:text-zinc-900 dark:hover:text-white">Opportunities</a>
-                    @else
-                        <a href="{{ route('login') }}" class="transition hover:text-zinc-900 dark:hover:text-white">Sign in</a>
-                        <a href="{{ route('register') }}" class="transition hover:text-zinc-900 dark:hover:text-white">Register</a>
-                    @endauth
-                </div>
-            </div>
-            <div class="relative mx-auto flex max-w-7xl flex-col items-center justify-between gap-3 border-t border-zinc-200 px-4 py-5 sm:flex-row sm:px-6 lg:px-8 dark:border-white/5">
-                <p class="text-xs text-zinc-400">Built for engineers who back their claims with evidence.</p>
-                <div class="flex items-center gap-5 text-xs text-zinc-500">
-                    <a href="{{ route('privacy') }}" class="transition hover:text-zinc-900 dark:hover:text-white">Privacy Policy</a>
-                    <a href="{{ route('terms') }}" class="transition hover:text-zinc-900 dark:hover:text-white">Terms &amp; Conditions</a>
-                    <a href="{{ route('cookies') }}" class="transition hover:text-zinc-900 dark:hover:text-white">Cookie Policy</a>
+                <div class="mt-12 flex flex-col items-center justify-between gap-3 border-t border-zinc-200 pt-6 sm:flex-row dark:border-white/5">
+                    <p class="text-xs text-zinc-400">&copy; {{ date('Y') }} {{ config('app.name', 'ProoDev') }}. Proof over claims.</p>
+                    <p class="text-xs text-zinc-400">Built for engineers who back their claims with evidence.</p>
                 </div>
             </div>
         </footer>
@@ -433,5 +480,7 @@
                 update();
             })();
         </script>
+
+        @fluxScripts
     </body>
 </html>
