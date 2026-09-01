@@ -655,7 +655,7 @@
 
                 <div class="relative mt-10">
                     <div class="pointer-events-none absolute inset-0 -z-10 rounded-full bg-zinc-900/10 blur-3xl" aria-hidden="true"></div>
-                    <div class="relative z-10 w-full h-[400px] overflow-hidden rounded-xl border border-zinc-300 bg-zinc-50 sm:h-[500px] dark:border-white/10 dark:bg-zinc-900">
+                    <div class="relative z-10 w-full h-[400px] overflow-hidden rounded-xl border border-zinc-200 bg-white sm:h-[500px] dark:border-white/10 dark:bg-zinc-900">
                         <canvas id="talent-globe" class="block size-full cursor-grab active:cursor-grabbing" style="width:100%;height:100%;display:block" aria-label="3D globe of developers"></canvas>
 
                         <div id="globe-tooltip" class="absolute z-20 hidden w-72 -translate-x-1/2 rounded-lg border border-zinc-200 bg-white/95 p-4 shadow-2xl shadow-zinc-900/20 backdrop-blur-xl dark:border-white/10 dark:bg-zinc-900/95 dark:shadow-black/40" data-tooltip-interactive>
@@ -1178,24 +1178,24 @@
                     cosY = Math.cos(yaw); sinY = Math.sin(yaw);
                     cosP = Math.cos(pitch); sinP = Math.sin(pitch);
 
-                    // --- Ocean: gray smoke sphere (high contrast) ---
+                    // --- Ocean: #f4f4f5 smoke ---
                     ctx.save();
                     ctx.beginPath();
                     ctx.arc(cx, cy, R, 0, Math.PI * 2);
                     ctx.clip();
-                    ctx.fillStyle = '#d4d4d8';
+                    ctx.fillStyle = '#f4f4f5';
                     ctx.fillRect(cx - R - 2, cy - R - 2, R * 2 + 4, R * 2 + 4);
-                    var oceanGrad = ctx.createRadialGradient(cx - R * 0.35, cy - R * 0.4, R * 0.15, cx, cy, R);
-                    oceanGrad.addColorStop(0, 'rgba(244,244,245,0.95)');
-                    oceanGrad.addColorStop(0.4, 'rgba(212,212,216,0.9)');
-                    oceanGrad.addColorStop(0.75, 'rgba(161,161,170,0.85)');
-                    oceanGrad.addColorStop(1, 'rgba(113,113,122,0.9)');
+                    var oceanGrad = ctx.createRadialGradient(cx - R * 0.3, cy - R * 0.35, R * 0.2, cx, cy, R);
+                    oceanGrad.addColorStop(0, 'rgba(255,255,255,1)');
+                    oceanGrad.addColorStop(0.45, 'rgba(244,244,245,0.7)');
+                    oceanGrad.addColorStop(0.75, 'rgba(228,228,231,0.4)');
+                    oceanGrad.addColorStop(1, 'rgba(212,212,216,0.5)');
                     ctx.fillStyle = oceanGrad;
                     ctx.fillRect(cx - R - 2, cy - R - 2, R * 2 + 4, R * 2 + 4);
                     ctx.restore();
 
-                    // Dot-matrix continents - darker zinc for contrast
-                    var dotR = Math.max(1.0, Math.min(2.6, R * 0.007));
+                    // Continents - dense zinc dots for realistic land masses
+                    var dotR = Math.max(1.4, Math.min(3.2, R * 0.009));
                     var cY = cosY, sY = sinY, cP = cosP, sP = sinP;
                     for (var i = 0; i < landDots.length; i++) {
                         var v = landDots[i];
@@ -1208,18 +1208,18 @@
                         var sx = cx + R * x;
                         var sy = cy - R * y2;
                         var depth = z2 * 0.6 + 0.4;
-                        var dr = dotR * (0.55 + 0.45 * depth);
+                        var dr = dotR * (0.6 + 0.4 * depth);
                         ctx.beginPath();
                         ctx.arc(sx, sy, dr, 0, Math.PI * 2);
-                        ctx.fillStyle = 'rgba(63,63,70,' + (0.35 + 0.35 * depth).toFixed(3) + ')';
+                        ctx.fillStyle = 'rgba(39,39,42,' + (0.55 + 0.35 * depth).toFixed(3) + ')';
                         ctx.fill();
                     }
 
-                    // Sphere rim - strong
+                    // Sphere rim
                     ctx.beginPath();
                     ctx.arc(cx, cy, R, 0, Math.PI * 2);
-                    ctx.strokeStyle = 'rgba(82,82,91,0.5)';
-                    ctx.lineWidth = 1.5;
+                    ctx.strokeStyle = 'rgba(113,113,122,0.35)';
+                    ctx.lineWidth = 1.2;
                     ctx.stroke();
 
                     projectAll();
@@ -1231,21 +1231,28 @@
                     for (var j = 0; j < front.length; j++) {
                         var p = front[j];
                         var isActive = (p.dev.id === hoverId) || (p.dev.id === pinnedIndex);
-                        // black dot with white ring - pinned to country
-                        var drawR = isActive ? p.r * 1.35 : p.r;
-                        ctx.beginPath();
-                        ctx.arc(p.sx, p.sy, drawR, 0, Math.PI * 2);
-                        ctx.fillStyle = isActive ? '#18181b' : '#09090b';
-                        ctx.fill();
-                        ctx.strokeStyle = isActive ? 'rgba(24,24,27,1)' : 'rgba(255,255,255,0.95)';
-                        ctx.lineWidth = isActive ? 2.5 : 1.8;
-                        ctx.stroke();
-                        // inner highlight for depth
-                        if (!isActive) {
+                        var av = avatars[developers.indexOf(p.dev)];
+                        var drawR = isActive ? p.r * 1.4 : p.r;
+                        if (av && av.ok && av.img) {
+                            ctx.save();
                             ctx.beginPath();
-                            ctx.arc(p.sx - drawR * 0.25, p.sy - drawR * 0.25, drawR * 0.28, 0, Math.PI * 2);
-                            ctx.fillStyle = 'rgba(255,255,255,0.18)';
+                            ctx.arc(p.sx, p.sy, drawR, 0, Math.PI * 2);
+                            ctx.clip();
+                            ctx.drawImage(av.img, p.sx - drawR, p.sy - drawR, drawR * 2, drawR * 2);
+                            ctx.restore();
+                            ctx.beginPath();
+                            ctx.arc(p.sx, p.sy, drawR, 0, Math.PI * 2);
+                            ctx.strokeStyle = isActive ? 'rgba(24,24,27,1)' : 'rgba(255,255,255,0.95)';
+                            ctx.lineWidth = isActive ? 2.5 : 1.6;
+                            ctx.stroke();
+                        } else {
+                            ctx.beginPath();
+                            ctx.arc(p.sx, p.sy, drawR, 0, Math.PI * 2);
+                            ctx.fillStyle = isActive ? '#18181b' : '#09090b';
                             ctx.fill();
+                            ctx.strokeStyle = 'rgba(255,255,255,0.95)';
+                            ctx.lineWidth = isActive ? 2.5 : 1.6;
+                            ctx.stroke();
                         }
                         if (isActive) {
                             ctx.beginPath();
@@ -1255,7 +1262,7 @@
                             ctx.stroke();
                             ctx.beginPath();
                             ctx.arc(p.sx, p.sy, drawR + 10, 0, Math.PI * 2);
-                            ctx.strokeStyle = 'rgba(9,9,11,0.07)';
+                            ctx.strokeStyle = 'rgba(9,9,11,0.06)';
                             ctx.lineWidth = 8;
                             ctx.stroke();
                         }
