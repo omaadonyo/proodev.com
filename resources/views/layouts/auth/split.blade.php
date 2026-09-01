@@ -9,7 +9,7 @@
             <div class="relative hidden h-full flex-col p-10 text-white lg:flex dark:border-e dark:border-zinc-800">
                 <div class="absolute inset-0 bg-zinc-900"></div>
                 <div class="bg-grid absolute inset-0 opacity-40" aria-hidden="true"></div>
-                <a href="{{ route('home') }}" class="relative z-20 flex items-center text-lg font-medium" wire:navigate>
+                <a href="/" class="relative z-20 flex items-center text-lg font-medium" wire:navigate>
                     <img src="{{ asset('images/favicon-64.png') }}" alt="ProoDev" class="me-2 size-10 rounded-xl shadow-lg shadow-violet-500/30" />
                     {{ config('app.name', 'Laravel') }}
                 </a>
@@ -27,7 +27,7 @@
             </div>
             <div class="w-full lg:p-8">
                 <div class="mx-auto flex w-full flex-col justify-center space-y-6 sm:w-[350px]">
-                    <a href="{{ route('home') }}" class="z-20 flex flex-col items-center gap-2 font-medium lg:hidden" wire:navigate>
+                    <a href="/" class="z-20 flex flex-col items-center gap-2 font-medium lg:hidden" wire:navigate>
                         <img src="{{ asset('images/favicon-64.png') }}" alt="ProoDev" class="size-9 rounded-md" />
 
                         <span class="sr-only">{{ config('app.name', 'Laravel') }}</span>

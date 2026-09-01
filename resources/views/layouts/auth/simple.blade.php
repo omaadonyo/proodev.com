@@ -8,7 +8,7 @@
         <div class="bg-grid pointer-events-none fixed inset-0 -z-10 opacity-40" aria-hidden="true"></div>
         <div class="flex min-h-svh flex-col items-center justify-center gap-6 p-6 md:p-10">
             <div class="flex w-full max-w-sm flex-col gap-2">
-                <a href="{{ route('home') }}" class="flex flex-col items-center gap-2 font-medium" wire:navigate>
+                <a href="/" class="flex flex-col items-center gap-2 font-medium" wire:navigate>
                     <img src="{{ asset('images/favicon-64.png') }}" alt="ProoDev" class="mb-1 size-10 rounded-xl shadow-lg shadow-violet-500/30" />
                     <span class="sr-only">{{ config('app.name', 'Laravel') }}</span>
                 </a>
