@@ -154,9 +154,8 @@
         <header class="site-header fixed inset-x-0 top-0 z-50 border-b backdrop-blur-xl supports-[backdrop-filter]:bg-white/60 supports-[backdrop-filter]:dark:bg-zinc-950/50">
             <nav class="mx-auto flex h-16 max-w-7xl items-center justify-between gap-4 px-4 sm:px-6 lg:px-8">
                 <a href="{{ route('welcome') }}" class="flex items-center gap-2.5">
-                    <img src="{{ asset('logo-black.svg') }}" alt="ProoDev" class="h-7 w-auto dark:hidden" />
-                    <img src="{{ asset('logo-white.svg') }}" alt="ProoDev" class="hidden h-7 w-auto dark:block" />
-                    <span class="hidden rounded-full bg-[#3750eb]/10 px-2.5 py-0.5 text-[10px] font-semibold uppercase tracking-wider text-[#3750eb] sm:inline-block dark:text-[#8f9dff]">For companies</span>
+                    <img src="{{ asset('images/logo-black.png') }}" alt="ProoDev" class="h-7 w-auto dark:hidden" />
+                    <img src="{{ asset('images/logo-white.png') }}" alt="ProoDev" class="hidden h-7 w-auto dark:block" />
                 </a>
 
                 <div class="hidden items-center gap-1 text-sm text-zinc-500 md:flex dark:text-zinc-400">
@@ -164,7 +163,7 @@
                     <a href="#tools" class="rounded-lg px-3 py-2 transition hover:text-zinc-900 dark:hover:text-white">The toolkit</a>
                     <a href="#preview" class="rounded-lg px-3 py-2 transition hover:text-zinc-900 dark:hover:text-white">Live search</a>
                     <a href="#pricing" class="rounded-lg px-3 py-2 transition hover:text-zinc-900 dark:hover:text-white">Pricing</a>
-                    <a href="{{ route('developers') }}" class="rounded-lg px-3 py-2 font-medium text-[#3750eb] transition hover:text-[#3750eb]/80 dark:text-[#8f9dff] dark:hover:text-[#9db8ff]">For developers</a>
+                    <a href="{{ route('developers') }}" class="rounded-lg px-3 py-2 transition hover:text-zinc-900 dark:hover:text-white">For developers</a>
                 </div>
 
                 <div class="flex items-center gap-2">
@@ -185,7 +184,7 @@
                     <a href="#tools" class="rounded-lg px-3 py-2 text-zinc-600 hover:bg-zinc-100 hover:text-zinc-900 dark:text-zinc-300 dark:hover:bg-white/5 dark:hover:text-white">The toolkit</a>
                     <a href="#preview" class="rounded-lg px-3 py-2 text-zinc-600 hover:bg-zinc-100 hover:text-zinc-900 dark:text-zinc-300 dark:hover:bg-white/5 dark:hover:text-white">Live search</a>
                     <a href="#pricing" class="rounded-lg px-3 py-2 text-zinc-600 hover:bg-zinc-100 hover:text-zinc-900 dark:text-zinc-300 dark:hover:bg-white/5 dark:hover:text-white">Pricing</a>
-                    <a href="{{ route('developers') }}" class="rounded-lg px-3 py-2 font-medium text-[#3750eb] dark:text-[#8f9dff]">For developers</a>
+                    <a href="{{ route('developers') }}" class="rounded-lg px-3 py-2 text-zinc-600 hover:bg-zinc-100 hover:text-zinc-900 dark:text-zinc-300 dark:hover:bg-white/5 dark:hover:text-white">For developers</a>
                     <a href="{{ route('login') }}" class="mt-2 rounded-lg px-3 py-2 text-zinc-600 hover:bg-zinc-100 hover:text-zinc-900 dark:text-zinc-300 dark:hover:bg-white/5 dark:hover:text-white">Sign in</a>
                 </div>
             </div>
@@ -735,8 +734,8 @@
                 <div class="grid gap-10 sm:grid-cols-2 lg:grid-cols-4">
                     <div class="lg:col-span-1">
                         <div class="flex items-center gap-2.5">
-                            <img src="{{ asset('logo-black.svg') }}" alt="ProoDev" class="h-6 w-auto dark:hidden" />
-                            <img src="{{ asset('logo-white.svg') }}" alt="ProoDev" class="hidden h-6 w-auto dark:block" />
+                            <img src="{{ asset('images/logo-black.png') }}" alt="ProoDev" class="h-6 w-auto dark:hidden" />
+                            <img src="{{ asset('images/logo-white.png') }}" alt="ProoDev" class="hidden h-6 w-auto dark:block" />
                         </div>
                         <p class="mt-4 max-w-xs text-sm leading-relaxed text-zinc-500">Hire engineers who can prove what they've built. Evidence-backed engineering identities for companies.</p>
                     </div>

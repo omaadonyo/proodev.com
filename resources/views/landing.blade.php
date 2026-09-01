@@ -190,8 +190,8 @@
         <header class="site-header fixed inset-x-0 top-0 z-50 border-b backdrop-blur-xl supports-[backdrop-filter]:bg-white/60 supports-[backdrop-filter]:dark:bg-zinc-950/50">
             <nav class="mx-auto flex h-16 max-w-7xl items-center justify-between gap-4 px-4 sm:px-6 lg:px-8">
                 <a href="{{ route('welcome') }}" class="flex items-center gap-2.5">
-                    <img src="{{ asset('logo-black.svg') }}" alt="ProoDev" class="h-7 w-auto dark:hidden" />
-                    <img src="{{ asset('logo-white.svg') }}" alt="ProoDev" class="hidden h-7 w-auto dark:block" />
+                    <img src="{{ asset('images/logo-black.png') }}" alt="ProoDev" class="h-7 w-auto dark:hidden" />
+                    <img src="{{ asset('images/logo-white.png') }}" alt="ProoDev" class="hidden h-7 w-auto dark:block" />
                 </a>
 
                 <div class="hidden items-center gap-1 text-sm text-zinc-500 md:flex dark:text-zinc-400">
@@ -258,7 +258,7 @@
                 <div class="mt-10 flex flex-col items-center justify-center gap-3 sm:flex-row">
                     @auth
                         <a href="{{ route('home') }}" class="inline-flex w-full items-center justify-center gap-2 rounded-xl bg-[#3750eb] px-6 py-3 text-sm font-semibold text-white shadow-xl shadow-[#3750eb]/25 transition hover:opacity-90 sm:w-auto">
-                            <img src="{{ asset('logo-white.svg') }}" alt="ProoDev" class="h-4 w-auto shrink-0" />
+                            <img src="{{ asset('images/logo-white.png') }}" alt="ProoDev" class="h-4 w-auto shrink-0" />
                             Create Your DevID
                         </a>
                     @else
@@ -538,8 +538,8 @@
                     <div class="rounded-xl border border-zinc-200 bg-white p-5 shadow-xl shadow-zinc-900/5 dark:border-white/10 dark:bg-zinc-900/50">
                         <div class="text-[10px] font-semibold uppercase tracking-widest text-zinc-400">Contributed to</div>
                         <div class="mt-1 flex items-center gap-2">
-                            <img src="{{ asset('logo-black.svg') }}" alt="ProoDev" class="h-6 w-auto dark:hidden" />
-                            <img src="{{ asset('logo-white.svg') }}" alt="ProoDev" class="hidden h-6 w-auto dark:block" />
+                            <img src="{{ asset('images/logo-black.png') }}" alt="ProoDev" class="h-6 w-auto dark:hidden" />
+                            <img src="{{ asset('images/logo-white.png') }}" alt="ProoDev" class="hidden h-6 w-auto dark:block" />
                             <span class="text-xl font-bold text-zinc-900 dark:text-white">Laravel</span>
                             <span class="rounded-full bg-zinc-100 dark:bg-white/10 px-2.5 py-0.5 text-[10px] font-semibold text-zinc-900 dark:text-white">Major ecosystem project</span>
                         </div>
@@ -984,8 +984,8 @@
                     {{-- Brand --}}
                     <div class="lg:col-span-1">
                         <div class="flex items-center gap-2.5">
-                            <img src="{{ asset('logo-black.svg') }}" alt="ProoDev" class="h-6 w-auto dark:hidden" />
-                            <img src="{{ asset('logo-white.svg') }}" alt="ProoDev" class="hidden h-6 w-auto dark:block" />
+                            <img src="{{ asset('images/logo-black.png') }}" alt="ProoDev" class="h-6 w-auto dark:hidden" />
+                            <img src="{{ asset('images/logo-white.png') }}" alt="ProoDev" class="hidden h-6 w-auto dark:block" />
                         </div>
                         <p class="mt-4 max-w-xs text-sm leading-relaxed text-zinc-500">Show what you've built. Get noticed by the right people. Evidence-backed engineering identities for developers.</p>
                         <div class="mt-5 flex items-center gap-3">
