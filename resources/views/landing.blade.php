@@ -655,7 +655,7 @@
 
                 <div class="relative mt-10">
                     <div class="pointer-events-none absolute inset-0 -z-10 rounded-full bg-zinc-900/10 blur-3xl" aria-hidden="true"></div>
-                    <div class="relative z-10 w-full h-[400px] overflow-hidden rounded-xl sm:h-[500px]" style="background:#0a0a1a">
+                    <div class="relative z-10 w-full h-[400px] overflow-hidden rounded-xl border border-zinc-200 bg-white sm:h-[500px] dark:border-white/10 dark:bg-zinc-900">
                         <canvas id="talent-globe" class="block size-full cursor-grab active:cursor-grabbing" style="width:100%;height:100%" aria-label="3D globe of developers"></canvas>
 
                         <div id="globe-tooltip" class="absolute z-20 hidden w-72 -translate-x-1/2 rounded-lg border border-zinc-200 bg-white/95 p-4 shadow-2xl shadow-zinc-900/20 backdrop-blur-xl dark:border-white/10 dark:bg-zinc-900/95 dark:shadow-black/40" data-tooltip-interactive>
@@ -1071,10 +1071,9 @@
 
                 var canvas = document.getElementById('talent-globe');
                 var tooltip = document.getElementById('globe-tooltip');
-                if (!canvas || !tooltip) { console.log('globe: missing canvas or tooltip'); return; }
+                if (!canvas || !tooltip) return;
                 
                 var developers = @json($globeDevelopers);
-                console.log('globe: developers count = ' + developers.length);
                 if (!developers.length) return;
 
                 var ctx = canvas.getContext('2d');
@@ -1148,7 +1147,6 @@
                     var rect = canvas.parentElement.getBoundingClientRect();
                     width = rect.width;
                     height = rect.height;
-                    console.log('globe resize: ' + Math.round(width) + 'x' + Math.round(height));
                     canvas.width = width * dpr;
                     canvas.height = height * dpr;
                     canvas.style.width = width + 'px';
@@ -1170,7 +1168,7 @@
                         var z = v[2];
                         var sx = cx + R * v[0];
                         var sy = cy - R * v[1];
-                        var r = Math.max(6, Math.min(18, 8 + (dev.reputation || 0) / 80)) * zoom;
+                        var r = Math.max(3.5, Math.min(7.5, 4 + (dev.reputation || 0) / 120)) * zoom;
                         points.push({ dev: dev, sx: sx, sy: sy, z: z, r: r });
                     }
                 }
@@ -1181,8 +1179,33 @@
                     cosY = Math.cos(yaw); sinY = Math.sin(yaw);
                     cosP = Math.cos(pitch); sinP = Math.sin(pitch);
 
-                    // Dot-matrix continents (front hemisphere only)
-                    var dotR = Math.max(0.8, Math.min(2.5, R * 0.007));
+                    // --- Ocean: gray smoke sphere ---
+                    ctx.save();
+                    ctx.beginPath();
+                    ctx.arc(cx, cy, R, 0, Math.PI * 2);
+                    ctx.clip();
+                    // base fill
+                    ctx.fillStyle = '#f4f4f5';
+                    ctx.fillRect(cx - R - 2, cy - R - 2, R * 2 + 4, R * 2 + 4);
+                    // smoke gradient - soft vignette + highlight
+                    var oceanGrad = ctx.createRadialGradient(cx - R * 0.3, cy - R * 0.4, R * 0.2, cx, cy, R);
+                    oceanGrad.addColorStop(0, 'rgba(255,255,255,0.85)');
+                    oceanGrad.addColorStop(0.35, 'rgba(228,228,231,0.55)');
+                    oceanGrad.addColorStop(0.7, 'rgba(212,212,216,0.65)');
+                    oceanGrad.addColorStop(1, 'rgba(161,161,170,0.45)');
+                    ctx.fillStyle = oceanGrad;
+                    ctx.fillRect(cx - R - 2, cy - R - 2, R * 2 + 4, R * 2 + 4);
+                    // subtle smoke texture - second gradient
+                    var smoke = ctx.createRadialGradient(cx + R * 0.2, cy + R * 0.3, R * 0.1, cx, cy, R * 1.1);
+                    smoke.addColorStop(0, 'rgba(161,161,170,0)');
+                    smoke.addColorStop(0.6, 'rgba(161,161,170,0.08)');
+                    smoke.addColorStop(1, 'rgba(113,113,122,0.18)');
+                    ctx.fillStyle = smoke;
+                    ctx.fillRect(cx - R - 2, cy - R - 2, R * 2 + 4, R * 2 + 4);
+                    ctx.restore();
+
+                    // Dot-matrix continents - subtle zinc dots
+                    var dotR = Math.max(0.9, Math.min(2.2, R * 0.006));
                     var cY = cosY, sY = sinY, cP = cosP, sP = sinP;
                     for (var i = 0; i < landDots.length; i++) {
                         var v = landDots[i];
@@ -1195,26 +1218,25 @@
                         var sx = cx + R * x;
                         var sy = cy - R * y2;
                         var depth = z2 * 0.6 + 0.4;
-                        var dr = dotR * (0.6 + 0.4 * depth);
+                        var dr = dotR * (0.55 + 0.45 * depth);
                         ctx.beginPath();
                         ctx.arc(sx, sy, dr, 0, Math.PI * 2);
-                        ctx.fillStyle = 'rgba(59,91,219,' + (0.16 + 0.3 * depth).toFixed(3) + ')';
+                        ctx.fillStyle = 'rgba(82,82,91,' + (0.18 + 0.22 * depth).toFixed(3) + ')';
                         ctx.fill();
                     }
 
-                    // Sphere rim + sheen
+                    // Sphere rim
                     ctx.beginPath();
                     ctx.arc(cx, cy, R, 0, Math.PI * 2);
-                    ctx.strokeStyle = 'rgba(55,80,235,0.22)';
-                    ctx.lineWidth = 1.5;
+                    ctx.strokeStyle = 'rgba(161,161,170,0.35)';
+                    ctx.lineWidth = 1.2;
                     ctx.stroke();
-                    var sheen = ctx.createRadialGradient(cx - R * 0.4, cy - R * 0.45, R * 0.05, cx - R * 0.4, cy - R * 0.45, R * 0.9);
-                    sheen.addColorStop(0, 'rgba(255,255,255,0.12)');
-                    sheen.addColorStop(1, 'rgba(255,255,255,0)');
+                    // soft outer glow
                     ctx.beginPath();
-                    ctx.arc(cx, cy, R, 0, Math.PI * 2);
-                    ctx.fillStyle = sheen;
-                    ctx.fill();
+                    ctx.arc(cx, cy, R + 6, 0, Math.PI * 2);
+                    ctx.strokeStyle = 'rgba(161,161,170,0.08)';
+                    ctx.lineWidth = 12;
+                    ctx.stroke();
 
                     projectAll();
 
@@ -1225,41 +1247,57 @@
                     for (var j = 0; j < front.length; j++) {
                         var p = front[j];
                         var isActive = (p.dev.id === hoverId) || (p.dev.id === pinnedIndex);
-                        var av = avatars[developers.indexOf(p.dev)];
-
-                        if (av && av.ok && av.img) {
-                            ctx.save();
+                        // black dot with white ring - pinned to country
+                        var drawR = isActive ? p.r * 1.35 : p.r;
+                        ctx.beginPath();
+                        ctx.arc(p.sx, p.sy, drawR, 0, Math.PI * 2);
+                        ctx.fillStyle = isActive ? '#18181b' : '#09090b';
+                        ctx.fill();
+                        ctx.strokeStyle = isActive ? 'rgba(24,24,27,1)' : 'rgba(255,255,255,0.95)';
+                        ctx.lineWidth = isActive ? 2.5 : 1.8;
+                        ctx.stroke();
+                        // inner highlight for depth
+                        if (!isActive) {
                             ctx.beginPath();
-                            ctx.arc(p.sx, p.sy, p.r, 0, Math.PI * 2);
-                            ctx.clip();
-                            ctx.drawImage(av.img, p.sx - p.r, p.sy - p.r, p.r * 2, p.r * 2);
-                            ctx.restore();
-                        } else {
-                            ctx.beginPath();
-                            ctx.arc(p.sx, p.sy, p.r, 0, Math.PI * 2);
-                            ctx.fillStyle = isActive ? 'rgba(91,108,255,0.95)' : 'rgba(55,80,235,0.85)';
+                            ctx.arc(p.sx - drawR * 0.25, p.sy - drawR * 0.25, drawR * 0.28, 0, Math.PI * 2);
+                            ctx.fillStyle = 'rgba(255,255,255,0.18)';
                             ctx.fill();
                         }
-
-                        ctx.beginPath();
-                        ctx.arc(p.sx, p.sy, p.r, 0, Math.PI * 2);
-                        ctx.strokeStyle = isActive ? 'rgba(91,108,255,1)' : 'rgba(255,255,255,0.9)';
-                        ctx.lineWidth = isActive ? 3 : 2;
-                        ctx.stroke();
-
                         if (isActive) {
                             ctx.beginPath();
-                            ctx.arc(p.sx, p.sy, p.r + 7, 0, Math.PI * 2);
-                            ctx.strokeStyle = 'rgba(55,80,235,0.35)';
-                            ctx.lineWidth = 1.5;
+                            ctx.arc(p.sx, p.sy, drawR + 6, 0, Math.PI * 2);
+                            ctx.strokeStyle = 'rgba(9,9,11,0.18)';
+                            ctx.lineWidth = 1.2;
                             ctx.stroke();
+                            ctx.beginPath();
+                            ctx.arc(p.sx, p.sy, drawR + 10, 0, Math.PI * 2);
+                            ctx.strokeStyle = 'rgba(9,9,11,0.07)';
+                            ctx.lineWidth = 8;
+                            ctx.stroke();
+                        }
+                    }
+                    // keep pinned tooltip anchored to moving dot
+                    if (pinnedIndex !== -1) {
+                        for (var k = 0; k < points.length; k++) {
+                            if (points[k].dev.id === pinnedIndex) {
+                                if (points[k].z > 0) {
+                                    var tp = clampTooltip(points[k].sx, points[k].sy - points[k].r - 16);
+                                    tooltip.style.left = tp.x + 'px';
+                                    tooltip.style.top = tp.y + 'px';
+                                } else {
+                                    hideTooltip();
+                                    pinnedIndex = -1;
+                                }
+                                break;
+                            }
                         }
                     }
                 }
 
                 function tick() {
-                    if (!dragging && autoRotate) {
-                        yaw += 0.0016;
+                    // auto-rotate, pause on hover/drag/pinned
+                    if (!dragging && autoRotate && hoverId === -1 && pinnedIndex === -1) {
+                        yaw += 0.0018;
                     }
                     draw();
                     window.requestAnimationFrame(tick);
@@ -1349,12 +1387,11 @@
                     } else {
                         var idx = hitTest(pos.x, pos.y);
                         if (idx !== -1) {
-                            var p = points[idx];
-                            hoverId = p.dev.id;
-                            var t = clampTooltip(p.sx, p.sy - p.r - 16);
-                            showTooltip(p, t.x, t.y, false);
+                            hoverId = points[idx].dev.id;
+                            canvas.style.cursor = 'pointer';
                         } else {
                             hoverId = -1;
+                            canvas.style.cursor = 'grab';
                             if (pinnedIndex === -1) {
                                 hideTooltip();
                             }
