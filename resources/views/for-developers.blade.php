@@ -130,11 +130,11 @@
                 </a>
 
                 <div class="hidden items-center gap-1 text-sm text-zinc-500 md:flex dark:text-zinc-400">
-                    <a href="{{ route('welcome') }}" class="rounded-lg px-3 py-2 transition hover:text-zinc-900 dark:hover:text-white">Home</a>
-                    <a href="{{ route('developers') }}" class="rounded-lg px-3 py-2 font-medium text-zinc-900 transition dark:text-white hover:text-zinc-700 dark:hover:text-[#9db8ff]">For developers</a>
-                    <a href="{{ route('for-companies') }}" class="rounded-lg px-3 py-2 transition hover:text-zinc-900 dark:hover:text-white">For Companies</a>
-                    <a href="{{ route('jobs.index') }}" class="rounded-lg px-3 py-2 transition hover:text-zinc-900 dark:hover:text-white">Opportunities</a>
-                    <a href="{{ route('news.index') }}" class="rounded-lg px-3 py-2 transition hover:text-zinc-900 dark:hover:text-white">News</a>
+                    <a href="{{ route('welcome') }}" class="border-b-4 border-transparent px-3 pb-1 pt-2 text-sm transition hover:text-zinc-900 dark:hover:text-white">Home</a>
+                    <a href="{{ route('developers') }}" class="border-b-4 border-zinc-900 px-3 pb-1 pt-2 text-sm font-semibold text-zinc-900 dark:border-white dark:text-white">For developers</a>
+                    <a href="{{ route('for-companies') }}" class="border-b-4 border-transparent px-3 pb-1 pt-2 text-sm transition hover:text-zinc-900 dark:hover:text-white">For Companies</a>
+                    <a href="{{ route('jobs.index') }}" class="border-b-4 border-transparent px-3 pb-1 pt-2 text-sm transition hover:text-zinc-900 dark:hover:text-white">Opportunities</a>
+                    <a href="{{ route('news.index') }}" class="border-b-4 border-transparent px-3 pb-1 pt-2 text-sm transition hover:text-zinc-900 dark:hover:text-white">News</a>
                 </div>
 
                 <div class="flex items-center gap-2">

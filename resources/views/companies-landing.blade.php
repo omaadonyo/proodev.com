@@ -159,11 +159,11 @@
                 </a>
 
                 <div class="hidden items-center gap-1 text-sm text-zinc-500 md:flex dark:text-zinc-400">
-                    <a href="#why" class="rounded-lg px-3 py-2 transition hover:text-zinc-900 dark:hover:text-white">Why evidence</a>
-                    <a href="#tools" class="rounded-lg px-3 py-2 transition hover:text-zinc-900 dark:hover:text-white">The toolkit</a>
-                    <a href="#preview" class="rounded-lg px-3 py-2 transition hover:text-zinc-900 dark:hover:text-white">Live search</a>
-                    <a href="#pricing" class="rounded-lg px-3 py-2 transition hover:text-zinc-900 dark:hover:text-white">Pricing</a>
-                    <a href="{{ route('developers') }}" class="rounded-lg px-3 py-2 transition hover:text-zinc-900 dark:hover:text-white">For developers</a>
+                    <a href="#why" class="border-b-4 border-transparent px-3 pb-1 pt-2 text-sm transition hover:text-zinc-900 dark:hover:text-white">Why evidence</a>
+                    <a href="#tools" class="border-b-4 border-transparent px-3 pb-1 pt-2 text-sm transition hover:text-zinc-900 dark:hover:text-white">The toolkit</a>
+                    <a href="#preview" class="border-b-4 border-transparent px-3 pb-1 pt-2 text-sm transition hover:text-zinc-900 dark:hover:text-white">Live search</a>
+                    <a href="#pricing" class="border-b-4 border-transparent px-3 pb-1 pt-2 text-sm transition hover:text-zinc-900 dark:hover:text-white">Pricing</a>
+                    <a href="{{ route('developers') }}" class="border-b-4 border-transparent px-3 pb-1 pt-2 text-sm transition hover:text-zinc-900 dark:hover:text-white">For developers</a>
                 </div>
 
                 <div class="flex items-center gap-2">
