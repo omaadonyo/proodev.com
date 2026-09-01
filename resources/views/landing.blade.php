@@ -1071,9 +1071,10 @@
 
                 var canvas = document.getElementById('talent-globe');
                 var tooltip = document.getElementById('globe-tooltip');
-                if (!canvas || !tooltip) return;
-
+                if (!canvas || !tooltip) { console.log('globe: missing canvas or tooltip'); return; }
+                
                 var developers = @json($globeDevelopers);
+                console.log('globe: developers count = ' + developers.length);
                 if (!developers.length) return;
 
                 var ctx = canvas.getContext('2d');
@@ -1147,6 +1148,7 @@
                     var rect = canvas.parentElement.getBoundingClientRect();
                     width = rect.width;
                     height = rect.height;
+                    console.log('globe resize: ' + Math.round(width) + 'x' + Math.round(height));
                     canvas.width = width * dpr;
                     canvas.height = height * dpr;
                     canvas.style.width = width + 'px';
