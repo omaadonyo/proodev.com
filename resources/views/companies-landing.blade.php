@@ -609,11 +609,14 @@
 
                 <div class="mx-auto mt-10 grid max-w-6xl items-stretch gap-6 lg:grid-cols-3">
                     @foreach ($pricingTiers as $index => $pricing)
-                        <div class="flex flex-col rounded-2xl border p-6 {{ $pricing['name'] === 'Recruiter' ? 'border-[3px] border-zinc-900 bg-white shadow-xl dark:border-white dark:bg-white/[0.03]' : ($pricing['highlight'] ? 'border-[#3750eb]/50 bg-white shadow-2xl shadow-[#3750eb]/15 dark:border-[#3750eb]/40 dark:bg-white/[0.06]' : 'border-zinc-200 bg-white dark:border-white/10 dark:bg-white/[0.03]') }} {{ $pricing['highlight'] ? 'lg:-translate-y-2 lg:scale-[1.03]' : '' }}">
+                        <div class="flex flex-col rounded-2xl border p-6 {{ $pricing['highlight'] ? 'border-[3px] border-zinc-900 bg-white shadow-xl dark:border-white dark:bg-white/[0.06] lg:-translate-y-2 lg:scale-[1.03]' : 'border-zinc-200 bg-white dark:border-white/10 dark:bg-white/[0.03]' }}">
                             <div class="flex items-center justify-between">
                                 <div class="text-base font-semibold text-zinc-900 dark:text-white">{{ $pricing['name'] }}</div>
                                 @if ($pricing['highlight'])
-                                    <span class="rounded-full bg-[#3750eb] px-2.5 py-1 text-[10px] font-semibold uppercase tracking-wide text-white">Most powerful</span>
+                                    <span class="inline-flex items-center gap-1 rounded-full bg-zinc-900 px-3 py-1 text-[10px] font-bold uppercase tracking-widest text-white shadow-sm ring-1 ring-zinc-800 dark:bg-white dark:text-zinc-900 dark:ring-zinc-200">
+                                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="size-3"><path fill-rule="evenodd" d="{{ $iconPaths['sparkles'] }}" clip-rule="evenodd"/></svg>
+                                        Most powerful
+                                    </span>
                                 @endif
                             </div>
 
@@ -625,9 +628,7 @@
                             <ul class="mt-6 grid gap-2.5">
                                 @foreach ($pricing['features'] as $feature)
                                     <li class="flex items-start gap-2.5 text-sm leading-relaxed text-zinc-700 dark:text-zinc-300">
-                                        <span class="mt-0.5 flex size-5 shrink-0 items-center justify-center rounded-full bg-zinc-900 text-white shadow-sm dark:bg-white dark:text-zinc-900">
-                                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="size-3"><path fill-rule="evenodd" d="{{ $iconPaths['check-badge'] }}" clip-rule="evenodd"/></svg>
-                                        </span>
+                                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" class="mt-1 size-4 shrink-0 text-zinc-900 dark:text-white"><path d="M4.5 11.4c1 1 1.7 1.3 2.8.2.7-.7 1.4-1.9 2.4.1.4.8 1.2-.6 2.5-1.9l2-1.9"/></svg>
                                         <span>{{ $feature }}</span>
                                     </li>
                                 @endforeach
