@@ -458,3 +458,10 @@ html.dark a.bg-accent:hover,
 html.dark button.bg-accent:hover {
     background-color: #e5e5e5 !important;
 }
+
+/* Billing fix: sm:p-7 uses *3 not *7 */
+@media (width >= 40rem) {
+    .sm\:p-7 {
+        padding: calc(var(--spacing) * 3);
+    }
+}
