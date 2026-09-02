@@ -92,7 +92,7 @@ new class extends Component
         $this->draft = null;
         $this->spinner = '⠹';
 
-        $this->log[] = $this->line('cmd', 'proodev scout --github '.($this->demo ? 'MrPunyapal' : $this->url));
+        $this->log[] = $this->line('cmd', 'proodev scout --github '.($this->demo ? Str::after($this->url, 'github.com/') : $this->url));
     }
 
     public function tick(): void
@@ -195,7 +195,11 @@ new class extends Component
                 }
             }
         } elseif ($this->demo) {
-            $this->material = $this->demoMaterial();
+            try {
+                $this->material = app(ProjectScoutService::class)->fetch($this->url);
+            } catch (Throwable) {
+                $this->material = $this->demoMaterial();
+            }
         } else {
             try {
                 $this->material = app(ProjectScoutService::class)->fetch($this->url);
@@ -540,25 +544,23 @@ new class extends Component
     <div class="w-full" x-data="{ typed: '', examples: ['https://github.com/laravel/laravel', 'https://github.com/vercel/next.js', 'https://github.com/facebook/react', 'https://github.com/tailwindlabs/tailwindcss'], ei: 0, ci: 0, del: false }" x-init="let t=setInterval(()=>{ let ex=examples[ei]; if(!del){ typed=ex.slice(0,ci+1); ci++; if(ci>=ex.length){ del=true; setTimeout(()=>{},800)} } else { typed=ex.slice(0,ci-1); ci--; if(ci<=0){ del=false; ei=(ei+1)%examples.length } } }, 70)">
     @if ($phase === 'input')
         <form wire:submit="begin" class="rounded-xl border border-zinc-200 bg-white p-4 shadow-sm dark:border-zinc-700 dark:bg-zinc-800">
-            <div class="flex items-center gap-3">
-                <div class="flex size-9 shrink-0 items-center justify-center rounded-full bg-zinc-900 text-white dark:bg-white dark:text-zinc-900">
-                    <flux:icon name="magnifying-glass" variant="mini" />
-                </div>
-                <div class="flex-1">
+            <div class="flex items-center gap-2">
+                <div class="relative flex-1">
+                    <flux:icon name="magnifying-glass" variant="mini" class="pointer-events-none absolute left-3 top-1/2 size-4 -translate-y-1/2 text-zinc-400" />
                     <flux:input
                         wire:model="url"
                         type="url"
-                        placeholder="Paste any GitHub repo or project URL…"
-                        class="border-none bg-transparent shadow-none focus:ring-0"
+                        placeholder="Paste any GitHub repo, profile or project URL…"
+                        class="pl-9"
                     />
-                    <div class="mt-1.5 flex items-center gap-1.5 text-xs text-zinc-400">
-                        <span>Try:</span>
-                        <span class="font-mono text-zinc-600 dark:text-zinc-300" x-text="typed"></span><span class="animate-pulse">|</span>
-                    </div>
                 </div>
                 <flux:button type="submit" variant="primary" wire:loading.attr="disabled" class="shrink-0">
                     Scout
                 </flux:button>
+            </div>
+            <div class="mt-2 flex items-center gap-1.5 text-xs text-zinc-400">
+                <span>Try:</span>
+                <span class="font-mono text-zinc-600 dark:text-zinc-300" x-text="typed"></span><span class="animate-pulse">|</span>
             </div>
             <flux:error name="url" class="mt-2" />
             @if ($error)
