@@ -297,18 +297,19 @@
 
                 <div class="overflow-hidden rounded-lg border border-zinc-200 bg-white/70 shadow-2xl shadow-zinc-900/10 backdrop-blur-xl dark:border-white/10 dark:bg-zinc-900/80 dark:shadow-zinc-900/20">
                     {{-- Window chrome --}}
-                    <div class="flex items-center justify-between gap-4 border-b border-zinc-200 px-5 py-3 dark:border-white/5">
+                    <div class="flex items-center justify-between gap-4 border-b border-zinc-200 bg-zinc-50/50 px-5 py-3 dark:border-white/5 dark:bg-white/[0.02]">
                         <div class="flex items-center gap-2">
-                            <span class="size-2.5 rounded-full bg-zinc-900/60"></span>
-                            <span class="size-2.5 rounded-full bg-zinc-400/70"></span>
+                            <span class="size-2.5 rounded-full bg-zinc-900"></span>
+                            <span class="size-2.5 rounded-full bg-zinc-400"></span>
                             <span class="size-2.5 rounded-full bg-zinc-300 dark:bg-zinc-600"></span>
+                            <span class="ml-2 hidden text-xs font-medium text-zinc-600 dark:text-zinc-400 sm:inline">proodev — scout</span>
                         </div>
-                        <div class="flex items-center gap-2 text-xs text-zinc-500">
+                        <div class="flex items-center gap-2 rounded-full border border-emerald-200 bg-emerald-50 px-2.5 py-1 text-xs font-semibold text-emerald-700 dark:border-emerald-500/20 dark:bg-emerald-500/10 dark:text-emerald-400">
                             <span class="relative flex size-1.5">
-                                <span class="absolute inline-flex size-full animate-ping rounded-full bg-[#3750eb] opacity-75"></span>
-                                <span class="relative inline-flex size-1.5 rounded-full bg-[#3750eb]"></span>
+                                <span class="absolute inline-flex size-full animate-ping rounded-full bg-emerald-500 opacity-75"></span>
+                                <span class="relative inline-flex size-1.5 rounded-full bg-emerald-500"></span>
                             </span>
-                            Try it now
+                            Live — Try it now
                         </div>
                         <div class="flex items-center gap-1 text-zinc-400 dark:text-zinc-600">
                             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="size-4"><path fill-rule="evenodd" d="{{ $iconPaths['arrow-up-right'] }}" clip-rule="evenodd"/></svg>

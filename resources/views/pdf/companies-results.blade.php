@@ -4,9 +4,10 @@
     <meta charset="UTF-8">
     @include('pdf._styles')
     <style>
-        .blurred { filter: blur(3px); -webkit-filter: blur(3px); color: #a1a1aa !important; }
-        .blurred * { filter: blur(3px); -webkit-filter: blur(3px); }
-        .lock-badge { display: inline-block; background: #fef3c7; color: #92400e; border: 1px solid #fde68a; border-radius: 9999px; padding: 1px 6px; font-size: 8px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em; }
+        .blurred { filter: blur(2.5px); -webkit-filter: blur(2.5px); color: #a1a1aa !important; }
+        .blurred * { filter: blur(2.5px); -webkit-filter: blur(2.5px); }
+        .items th { padding: 5px 6px; font-size: 8px; text-transform: uppercase; letter-spacing: 0.05em; }
+        .items td { padding: 4px 6px; font-size: 8.5px; vertical-align: middle; }
     </style>
 </head>
 <body>
@@ -34,13 +35,11 @@
         </div>
     @endif
 
-    @if($isGuest)
-        <div style="margin: 10px 0; padding: 10px 14px; background: #fffbeb; border: 1px solid #fde68a; border-radius: 8px; font-size: 11px; color: #92400e;">
-            <strong>🔒 Preview — {{ $visibleCount }} of {{ $engineers->count() }} fully visible.</strong> Register as a company at proodev.com/for-companies to download the unblurred report with all evidence, scores and contact details.
-        </div>
-    @endif
+    <div style="margin: 10px 0; padding: 9px 12px; background: #f0fdf4; border: 1px solid #bbf7d0; border-radius: 8px; font-size: 10px; color: #166534;">
+        <strong>Verification as recruiter or company</strong> gives you access to over <strong>10k developers</strong> and the <strong>top 200 developers</strong> around the world — verified evidence, full contact details and unlimited exports.
+    </div>
 
-    <table class="items">
+    <table class="items" style="font-size: 9px;">
         <thead>
             <tr>
                 <th style="width: 8mm;">#</th>
@@ -57,14 +56,13 @@
                 <tr @class(['alt' => $loop->even]) @if($blur) class="blurred" @endif>
                     <td>{{ $idx + 1 }}</td>
                     <td>
-                        <div style="display: flex; align-items: center; gap: 7px; @if($blur) filter: blur(2.5px); @endif">
-                            <img src="{{ $eng['avatar'] }}" style="width: 26px; height: 26px; border-radius: 50%; object-fit: cover; border: 1px solid #e4e4e7; flex-shrink: 0;" />
+                        <div style="display: flex; align-items: center; gap: 6px; @if($blur) filter: blur(2.5px); @endif">
+                            <img src="{{ $eng['avatar'] }}" style="width: 22px; height: 22px; border-radius: 50%; object-fit: cover; border: 1px solid #e4e4e7; flex-shrink: 0;" />
                             <div>
-                                <strong>{{ $eng['name'] }}</strong><br>
-                                <span style="font-size: 9px; color: #71717a;">{{ \Illuminate\Support\Str::limit($eng['headline'] ?? 'Proven engineer', 60) }}</span>
+                                <strong style="font-size: 9px;">{{ $eng['name'] }}</strong><br>
+                                <span style="font-size: 8px; color: #71717a;">{{ \Illuminate\Support\Str::limit($eng['headline'] ?? 'Proven engineer', 55) }}</span>
                             </div>
                         </div>
-                        @if($blur) <span class="lock-badge">Locked — register to view</span> @endif
                     </td>
                     <td @if($blur) style="filter: blur(2.5px);" @endif>{{ $eng['location'] ?? '—' }}</td>
                     <td @if($blur) style="filter: blur(2.5px);" @endif>{{ implode(', ', array_slice($eng['skills'] ?? [], 0, 3)) ?: '—' }}</td>
@@ -77,8 +75,8 @@
         </tbody>
     </table>
 
-    <div style="margin-top: 14px; padding: 10px; background: #f9fafb; border: 1px solid #e4e4e7; border-radius: 6px; font-size: 9px; color: #71717a; text-align: center;">
-        ProoDev — proof over claims · proodev.com/for-companies · {{ $engineers->count() }} results · @if($isGuest) Preview with blurred details — register for full export @else Full export @endif
+    <div style="margin-top: 10px; padding: 7px; background: #fafafa; border: 1px solid #e4e4e7; border-radius: 5px; font-size: 8px; color: #71717a; text-align: center;">
+        ProoDev — proof over claims · proodev.com/for-companies · {{ $engineers->count() }} results · Verification unlocks 10k+ developers & top 200 worldwide
     </div>
 </body>
 </html>
