@@ -157,6 +157,8 @@ Route::get('/sitemap.xml', function () {
         ['loc' => route('news.index'), 'changefreq' => 'daily', 'priority' => '0.8'],
         ['loc' => route('companies.index'), 'changefreq' => 'daily', 'priority' => '0.6'],
         ['loc' => route('jobs.index'), 'changefreq' => 'daily', 'priority' => '0.6'],
+        ['loc' => route('login'), 'changefreq' => 'monthly', 'priority' => '0.5'],
+        ['loc' => route('register'), 'changefreq' => 'monthly', 'priority' => '0.5'],
         ['loc' => route('privacy'), 'changefreq' => 'monthly', 'priority' => '0.3'],
         ['loc' => route('terms'), 'changefreq' => 'monthly', 'priority' => '0.3'],
         ['loc' => route('cookies'), 'changefreq' => 'monthly', 'priority' => '0.3'],
