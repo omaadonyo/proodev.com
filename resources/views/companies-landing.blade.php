@@ -759,7 +759,35 @@
                         </ul>
                     </div>
                 </div>
-                <div class="mt-12 flex flex-col items-center justify-between gap-3 border-t border-zinc-200 pt-6 sm:flex-row dark:border-white/5">
+                @php
+                    $footerSocials = collect([
+                        ['key' => 'social.x', 'label' => 'X'],
+                        ['key' => 'social.bsky', 'label' => 'Bluesky'],
+                        ['key' => 'social.youtube', 'label' => 'YouTube'],
+                        ['key' => 'social.tiktok', 'label' => 'TikTok'],
+                        ['key' => 'social.pinkary', 'label' => 'Pinkary'],
+                    ])->map(function ($s) { $url = app(\App\Services\SiteSettings::class)->get($s['key']); if ($s['key']==='social.x' && !filled($url)) $url = app(\App\Services\SiteSettings::class)->get('social.twitter'); return array_merge($s, ['url' => $url]); })->filter(fn ($s) => filled($s['url']))->values();
+                @endphp
+                @if($footerSocials->isNotEmpty())
+                    <div class="mt-10 flex justify-center gap-3 border-t border-zinc-200 pt-6 dark:border-white/5">
+                        @foreach($footerSocials as $social)
+                            <a href="{{ $social['url'] }}" target="_blank" rel="noopener" aria-label="{{ $social['label'] }}" class="flex size-9 items-center justify-center rounded-full border border-zinc-200 bg-white text-zinc-600 transition hover:border-zinc-900 hover:bg-zinc-900 hover:text-white dark:border-white/10 dark:bg-white/5 dark:text-zinc-400 dark:hover:bg-white dark:hover:text-zinc-900">
+                                @if($social['label']==='X')
+                                    <svg viewBox="0 0 24 24" fill="currentColor" class="size-4" aria-hidden="true"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
+                                @elseif($social['label']==='Bluesky')
+                                    <svg viewBox="0 0 24 24" fill="currentColor" class="size-4" aria-hidden="true"><path d="M12 10.13c1.1-.9 2.3-2.4 2.3-4 0-1-.8-1.9-1.9-1.9-1 0-1.7.6-2.1 1.4-.4-.8-1.1-1.4-2.1-1.4-1.1 0-1.9.9-1.9 1.9 0 1.6 1.2 3.1 2.3 4l1.7 1.3 1.7-1.3ZM12 13l-1.6 1.2c-1.2.9-2.5 2-2.5 3.6 0 1.1.9 1.9 2 1.9 1 0 1.7-.6 2.1-1.4.4.8 1.1 1.4 2.1 1.4 1.1 0 2-.8 2-1.9 0-1.6-1.3-2.7-2.5-3.6L12 13Z"/></svg>
+                                @elseif($social['label']==='YouTube')
+                                    <svg viewBox="0 0 24 24" fill="currentColor" class="size-4" aria-hidden="true"><path d="M19.615 3.184c-3.604-.246-11.631-.245-15.23 0-3.897.266-4.356 2.62-4.385 8.816.029 6.185.484 8.549 4.385 8.816 3.6.245 11.626.246 15.23 0 3.897-.266 4.356-2.62 4.385-8.816-.029-6.185-.484-8.549-4.385-8.816zm-10.615 12.816v-8l8 3.993-8 4.007z"/></svg>
+                                @elseif($social['label']==='TikTok')
+                                    <svg viewBox="0 0 24 24" fill="currentColor" class="size-4" aria-hidden="true"><path d="M19.59 6.69a4.83 4.83 0 0 1-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 0 1-2.88 2.5 2.89 2.89 0 0 1-2.89-2.89 2.89 2.89 0 0 1 2.89-2.89c.28 0 .54.04.79.11V8.94a6.27 6.27 0 0 0-.79-.05A6.34 6.34 0 0 0 3.15 15.2a6.34 6.34 0 0 0 6.34 6.34 6.34 6.34 0 0 0 6.34-6.34V8.75a8.2 8.2 0 0 0 4.76 1.52V6.84a4.83 4.83 0 0 1-3.77-4.25z"/></svg>
+                                @elseif($social['label']==='Pinkary')
+                                    <svg viewBox="0 0 24 24" fill="currentColor" class="size-4" aria-hidden="true"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>
+                                @endif
+                            </a>
+                        @endforeach
+                    </div>
+                @endif
+                <div class="mt-6 flex flex-col items-center justify-between gap-3 border-t border-zinc-200 pt-6 sm:flex-row dark:border-white/5">
                     <p class="text-xs text-zinc-400">&copy; {{ date('Y') }} {{ config('app.name', 'ProoDev') }}. Proof over claims.</p>
                     <p class="text-xs text-zinc-400">Built for companies who hire engineers based on evidence.</p>
                 </div>
