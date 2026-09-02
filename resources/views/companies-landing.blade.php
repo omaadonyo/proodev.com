@@ -393,6 +393,31 @@
                                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="size-3.5"><path fill-rule="evenodd" d="{{ $iconPaths['arrow-right'] }}" clip-rule="evenodd"/></svg>
                             </a>
                         </div>
+
+                        {{-- Locked post-filter actions — unlock on register --}}
+                        <div class="mt-3 rounded-xl border border-dashed border-zinc-300 bg-zinc-50/70 p-3 dark:border-white/10 dark:bg-white/[0.02]">
+                            <div class="flex items-center gap-2 text-xs font-semibold uppercase tracking-widest text-zinc-500">
+                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="size-3.5"><path fill-rule="evenodd" d="{{ $iconPaths['lock-closed'] }}" clip-rule="evenodd"/></svg>
+                                Unlock to take action — register as a company
+                            </div>
+                            <div class="mt-3 flex flex-wrap gap-2">
+                                @foreach ([
+                                    ['label' => 'Export PDF report', 'icon' => 'document-arrow-down', 'hint' => 'Single PDF with evidence, scores & comparison'],
+                                    ['label' => 'Shortlist', 'icon' => 'star', 'hint' => 'Save to shortlist for hiring'],
+                                    ['label' => 'Add to Talent Pool', 'icon' => 'folder-plus', 'hint' => 'Add filtered engineers to a pool'],
+                                    ['label' => 'Compare', 'icon' => 'scale', 'hint' => 'Side-by-side evidence comparison'],
+                                    ['label' => 'Save Search & Alert', 'icon' => 'bell-alert', 'hint' => 'Get alerts when new matches appear'],
+                                    ['label' => 'Share results', 'icon' => 'share', 'hint' => 'Share filtered results with your team'],
+                                ] as $action)
+                                    <a href="{{ route('register', ['role' => 'company']) }}" class="group inline-flex items-center gap-1.5 rounded-full border border-zinc-200 bg-white px-3 py-1.5 text-xs font-semibold text-zinc-600 opacity-70 transition hover:opacity-100 hover:border-zinc-300 dark:border-white/10 dark:bg-white/5 dark:text-zinc-300">
+                                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="size-3.5 text-zinc-400 group-hover:text-zinc-600 dark:text-zinc-500"><path fill-rule="evenodd" d="{{ $iconPaths[$action['icon']] ?? $iconPaths['lock-closed'] }}" clip-rule="evenodd"/></svg>
+                                        {{ $action['label'] }}
+                                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="size-3 text-zinc-400"><path fill-rule="evenodd" d="{{ $iconPaths['lock-closed'] }}" clip-rule="evenodd"/></svg>
+                                    </a>
+                                @endforeach
+                            </div>
+                            <p class="mt-2 text-xs text-zinc-500" x-show="matches.length > 0" x-cloak><span class="font-semibold" x-text="matches.length"></span> engineers match your filter — <a href="{{ route('register', ['role' => 'company']) }}" class="font-semibold text-[#3750eb] underline underline-offset-2 dark:text-[#8f9dff]">register to export & act</a>.</p>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -511,47 +536,7 @@
             </div>
         </section>
 
-        {{-- ===================== LIVE NETWORK MARQUEE ===================== --}}
-        <section class="section-contained relative overflow-hidden border-t border-zinc-200 py-14 dark:border-white/5">
-            <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-                <div class="mx-auto max-w-2xl text-center">
-                    <h2 class="text-2xl font-bold tracking-tight text-zinc-900 sm:text-3xl dark:text-white">Engineers with proof, all over the world</h2>
-                    <p class="mt-3 text-zinc-600 dark:text-zinc-400">Real developers building evidence-backed identities on ProoDev - this is the network you hire from.</p>
-                </div>
-            </div>
-            <div class="relative mt-10 overflow-hidden">
-                <div class="flex w-max animate-marquee gap-4 pr-4">
-                    @php $marqueeMembers = $engineersMarquee->count() > 0 ? $engineersMarquee->values() : collect([(object) ['name' => 'Alex Morgan', 'location' => 'Berlin'], (object) ['name' => 'Priya Sharma', 'location' => 'Mumbai'], (object) ['name' => 'Kenji Sato', 'location' => 'Tokyo']]); @endphp
-                    @foreach ($marqueeMembers->concat($marqueeMembers) as $member)
-                        <div class="flex items-center gap-2.5 rounded-full border border-zinc-200 bg-white/60 px-4 py-2 dark:border-white/10 dark:bg-white/[0.03]">
-                            <span class="flex size-7 items-center justify-center rounded-full bg-black text-xs font-bold text-white ring-2 ring-zinc-200 dark:bg-white dark:text-black dark:ring-zinc-800">{{ strtoupper(substr($member->name ?? 'A', 0, 1)) }}</span>
-                            <span class="whitespace-nowrap text-sm font-medium text-zinc-700 dark:text-zinc-300">{{ $member->name ?? 'Engineer' }}</span>
-                            <span class="text-xs text-zinc-500">{{ $member->location ?? '' }}</span>
-                        </div>
-                    @endforeach
-                </div>
-            </div>
 
-            {{-- Live roles --}}
-            @if ($openJobs->isNotEmpty())
-                <div class="mx-auto mt-12 max-w-5xl px-4 sm:px-6 lg:px-8">
-                    <div class="grid gap-3 sm:grid-cols-2">
-                        @foreach ($openJobs as $job)
-                            <a href="{{ route('jobs.show', [$job->company, $job]) }}" class="group flex items-center gap-3 rounded-xl border border-zinc-200 bg-white p-4 transition hover:border-[#3750eb]/40 dark:border-white/10 dark:bg-white/[0.03]">
-                                <span class="flex size-10 shrink-0 items-center justify-center rounded-lg bg-[#3750eb]/10 text-[#3750eb] dark:text-[#8f9dff]">
-                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="size-5"><path fill-rule="evenodd" d="{{ $iconPaths['briefcase'] }}" clip-rule="evenodd"/></svg>
-                                </span>
-                                <div class="min-w-0">
-                                    <div class="truncate text-sm font-semibold text-zinc-900 group-hover:text-[#3750eb] dark:text-white">{{ $job->title }}</div>
-                                    <div class="truncate text-xs text-zinc-500">{{ $job->company?->name ?? 'Company' }} · {{ $job->location ?? 'Remote' }}</div>
-                                </div>
-                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="ml-auto size-4 shrink-0 text-zinc-300 transition group-hover:translate-x-0.5 group-hover:text-[#3750eb] dark:text-zinc-600"><path fill-rule="evenodd" d="{{ $iconPaths['arrow-right'] }}" clip-rule="evenodd"/></svg>
-                            </a>
-                        @endforeach
-                    </div>
-                </div>
-            @endif
-        </section>
 
         {{-- ===================== PRICING ===================== --}}
         <section id="pricing" class="section-contained relative overflow-hidden border-t border-zinc-200 dark:border-white/5">
@@ -634,13 +619,13 @@
                                 <span class="text-sm text-zinc-500">{{ $pricing['per'] }}</span>
                             </div>
 
-                            <div class="mt-6 grid gap-2.5">
+                            <div class="mt-6 grid gap-2">
                                 @foreach ($pricing['features'] as $feature)
-                                    <div class="flex items-start gap-2.5 text-sm text-zinc-700 dark:text-zinc-300">
-                                        <span class="mt-0.5 flex size-4 shrink-0 items-center justify-center rounded-full bg-[#3750eb]/10 text-[#3750eb]">
-                                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="size-2.5"><path fill-rule="evenodd" d="{{ $iconPaths['check'] }}" clip-rule="evenodd"/></svg>
+                                    <div class="flex items-start gap-2.5 text-sm leading-relaxed text-zinc-700 dark:text-zinc-300">
+                                        <span class="mt-0.5 flex size-[18px] shrink-0 items-center justify-center rounded-full bg-emerald-500/10 text-emerald-600 ring-1 ring-emerald-500/20 dark:bg-emerald-500/15 dark:text-emerald-400">
+                                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="size-3"><path fill-rule="evenodd" d="{{ $iconPaths['check'] }}" clip-rule="evenodd"/></svg>
                                         </span>
-                                        {{ $feature }}
+                                        <span>{{ $feature }}</span>
                                     </div>
                                 @endforeach
                             </div>
