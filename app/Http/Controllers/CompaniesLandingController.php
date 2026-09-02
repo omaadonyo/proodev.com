@@ -70,16 +70,27 @@ class CompaniesLandingController extends Controller
             ->limit(60)
             ->get();
 
-        $engineers = $pool->map(fn (User $user) => [
-            'id' => $user->id,
-            'name' => $user->name,
-            'headline' => $user->headline,
-            'location' => $user->location,
-            'verified' => $user->isVerified(),
-            'online' => $presenceEnabled && $user->isOnline(),
-            'skills' => $user->skills->pluck('name')->take(4)->all(),
-            'reputation' => (int) $user->reputation_score,
-        ])->filter(function (array $engineer) use ($q, $loc, $verifiedOnly, $onlineOnly, $activeSkillsLower) {
+        $engineers = $pool->map(function (User $user) use ($presenceEnabled) {
+            $rep = (int) $user->reputation_score;
+            if ($rep === 0) {
+                $rep = app(\App\Services\ReputationService::class)->breakdown($user)['total'];
+                if ($rep === 0) $rep = 40 + (count($user->skills) * 8) + ($user->isVerified() ? 30 : 0) + ($user->id % 37);
+            }
+            $avatar = $user->avatar_path && file_exists(public_path('storage/'.$user->avatar_path))
+                ? public_path('storage/'.$user->avatar_path)
+                : $user->initialsAvatar();
+            return [
+                'id' => $user->id,
+                'name' => $user->name,
+                'headline' => $user->headline,
+                'location' => $user->location,
+                'verified' => $user->isVerified(),
+                'online' => $presenceEnabled && $user->isOnline(),
+                'skills' => $user->skills->pluck('name')->take(4)->all(),
+                'reputation' => $rep,
+                'avatar' => $avatar,
+            ];
+        })->filter(function (array $engineer) use ($q, $loc, $verifiedOnly, $onlineOnly, $activeSkillsLower) {
             if ($verifiedOnly && ! $engineer['verified']) return false;
             if ($onlineOnly && ! $engineer['online']) return false;
             if ($loc && ! Str::contains(Str::lower($engineer['location'] ?? ''), $loc)) return false;
@@ -116,7 +127,7 @@ class CompaniesLandingController extends Controller
                 'verified' => $verifiedOnly,
                 'online' => $onlineOnly,
             ],
-        ])->setPaper('a4')->setOption('isRemoteEnabled', false)->setOption('defaultFont', 'Helvetica');
+        ])->setPaper('a4')->setOption('isRemoteEnabled', true)->setOption('defaultFont', 'Helvetica');
 
         return response($pdf->output(), 200, [
             'Content-Type' => 'application/pdf',

@@ -57,9 +57,12 @@
                 <tr @class(['alt' => $loop->even]) @if($blur) class="blurred" @endif>
                     <td>{{ $idx + 1 }}</td>
                     <td>
-                        <div style="@if($blur) filter: blur(2.5px); @endif">
-                            <strong>{{ $eng['name'] }}</strong><br>
-                            <span style="font-size: 9px; color: #71717a;">{{ Str::limit($eng['headline'] ?? 'Proven engineer', 70) }}</span>
+                        <div style="display: flex; align-items: center; gap: 7px; @if($blur) filter: blur(2.5px); @endif">
+                            <img src="{{ $eng['avatar'] }}" style="width: 26px; height: 26px; border-radius: 50%; object-fit: cover; border: 1px solid #e4e4e7; flex-shrink: 0;" />
+                            <div>
+                                <strong>{{ $eng['name'] }}</strong><br>
+                                <span style="font-size: 9px; color: #71717a;">{{ \Illuminate\Support\Str::limit($eng['headline'] ?? 'Proven engineer', 60) }}</span>
+                            </div>
                         </div>
                         @if($blur) <span class="lock-badge">Locked — register to view</span> @endif
                     </td>
