@@ -6,7 +6,7 @@
             </span>
             <div>
                 <div class="text-sm font-semibold text-zinc-900 dark:text-white">Chat Streak</div>
-                <div class="text-xs text-zinc-500">1 free chat • 5 min • Verify for unlimited</div>
+                <div class="text-xs text-zinc-500">1 free chat Â· 5 min Â· Verify for unlimited</div>
             </div>
         </div>
         @if (auth()->user()?->isVerified())
@@ -127,7 +127,7 @@
                 <flux:icon name="shield-check" variant="micro" class="size-4" />
                 Get verified, unlock full chat
             </a>
-            <p class="mt-2 text-center text-[11px] text-zinc-400">Streaks don’t add XP, they gate chat. Earn 1 streak per 2 hours, 1 chat per streak. Verify once, chat forever.</p>
+            <p class="mt-2 text-center text-[11px] text-zinc-400">Streaks don't add XP, they gate chat. Earn 1 streak per 2 hours, 1 chat per streak. Verify once, chat forever.</p>
         @endif
     </div>
 </div>
