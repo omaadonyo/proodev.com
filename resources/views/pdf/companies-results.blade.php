@@ -68,7 +68,7 @@
                     </td>
                     <td @if($blur) style="filter: blur(2.5px);" @endif>{{ $eng['location'] ?? '—' }}</td>
                     <td @if($blur) style="filter: blur(2.5px);" @endif>{{ implode(', ', array_slice($eng['skills'] ?? [], 0, 3)) ?: '—' }}</td>
-                    <td style="text-align: center;">@if($eng['verified']) <span style="color: #059669;">✓</span> @else <span style="color: #a1a1aa;">—</span> @endif</td>
+                    <td style="text-align: center; font-size: 13px;">@if($eng['verified']) <span style="color: #059669;">✓</span> @else <span style="color: #dc2626;">✕</span> @endif</td>
                     <td style="text-align: center; font-weight: 700;" @if($blur) class="blurred" @endif>{{ $eng['reputation'] ?? 0 }}</td>
                 </tr>
             @empty
