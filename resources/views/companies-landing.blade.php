@@ -622,16 +622,16 @@
                                 <span class="text-sm text-zinc-500">{{ $pricing['per'] }}</span>
                             </div>
 
-                            <div class="mt-6 grid gap-2">
+                            <ul class="mt-6 grid gap-2.5">
                                 @foreach ($pricing['features'] as $feature)
-                                    <div class="flex items-start gap-2.5 text-sm leading-relaxed text-zinc-700 dark:text-zinc-300">
-                                        <span class="mt-0.5 flex size-[18px] shrink-0 items-center justify-center rounded-full bg-emerald-500/10 text-emerald-600 ring-1 ring-emerald-500/20 dark:bg-emerald-500/15 dark:text-emerald-400">
+                                    <li class="flex items-start gap-2.5 text-sm leading-relaxed text-zinc-700 dark:text-zinc-300">
+                                        <span class="mt-0.5 flex size-5 shrink-0 items-center justify-center rounded-full bg-emerald-500 text-white shadow-sm">
                                             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="size-3"><path fill-rule="evenodd" d="{{ $iconPaths['check'] }}" clip-rule="evenodd"/></svg>
                                         </span>
                                         <span>{{ $feature }}</span>
-                                    </div>
+                                    </li>
                                 @endforeach
-                            </div>
+                            </ul>
 
                             <div class="mt-auto pt-7">
                                 <a href="{{ $planOnboardHref($pricing['side']) }}"
