@@ -39,12 +39,30 @@ class NotificationService
      */
     public function newRegistration(User $user): void
     {
-        Mail::to($user)->sendNow(new WelcomeMail($user));
-        $user->notifyNow(new WelcomeNotification($user));
+        try {
+            Mail::to($user)->sendNow(new WelcomeMail($user));
+        } catch (\Throwable $e) {
+            report($e);
+        }
+
+        try {
+            $user->notifyNow(new WelcomeNotification($user));
+        } catch (\Throwable $e) {
+            report($e);
+        }
 
         foreach (static::admins() as $admin) {
-            Mail::to($admin)->sendNow(new NewUserRegisteredMail($user));
-            $admin->notifyNow(new NewUserRegisteredNotification($user));
+            try {
+                Mail::to($admin)->sendNow(new NewUserRegisteredMail($user));
+            } catch (\Throwable $e) {
+                report($e);
+            }
+
+            try {
+                $admin->notifyNow(new NewUserRegisteredNotification($user));
+            } catch (\Throwable $e) {
+                report($e);
+            }
         }
     }
 
@@ -58,20 +76,32 @@ class NotificationService
         $recipient = $payment->user ?? $payment->company?->owner;
 
         if ($recipient) {
-            Mail::to($recipient)->send(new PaymentInvoiceMail($payment));
+            try {
+                Mail::to($recipient)->send(new PaymentInvoiceMail($payment));
+            } catch (\Throwable $e) {
+                report($e);
+            }
             $payment->forceFill(['invoice_emailed_at' => now()])->save();
         }
 
         $manual = $payment->payment_method?->isManual() ?? false;
 
         foreach (static::admins() as $admin) {
-            if ($manual) {
-                Mail::to($admin)->send(new PayoutNotificationMail($payment));
-            } else {
-                Mail::to($admin)->send(new PaymentInvoiceMail($payment, copy: true));
+            try {
+                if ($manual) {
+                    Mail::to($admin)->send(new PayoutNotificationMail($payment));
+                } else {
+                    Mail::to($admin)->send(new PaymentInvoiceMail($payment, copy: true));
+                }
+            } catch (\Throwable $e) {
+                report($e);
             }
 
-            $admin->notify(new PaymentReceivedNotification($payment));
+            try {
+                $admin->notify(new PaymentReceivedNotification($payment));
+            } catch (\Throwable $e) {
+                report($e);
+            }
         }
     }
 
@@ -82,18 +112,27 @@ class NotificationService
      */
     public function paymentSubmittedByCustomer(Payment $payment): void
     {
-        // Acknowledge the buyer immediately (separate from the invoice, which
-        // only goes out once an admin confirms the payment), unless they have
-        // opted out of transactional emails.
         $recipient = $payment->user ?? $payment->company?->owner;
 
         if ($recipient && $recipient->wantsEmail('transactions')) {
-            Mail::to($recipient)->send(new PaymentReceivedMail($payment));
+            try {
+                Mail::to($recipient)->send(new PaymentReceivedMail($payment));
+            } catch (\Throwable $e) {
+                report($e);
+            }
         }
 
         foreach (static::admins() as $admin) {
-            Mail::to($admin)->send(new PaymentAwaitingConfirmationMail($payment));
-            $admin->notify(new PaymentAwaitingConfirmationNotification($payment));
+            try {
+                Mail::to($admin)->send(new PaymentAwaitingConfirmationMail($payment));
+            } catch (\Throwable $e) {
+                report($e);
+            }
+            try {
+                $admin->notify(new PaymentAwaitingConfirmationNotification($payment));
+            } catch (\Throwable $e) {
+                report($e);
+            }
         }
     }
 
@@ -105,10 +144,18 @@ class NotificationService
     {
         $request->loadMissing('user');
 
-        Mail::to($request->user)->send(new VerificationApprovedMail($request));
+        try {
+            Mail::to($request->user)->send(new VerificationApprovedMail($request));
+        } catch (\Throwable $e) {
+            report($e);
+        }
 
         foreach (static::admins() as $admin) {
-            Mail::to($admin)->send(new VerificationApprovedMail($request, copy: true));
+            try {
+                Mail::to($admin)->send(new VerificationApprovedMail($request, copy: true));
+            } catch (\Throwable $e) {
+                report($e);
+            }
         }
     }
 
@@ -119,7 +166,11 @@ class NotificationService
     {
         $vouch->loadMissing(['voucher', 'vouchee', 'skill']);
 
-        Mail::to($vouch->vouchee)->send(new VouchReceivedMail($vouch));
+        try {
+            Mail::to($vouch->vouchee)->send(new VouchReceivedMail($vouch));
+        } catch (\Throwable $e) {
+            report($e);
+        }
     }
 
     /**
@@ -130,17 +181,29 @@ class NotificationService
     {
         $application->loadMissing(['user', 'job.company']);
 
-        Mail::to($application->user)->send(new ApplicationConfirmationMail($application));
+        try {
+            Mail::to($application->user)->send(new ApplicationConfirmationMail($application));
+        } catch (\Throwable $e) {
+            report($e);
+        }
 
         $company = $application->job->company;
         $companyOwner = $company instanceof Company ? $company->owner : null;
 
         if ($companyOwner instanceof User && $companyOwner->id !== $application->user_id) {
-            Mail::to($companyOwner)->send(new NewApplicationMail($application));
+            try {
+                Mail::to($companyOwner)->send(new NewApplicationMail($application));
+            } catch (\Throwable $e) {
+                report($e);
+            }
         }
 
         foreach (static::admins() as $admin) {
-            Mail::to($admin)->send(new NewApplicationMail($application, copy: true));
+            try {
+                Mail::to($admin)->send(new NewApplicationMail($application, copy: true));
+            } catch (\Throwable $e) {
+                report($e);
+            }
         }
     }
 
@@ -158,7 +221,11 @@ class NotificationService
             ->matchingDevelopersFor($job)
             ->each(function (User $user) use ($job) {
                 if ($user->wantsEmail('job_offers')) {
-                    Mail::to($user)->send(new NewJobPostedMail($job));
+                    try {
+                        Mail::to($user)->send(new NewJobPostedMail($job));
+                    } catch (\Throwable $e) {
+                        report($e);
+                    }
                 }
             });
     }
