@@ -242,6 +242,8 @@ Route::post('/for-companies/match-skills', [CompaniesLandingController::class, '
     ->middleware('throttle:20,1')
     ->name('for-companies.match-skills');
 
+Route::get('/for-companies/export-pdf', [CompaniesLandingController::class, 'exportPdf'])->name('for-companies.export-pdf');
+
 Route::livewire('/pricing', 'pages::pricing')->name('pricing');
 
 // Payment gateway webhook (no auth — called by gateways).

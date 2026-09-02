@@ -401,11 +401,11 @@
                                 Register to unlock — preview below is blurred
                             </div>
                             <div class="mt-3 flex flex-wrap gap-2">
-                                <a href="{{ route('register', ['role' => 'company']) }}" class="inline-flex items-center gap-1.5 rounded-full bg-amber-500 px-3.5 py-1.5 text-xs font-semibold text-white shadow-sm transition hover:bg-amber-600">
+                                <button type="button" @click="exportPdf()" class="inline-flex items-center gap-1.5 rounded-full bg-amber-500 px-3.5 py-1.5 text-xs font-semibold text-white shadow-sm transition hover:bg-amber-600">
                                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="size-3.5"><path fill-rule="evenodd" d="{{ $iconPaths['document-text'] }}" clip-rule="evenodd"/></svg>
                                     Export PDF report
                                     <span class="rounded-full bg-white/20 px-1.5 py-0.5 text-[10px] font-bold">Preview</span>
-                                </a>
+                                </button>
                                 @foreach ([
                                     ['label' => 'Shortlist', 'icon' => 'sparkles'],
                                     ['label' => 'Add to Talent Pool', 'icon' => 'folder'],
@@ -419,27 +419,6 @@
                                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="size-3 text-zinc-400"><path fill-rule="evenodd" d="M16.5 10.5V6.75a4.5 4.5 0 0 0-9 0v3.75m-.75 11.25h10.5a2.25 2.25 0 0 0 2.25-2.25v-6.75a2.25 2.25 0 0 0-2.25-2.25H6.75a2.25 2.25 0 0 0-2.25 2.25v6.75a2.25 2.25 0 0 0 2.25 2.25Z" clip-rule="evenodd"/></svg>
                                     </a>
                                 @endforeach
-                            </div>
-                            {{-- Blurred preview of what the PDF contains --}}
-                            <div class="mt-3 rounded-lg border border-amber-200 bg-white p-3 dark:border-amber-500/20 dark:bg-zinc-900">
-                                <div class="flex items-center justify-between text-xs">
-                                    <span class="font-semibold text-zinc-900 dark:text-white">Results PDF preview</span>
-                                    <span class="rounded bg-amber-100 px-2 py-0.5 text-[10px] font-bold uppercase tracking-wide text-amber-700 dark:bg-amber-500/20 dark:text-amber-400">Blurred — register to download</span>
-                                </div>
-                                <div class="mt-2 select-none space-y-1.5 blur-[3px] opacity-70" aria-hidden="true">
-                                    <div class="h-3 w-3/4 rounded bg-zinc-200 dark:bg-zinc-700"></div>
-                                    <div class="h-2 w-full rounded bg-zinc-100 dark:bg-zinc-800"></div>
-                                    <div class="h-2 w-5/6 rounded bg-zinc-100 dark:bg-zinc-800"></div>
-                                    <div class="flex gap-2 pt-1">
-                                        <span class="h-5 w-16 rounded-full bg-zinc-200 dark:bg-zinc-700"></span>
-                                        <span class="h-5 w-20 rounded-full bg-zinc-200 dark:bg-zinc-700"></span>
-                                        <span class="h-5 w-14 rounded-full bg-zinc-200 dark:bg-zinc-700"></span>
-                                    </div>
-                                </div>
-                                <div class="mt-2 flex items-center gap-2 text-xs text-amber-700 dark:text-amber-400" x-show="matches.length > 0" x-cloak>
-                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="size-3.5"><path fill-rule="evenodd" d="M12 1.5a5.25 5.25 0 0 0-5.25 5.25v3a3 3 0 0 0-3 3v6.75a3 3 0 0 0 3 3h10.5a3 3 0 0 0 3-3v-6.75a3 3 0 0 0-3-3v-3c0-2.90-2.35-5.25-5.25-5.25Zm3.75 8.25v-3a3.75 3.75 0 1 0-7.5 0v3h7.5Z" clip-rule="evenodd"/></svg>
-                                    <span><span class="font-semibold" x-text="matches.length"></span> engineers match — <a href="{{ route('register', ['role' => 'company']) }}" class="font-semibold underline underline-offset-2">register to download unblurred PDF</a></span>
-                                </div>
                             </div>
                         </div>
                     </div>
@@ -936,6 +915,15 @@
                         this.loc = '';
                         this.activeSkills = [];
                         this.syncUrl();
+                    },
+                    exportPdf: function () {
+                        var params = new URLSearchParams();
+                        if (this.q.trim()) params.set('q', this.q.trim());
+                        if (this.loc.trim()) params.set('loc', this.loc.trim());
+                        if (this.verifiedOnly) params.set('verified', '1');
+                        if (this.onlineOnly) params.set('online', '1');
+                        if (this.activeSkills.length) params.set('skills', this.activeSkills.join(','));
+                        window.open('/for-companies/export-pdf?' + params.toString(), '_blank');
                     },
                     get filterCount() {
                         return (this.q.trim() ? 1 : 0)
