@@ -608,40 +608,40 @@
                 @endphp
 
                 <div class="mx-auto mt-10 grid max-w-6xl items-stretch gap-6 lg:grid-cols-3">
-                    @foreach ($pricingTiers as $index => $pricing)
-                        <div class="flex flex-col rounded-2xl border p-6 {{ $pricing['highlight'] ? 'border-[3px] border-zinc-900 bg-white shadow-xl dark:border-white dark:bg-white/[0.06] lg:-translate-y-2 lg:scale-[1.03]' : 'border-zinc-200 bg-white dark:border-white/10 dark:bg-white/[0.03]' }}">
+                    @foreach ($pricingTiers as $pricing)
+                        <flux:card class="flex flex-col {{ $pricing['highlight'] ? 'border-[3px]! border-zinc-900! shadow-xl dark:border-white! lg:-translate-y-2 lg:scale-[1.03]' : '' }}">
                             <div class="flex items-center justify-between">
-                                <div class="text-base font-semibold text-zinc-900 dark:text-white">{{ $pricing['name'] }}</div>
+                                <flux:heading size="lg">{{ $pricing['name'] }}</flux:heading>
                                 @if ($pricing['highlight'])
-                                    <span class="inline-flex items-center gap-1 rounded-full bg-zinc-900 px-3 py-1 text-[10px] font-bold uppercase tracking-widest text-white shadow-sm ring-1 ring-zinc-800 dark:bg-white dark:text-zinc-900 dark:ring-zinc-200">
-                                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="size-3"><path fill-rule="evenodd" d="{{ $iconPaths['sparkles'] }}" clip-rule="evenodd"/></svg>
-                                        Most powerful
-                                    </span>
+                                    <flux:badge color="zinc" size="sm">Most powerful</flux:badge>
                                 @endif
                             </div>
 
-                            <div class="mt-5 flex items-baseline gap-1">
-                                <span class="text-4xl font-bold tabular-nums tracking-tight text-zinc-900 dark:text-white">{{ $pricing['price'] }}</span>
-                                <span class="text-sm text-zinc-500">{{ $pricing['per'] }}</span>
+                            <div class="mt-4">
+                                <div class="flex items-baseline gap-1.5">
+                                    <span class="text-4xl font-bold tracking-tight">{{ $pricing['price'] }}</span>
+                                    <flux:text size="sm">{{ $pricing['per'] }}</flux:text>
+                                </div>
                             </div>
 
-                            <ul class="mt-6 grid gap-2.5">
+                            <flux:separator class="my-6" />
+
+                            <ul class="grid gap-2.5">
                                 @foreach ($pricing['features'] as $feature)
-                                    <li class="flex items-start gap-2.5 text-sm leading-relaxed text-zinc-700 dark:text-zinc-300">
-                                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" class="mt-1 size-4 shrink-0 text-zinc-900 dark:text-white"><path d="M4.5 11.4c1 1 1.7 1.3 2.8.2.7-.7 1.4-1.9 2.4.1.4.8 1.2-.6 2.5-1.9l2-1.9"/></svg>
-                                        <span>{{ $feature }}</span>
+                                    <li class="flex items-start gap-2.5">
+                                        <flux:icon name="check" variant="mini" class="mt-0.5 size-4 shrink-0 text-emerald-500" />
+                                        <flux:text size="sm" class="leading-relaxed">{{ $feature }}</flux:text>
                                     </li>
                                 @endforeach
                             </ul>
 
-                            <div class="mt-auto pt-7">
-                                <a href="{{ $planOnboardHref($pricing['side']) }}"
-                                    class="flex w-full items-center justify-center gap-2 rounded-xl px-4 py-2.5 text-sm font-semibold transition {{ $pricing['highlight'] ? 'bg-[#3750eb] text-white shadow-lg shadow-[#3750eb]/25 hover:opacity-90' : 'border border-zinc-200 bg-white/60 text-zinc-700 hover:border-[#3750eb]/40 hover:text-[#3750eb] dark:border-white/10 dark:bg-white/5 dark:text-zinc-200 dark:hover:border-[#3750eb]/40 dark:hover:text-white' }}">
+                            <div class="mt-auto pt-6">
+                                <flux:button :href="$planOnboardHref($pricing['side'])" :variant="$pricing['highlight'] ? 'primary' : 'ghost'" class="w-full justify-center">
                                     {{ $pricing['cta'] }}
-                                </a>
-                                <p class="mt-2 text-center text-xs text-zinc-500">{{ $pricing['cta_note'] }}</p>
+                                </flux:button>
+                                <flux:text size="sm" class="mt-2 text-center">{{ $pricing['cta_note'] }}</flux:text>
                             </div>
-                        </div>
+                        </flux:card>
                     @endforeach
                 </div>
 
