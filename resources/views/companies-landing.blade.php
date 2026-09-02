@@ -397,22 +397,22 @@
                         {{-- Locked post-filter actions — unlock on register --}}
                         <div class="mt-3 rounded-xl border border-dashed border-zinc-300 bg-zinc-50/70 p-3 dark:border-white/10 dark:bg-white/[0.02]">
                             <div class="flex items-center gap-2 text-xs font-semibold uppercase tracking-widest text-zinc-500">
-                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="size-3.5"><path fill-rule="evenodd" d="{{ $iconPaths['lock-closed'] }}" clip-rule="evenodd"/></svg>
+                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="size-3.5"><path fill-rule="evenodd" d="M12 1.5a5.25 5.25 0 0 0-5.25 5.25v3a3 3 0 0 0-3 3v6.75a3 3 0 0 0 3 3h10.5a3 3 0 0 0 3-3v-6.75a3 3 0 0 0-3-3v-3c0-2.90-2.35-5.25-5.25-5.25Zm3.75 8.25v-3a3.75 3.75 0 1 0-7.5 0v3h7.5Z" clip-rule="evenodd"/></svg>
                                 Unlock to take action — register as a company
                             </div>
                             <div class="mt-3 flex flex-wrap gap-2">
                                 @foreach ([
-                                    ['label' => 'Export PDF report', 'icon' => 'document-arrow-down', 'hint' => 'Single PDF with evidence, scores & comparison'],
-                                    ['label' => 'Shortlist', 'icon' => 'star', 'hint' => 'Save to shortlist for hiring'],
-                                    ['label' => 'Add to Talent Pool', 'icon' => 'folder-plus', 'hint' => 'Add filtered engineers to a pool'],
+                                    ['label' => 'Export PDF report', 'icon' => 'document-text', 'hint' => 'Single PDF with evidence, scores & comparison'],
+                                    ['label' => 'Shortlist', 'icon' => 'sparkles', 'hint' => 'Save to shortlist for hiring'],
+                                    ['label' => 'Add to Talent Pool', 'icon' => 'folder', 'hint' => 'Add filtered engineers to a pool'],
                                     ['label' => 'Compare', 'icon' => 'scale', 'hint' => 'Side-by-side evidence comparison'],
                                     ['label' => 'Save Search & Alert', 'icon' => 'bell-alert', 'hint' => 'Get alerts when new matches appear'],
-                                    ['label' => 'Share results', 'icon' => 'share', 'hint' => 'Share filtered results with your team'],
+                                    ['label' => 'Share results', 'icon' => 'arrow-right', 'hint' => 'Share filtered results with your team'],
                                 ] as $action)
                                     <a href="{{ route('register', ['role' => 'company']) }}" class="group inline-flex items-center gap-1.5 rounded-full border border-zinc-200 bg-white px-3 py-1.5 text-xs font-semibold text-zinc-600 opacity-70 transition hover:opacity-100 hover:border-zinc-300 dark:border-white/10 dark:bg-white/5 dark:text-zinc-300">
-                                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="size-3.5 text-zinc-400 group-hover:text-zinc-600 dark:text-zinc-500"><path fill-rule="evenodd" d="{{ $iconPaths[$action['icon']] ?? $iconPaths['lock-closed'] }}" clip-rule="evenodd"/></svg>
+                                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="size-3.5 text-zinc-400 group-hover:text-zinc-600 dark:text-zinc-500"><path fill-rule="evenodd" d="{{ $iconPaths[$action['icon']] }}" clip-rule="evenodd"/></svg>
                                         {{ $action['label'] }}
-                                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="size-3 text-zinc-400"><path fill-rule="evenodd" d="{{ $iconPaths['lock-closed'] }}" clip-rule="evenodd"/></svg>
+                                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="size-3 text-zinc-400"><path fill-rule="evenodd" d="M16.5 10.5V6.75a4.5 4.5 0 0 0-9 0v3.75m-.75 11.25h10.5a2.25 2.25 0 0 0 2.25-2.25v-6.75a2.25 2.25 0 0 0-2.25-2.25H6.75a2.25 2.25 0 0 0-2.25 2.25v6.75a2.25 2.25 0 0 0 2.25 2.25Z" clip-rule="evenodd"/></svg>
                                     </a>
                                 @endforeach
                             </div>
