@@ -19,6 +19,7 @@ use Illuminate\Support\Str;
  * @property string $slug
  * @property string|null $logo_url
  * @property string|null $website
+ * @property array|null $github_repos
  * @property string|null $description
  * @property string|null $industry
  * @property string|null $location
@@ -41,6 +42,7 @@ class Company extends Model
         'logo_url',
         'logo_path',
         'website',
+        'github_repos',
         'description',
         'industry',
         'location',
@@ -66,6 +68,7 @@ class Company extends Model
     {
         return [
             'plan' => CompanyPlan::class,
+            'github_repos' => 'array',
             'job_post_credits' => 'integer',
             'status' => CompanyStatus::class,
             'is_pioneer' => 'boolean',

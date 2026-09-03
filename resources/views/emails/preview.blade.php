@@ -34,7 +34,7 @@
 
             <div class="mt-8 grid gap-8">
                 @foreach ($mails as $key => $mail)
-                    <section class="overflow-hidden rounded-2xl border border-zinc-200 bg-white shadow-sm dark:border-zinc-800 dark:bg-zinc-900">
+                    <section class="overflow-hidden rounded-2xl bg-zinc-100 shadow-sm dark:bg-white/5">
                         <header class="flex flex-wrap items-center justify-between gap-3 border-b border-zinc-100 px-5 py-3.5 dark:border-zinc-800">
                             <div class="flex items-center gap-3">
                                 <span class="inline-flex items-center gap-1.5 rounded-full bg-indigo-50 px-2.5 py-0.5 text-[11px] font-semibold uppercase tracking-wide text-indigo-600 dark:bg-indigo-500/10 dark:text-indigo-300">

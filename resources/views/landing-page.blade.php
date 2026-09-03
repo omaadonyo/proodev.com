@@ -231,7 +231,7 @@
 
                 <div class="mx-auto mt-10 grid max-w-4xl gap-6 md:grid-cols-2">
                     {{-- Activity --}}
-                    <div class="rounded-xl border border-zinc-200 bg-white p-6 dark:border-white/10 dark:bg-white/[0.03]">
+                    <div class="rounded-xl bg-zinc-100 p-6 dark:bg-white/5">
                         <div class="flex items-center gap-2.5">
                             <span class="flex size-8 items-center justify-center rounded-lg bg-red-500/10 text-red-500">
                                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="size-4"><path fill-rule="evenodd" d="{{ $iconPaths['x-mark'] }}" clip-rule="evenodd"/></svg>
@@ -290,7 +290,7 @@
                         ['icon' => 'sparkles', 'number' => '02', 'title' => 'AI reads the actual work', 'description' => 'ProoDev fetches the source and articles, drafts an engineering report, and analyzes technical depth, structure, and decisions.'],
                         ['icon' => 'trophy', 'number' => '03', 'title' => 'Get a Meaning score', 'description' => 'Every piece of evidence flows into an explainable Engineering Magnitude score - factor by factor, tied to proof.'],
                     ] as $step)
-                        <div class="flex flex-col rounded-xl border border-zinc-200 bg-white p-6 transition duration-300 hover:-translate-y-1 hover:border-[#3750eb]/50 hover:shadow-xl hover:shadow-[#3750eb]/10 dark:border-white/10 dark:bg-white/[0.03] dark:hover:border-[#3750eb]/30 dark:hover:bg-white/[0.05]">
+                        <div class="flex flex-col rounded-xl bg-zinc-100 p-6 transition duration-300 hover:-translate-y-1 hover:border-[#3750eb]/50 hover:shadow-xl hover:shadow-[#3750eb]/10 dark:bg-white/5 dark:hover:border-[#3750eb]/30 dark:hover:bg-white/[0.05]">
                             <div class="flex items-center justify-between">
                                 <span class="flex size-10 items-center justify-center rounded-lg bg-[#3750eb]/10 text-[#3750eb] dark:text-[#8f9dff]">
                                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="size-5"><path fill-rule="evenodd" d="{{ $iconPaths[$step['icon']] }}" clip-rule="evenodd"/></svg>
@@ -342,7 +342,7 @@
                     {{-- Mock passport card --}}
                     <div class="relative animate-float-slow">
                         <div class="pointer-events-none absolute -inset-6 -z-10 rounded-xl bg-[#3750eb]/10 blur-3xl" aria-hidden="true"></div>
-                        <div class="overflow-hidden rounded-xl border border-zinc-200 bg-white/80 shadow-2xl shadow-zinc-900/10 backdrop-blur-xl dark:border-white/10 dark:bg-zinc-950/80">
+                        <div class="overflow-hidden rounded-xl bg-zinc-100 shadow-2xl shadow-zinc-900/10 backdrop-blur-xl dark:bg-white/5">
                             <div class="flex items-center justify-between border-b border-zinc-200 px-5 py-3 dark:border-white/5">
                                 <span class="inline-flex items-center gap-1.5 text-xs font-semibold text-zinc-700 dark:text-zinc-300">
                                     <span class="size-2 rounded-full bg-emerald-500"></span>
@@ -456,7 +456,7 @@
                         ['q' => 'Is it really free?', 'a' => 'Yes. Adding evidence, running AI analysis, building your Engineering Magnitude, and sharing your public passport are all free. Your evidence and identity are yours to keep.'],
                         ['q' => 'Who is ProoDev for?', 'a' => 'Engineers who want their work to speak louder than their streaks - and recruiters smart enough to look past activity metrics.'],
                     ] as $index => $faq)
-                        <div data-faq class="overflow-hidden rounded-xl border border-zinc-200 bg-white dark:border-white/10 dark:bg-white/[0.03]">
+                        <div data-faq class="overflow-hidden rounded-xl bg-zinc-100 dark:bg-white/5">
                             <button type="button" data-faq-toggle class="flex w-full items-center justify-between gap-4 px-5 py-4 text-left">
                                 <span class="text-sm font-semibold text-zinc-900 dark:text-white">{{ $faq['q'] }}</span>
                                 <svg data-faq-chevron xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="size-4 shrink-0 text-zinc-500 transition duration-200">
@@ -474,7 +474,7 @@
 
         {{-- ===================== CTA ===================== --}}
         <section class="mx-auto max-w-7xl px-4 pb-16 sm:px-6 lg:px-8">
-            <div class="relative overflow-hidden rounded-xl border border-zinc-200 bg-gradient-to-br from-[#f1f4ff] via-white to-[#eef1ff] px-6 py-16 text-center sm:px-16 dark:border-white/10 dark:from-[#3750eb]/25 dark:via-zinc-900 dark:to-[#3750eb]/10">
+            <div class="relative overflow-hidden rounded-xl bg-gradient-to-br from-[#f1f4ff] via-white to-[#eef1ff] px-6 py-16 text-center sm:px-16 dark:from-[#3750eb]/25 dark:via-zinc-900 dark:to-[#3750eb]/10">
                 <div class="pointer-events-none absolute inset-0 -z-10 bg-[#3750eb]/5 blur-3xl" aria-hidden="true"></div>
                 <div class="relative">
                     <h2 class="mx-auto max-w-2xl text-3xl font-bold tracking-tight text-zinc-900 sm:text-5xl dark:text-white">

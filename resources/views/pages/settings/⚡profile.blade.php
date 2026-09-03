@@ -249,7 +249,7 @@ new #[Title('Profile settings')] class extends Component
 
     <x-pages::settings.layout :heading="__('Profile')" :subheading="__('Update your name, email and DevID details')">
         <form wire:submit="updateProfileInformation" class="my-6 w-full space-y-6">
-            <div class="flex items-center gap-5 rounded-xl border border-zinc-200 p-5 dark:border-white/10">
+            <div class="flex items-center gap-5 rounded-xl bg-zinc-100 p-5 dark:bg-white/5">
                 <div class="relative shrink-0">
                     <div class="size-20 overflow-hidden rounded-full border border-zinc-200 bg-zinc-100 dark:border-white/10 dark:bg-zinc-900">
                         @if ($avatar)
@@ -389,7 +389,7 @@ new #[Title('Profile settings')] class extends Component
             </div>
         </form>
 
-        <div class="mt-8 rounded-xl border border-zinc-200 p-5 dark:border-white/10">
+        <div class="mt-8 rounded-xl bg-zinc-100 p-5 dark:bg-white/5">
             <flux:heading size="sm">{{ __('Email preferences') }}</flux:heading>
             <flux:text class="mt-1">{{ __('Choose which emails you want to receive. You can change these anytime.') }}</flux:text>
 
@@ -426,7 +426,7 @@ new #[Title('Profile settings')] class extends Component
             </div>
         </div>
 
-        <div class="mt-6 rounded-xl border border-zinc-200 p-5 dark:border-white/10">
+        <div class="mt-6 rounded-xl bg-zinc-100 p-5 dark:bg-white/5">
             <flux:heading size="sm">{{ __('Notification preferences') }}</flux:heading>
             <flux:text class="mt-1">{{ __('Choose which in-app notifications you see in the notification bell.') }}</flux:text>
 

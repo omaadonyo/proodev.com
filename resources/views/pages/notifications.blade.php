@@ -120,7 +120,7 @@ new #[Title('Notifications')] class extends Component {
             <div
                 wire:key="notification-{{ $notification->id }}"
                 @class([
-                    'flex items-start gap-3 rounded-xl border border-zinc-200 bg-white p-4 transition dark:border-zinc-700 dark:bg-zinc-800',
+                    'flex items-start gap-3 rounded-xl bg-zinc-100 p-4 transition dark:bg-white/5',
                     'border-accent/20 bg-accent/5 dark:border-accent/20 dark:bg-accent/5' => is_null($notification->read_at),
                 ])
             >

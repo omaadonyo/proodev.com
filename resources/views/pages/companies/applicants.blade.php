@@ -99,7 +99,7 @@ class extends Component
         </div>
 
         @forelse ($this->jobs as $job)
-            <div class="rounded-xl border border-zinc-200 p-5 dark:border-zinc-700">
+            <div class="rounded-xl bg-zinc-100 p-5 dark:bg-white/5">
                 <div class="flex flex-wrap items-center justify-between gap-3">
                     <button type="button" wire:click="selectJob({{ $job->id }})" class="flex min-w-0 items-center gap-3 text-start">
                         <x-company-logo :company="$company" size="sm" />
@@ -117,7 +117,7 @@ class extends Component
 
                         <div class="grid gap-3">
                             @forelse ($this->applications as $application)
-                                <div class="rounded-lg border border-zinc-200 bg-zinc-50 p-4 dark:border-zinc-700 dark:bg-zinc-900/40">
+                                <div class="rounded-lg bg-zinc-100 p-4 dark:bg-white/5">
                                     <div class="flex flex-wrap items-center gap-3">
                                         <flux:avatar :src="$application->user->avatarUrl()" :alt="$application->user->name" circle class="size-9" />
                                         <div class="min-w-0 flex-1">

@@ -1,7 +1,7 @@
 @props(['compact' => false, 'dense' => false])
 
 @if ($dense)
-    <div class="flex items-center gap-3 rounded-lg border border-zinc-200 bg-white px-3 py-1.5 dark:border-zinc-700 dark:bg-zinc-800">
+    <div class="flex items-center gap-3 rounded-lg bg-zinc-100 px-3 py-1.5 dark:bg-white/5">
         <flux:skeleton class="size-8 shrink-0 rounded-lg" animate="shimmer" />
         <div class="min-w-0 flex-1">
             <div class="flex items-center gap-2">
@@ -13,7 +13,7 @@
         <flux:skeleton.line size="base" class="hidden w-40 shrink-0 md:block" animate="shimmer" />
     </div>
 @else
-<div class="rounded-xl border border-zinc-200 bg-white p-[calc(var(--spacing)*1)] dark:border-zinc-700 dark:bg-zinc-800">
+<div class="rounded-xl bg-zinc-100 p-[calc(var(--spacing)*1)] dark:bg-white/5">
     <div class="flex items-center gap-3">
         <flux:skeleton class="size-12 shrink-0 rounded-xl" animate="shimmer" />
         <div class="min-w-0 flex-1">

@@ -5,7 +5,7 @@
     </head>
     <body class="min-h-screen overflow-x-clip bg-white dark:bg-zinc-950">
         <div class="pointer-events-none fixed inset-x-0 top-0 -z-10 h-[32rem] glow" aria-hidden="true"></div>
-        <flux:sidebar sticky :collapsible="true" class="border-e border-zinc-200 bg-zinc-50 transition-all duration-300 ease-[cubic-bezier(0.32,0.72,0,1)] will-change-transform dark:border-zinc-700 dark:bg-zinc-900">
+        <flux:sidebar sticky :collapsible="true" class="bg-zinc-100 transition-all duration-300 ease-[cubic-bezier(0.32,0.72,0,1)] will-change-transform dark:bg-zinc-900">
             <flux:sidebar.header>
                 <x-app-logo :sidebar="true" href="{{ route('home') }}" wire:navigate />
                 <flux:sidebar.collapse class="lg:hidden" />
@@ -284,10 +284,10 @@
         </flux:sidebar>
 
         @auth
-            <flux:header class="lg:hidden sticky top-0 z-20 border-b border-zinc-200/50 bg-white/80 backdrop-blur-xl supports-[backdrop-filter]:bg-white/60 dark:border-zinc-800/50 dark:bg-zinc-900/80 dark:supports-[backdrop-filter]:bg-zinc-900/60">
+            <flux:header class="lg:hidden sticky top-0 z-20 flex items-center gap-2 border-b border-zinc-200/50 bg-white/80 px-3 backdrop-blur-xl supports-[backdrop-filter]:bg-white/60 dark:border-zinc-800/50 dark:bg-zinc-900/80 dark:supports-[backdrop-filter]:bg-zinc-900/60">
                 <flux:sidebar.toggle class="lg:hidden" icon="bars-2" inset="left" />
                 <flux:spacer />
-                <div class="relative" x-data="{ open: false }" @click.outside="open = false" @keydown.escape.window="open = false">
+                <div class="relative overflow-visible" x-data="{ open: false }" @click.outside="open = false" @keydown.escape.window="open = false">
                     <button
                         type="button"
                         @click="open = !open"
@@ -308,7 +308,7 @@
                         x-transition:leave="transition ease-in duration-75"
                         x-transition:leave-start="opacity-100"
                         x-transition:leave-end="opacity-0"
-                        class="absolute end-0 top-full z-50 mt-2 w-80 max-w-[calc(100vw-2rem)] overflow-hidden rounded-xl bg-white shadow-xl shadow-zinc-900/10 dark:bg-zinc-900"
+                        class="fixed left-1/2 top-16 z-50 -translate-x-1/2 w-80 max-w-[calc(100vw-2rem)] overflow-hidden rounded-xl bg-white shadow-xl shadow-zinc-900/10 dark:bg-zinc-900 dark:ring-1 dark:ring-white/10 lg:absolute lg:top-full lg:left-auto lg:right-0 lg:translate-x-0 lg:mt-2"
                     >
                         <livewire:two-hour-streak-widget :key="'streak-mobile-'.auth()->id()" />
                     </div>

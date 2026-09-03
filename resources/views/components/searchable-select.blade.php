@@ -115,7 +115,7 @@
             type="button"
             @click="toggle()"
             :aria-expanded="open"
-            class="flex w-full items-center justify-between gap-2 border border-zinc-200 bg-white px-3 text-left text-zinc-700 shadow-xs transition-colors hover:border-zinc-300 dark:border-white/10 dark:bg-white/10 dark:text-zinc-300 dark:hover:border-white/20 {{ $sizeClasses }}"
+            class="flex w-full items-center justify-between gap-2 bg-zinc-100 px-3 text-left text-zinc-700 shadow-xs transition-colors hover:bg-zinc-200 dark:bg-white/10 dark:text-zinc-300 dark:hover:bg-white/15 {{ $sizeClasses }}"
         >
             <span class="truncate" :class="{ 'text-zinc-400 dark:text-zinc-400': value === '' || value === null }" x-text="display"></span>
             <flux:icon name="chevron-down" variant="micro" class="size-4 shrink-0 text-zinc-400 transition-transform" :class="{ 'rotate-180': open }" />
@@ -130,7 +130,7 @@
             x-transition:leave="transition ease-in duration-75"
             x-transition:leave-start="opacity-100 scale-100"
             x-transition:leave-end="opacity-0 scale-95"
-            class="absolute z-50 mt-1 w-full overflow-hidden rounded-lg border border-zinc-200 bg-white shadow-lg dark:border-white/10 dark:bg-zinc-800"
+            class="absolute z-50 mt-1 w-full overflow-hidden rounded-lg bg-zinc-100 shadow-lg dark:bg-zinc-900"
         >
             <div class="border-b border-zinc-100 p-2 dark:border-white/10">
                 <input

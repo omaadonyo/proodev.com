@@ -107,7 +107,7 @@ new #[Title('Executive Candidate Brief')] class extends Component {
         </div>
     </div>
 
-    <div class="mx-auto w-full max-w-3xl rounded-xl border border-zinc-200 bg-white p-8 dark:border-zinc-700 dark:bg-zinc-800">
+    <div class="mx-auto w-full max-w-3xl rounded-xl bg-zinc-100 p-8 dark:bg-white/5">
         <div class="flex items-start justify-between">
             <div>
                 <div class="text-xs uppercase tracking-wide text-zinc-400">Candidate Executive Brief</div>
@@ -118,7 +118,7 @@ new #[Title('Executive Candidate Brief')] class extends Component {
             <span class="rounded-full bg-accent/10 px-3 py-1 text-sm font-semibold text-accent">{{ $this->brief['meta']['confidence'] }}% confidence</span>
         </div>
 
-        <div class="mt-6 rounded-lg border border-zinc-100 p-4 dark:border-zinc-700">
+        <div class="mt-6 rounded-lg bg-zinc-100 p-4 dark:bg-white/5">
             <div class="text-xs uppercase tracking-wide text-zinc-400">Executive summary</div>
             <p class="mt-2 text-sm leading-relaxed text-zinc-700 dark:text-zinc-200">{{ $this->brief['executive_summary'] }}</p>
         </div>
@@ -139,7 +139,7 @@ new #[Title('Executive Candidate Brief')] class extends Component {
             <div class="text-xs uppercase tracking-wide text-zinc-400">Engineering Magnitude breakdown</div>
             <div class="mt-3 grid gap-2">
                 @foreach ($this->brief['magnitude_factors'] as $factor)
-                    <div class="flex items-center justify-between rounded-lg border border-zinc-100 px-3 py-2 text-sm dark:border-zinc-700">
+                    <div class="flex items-center justify-between rounded-lg bg-zinc-100 px-3 py-2 text-sm dark:bg-white/5">
                         <div class="min-w-0">
                             <div class="font-medium">{{ $factor['label'] }}</div>
                             <div class="truncate text-xs text-zinc-500">{{ $factor['description'] }}</div>

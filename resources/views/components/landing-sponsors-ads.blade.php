@@ -10,7 +10,7 @@
 
                 @if ($ads->isNotEmpty())
                     <div class="lg:col-span-1">
-                        <div class="rounded-xl border border-zinc-200 bg-white overflow-hidden dark:border-white/10 dark:bg-zinc-950/60">
+                        <div class="rounded-xl bg-zinc-100 overflow-hidden dark:bg-white/5">
                             <div class="flex items-center justify-between border-b border-zinc-100 px-4 py-2.5 dark:border-white/5">
                                 <span class="text-xs font-semibold uppercase tracking-wider text-zinc-400">Sponsored</span>
                             </div>
@@ -33,7 +33,7 @@
 
                 @if ($sponsors->isNotEmpty())
                     <div class="{{ $ads->isNotEmpty() ? 'lg:col-span-2' : 'lg:col-span-3' }}">
-                        <div class="rounded-xl border border-zinc-200 bg-white overflow-hidden dark:border-white/10 dark:bg-zinc-950/60">
+                        <div class="rounded-xl bg-zinc-100 overflow-hidden dark:bg-white/5">
                             <div class="flex items-center justify-between border-b border-zinc-100 px-4 py-2.5 dark:border-white/5">
                                 <span class="text-xs font-semibold uppercase tracking-wider text-zinc-400">Our Sponsors</span>
                             </div>

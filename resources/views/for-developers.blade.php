@@ -203,7 +203,7 @@
                         ['n' => '04', 'title' => 'Get Discovered', 'copy' => 'Recruiters and companies can discover developers based on demonstrated capabilities.'],
                         ['n' => '05', 'title' => 'Find Better Opportunities', 'copy' => 'Apply using your DevID and evidence instead of starting every application from scratch.'],
                     ] as $step)
-                        <div class="relative rounded-lg border border-zinc-200 bg-white p-4 transition duration-300 hover:-translate-y-1 hover:border-zinc-900 hover:shadow-xl hover:shadow-zinc-900/10 dark:border-white/10 dark:bg-zinc-900/50 dark:hover:border-white/25 dark:hover:bg-white/[0.04]">
+                        <div class="relative rounded-lg bg-zinc-100 p-4 transition duration-300 hover:-translate-y-1 hover:shadow-xl hover:shadow-zinc-900/10 dark:bg-white/5 dark:hover:bg-white/[0.08]">
                             <span class="inline-flex items-center rounded-full bg-zinc-950 px-3 py-1 text-xs font-bold tracking-widest text-white ring-1 ring-zinc-200 dark:bg-white dark:text-zinc-950 dark:ring-white/10">{{ $step['n'] }}</span>
                             <h3 class="mt-4 text-base font-semibold text-zinc-900 dark:text-white">{{ $step['title'] }}</h3>
                             <p class="mt-2 text-sm leading-relaxed text-zinc-600 dark:text-zinc-400">{{ $step['copy'] }}</p>
@@ -222,9 +222,9 @@
                 </div>
 
                 <div class="mx-auto mt-14 grid max-w-5xl items-stretch gap-5 lg:grid-cols-2">
-                    <div class="flex flex-col rounded-xl border border-zinc-200 bg-white p-5 dark:border-white/10 dark:bg-zinc-900/50">
+                    <div class="flex flex-col rounded-xl bg-zinc-100 p-5 dark:bg-white/5">
                         <div class="text-[10px] font-semibold uppercase tracking-widest text-zinc-400">Before</div>
-                        <div class="mt-4 rounded-lg border border-zinc-200 bg-zinc-50 p-4 font-mono text-sm dark:border-white/10 dark:bg-zinc-900/70">
+                        <div class="mt-4 rounded-lg bg-zinc-100 p-4 font-mono text-sm dark:bg-white/5">
                             <div class="flex items-center gap-2">
                                 <span class="inline-flex items-center gap-1 rounded-full bg-emerald-400/10 px-2 py-0.5 text-[10px] font-semibold text-emerald-600 dark:text-emerald-400"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="size-3"><path fill-rule="evenodd" d="M4.5 12.75l6 6 9-13.5" clip-rule="evenodd"></path></svg> Merged</span>
                                 <span class="text-zinc-500">PR #4821</span>
@@ -235,7 +235,7 @@
 
                     <div class="relative flex flex-col rounded-xl border border-zinc-300 dark:border-white/15 bg-gradient-to-br from-zinc-100 to-white p-5 shadow-lg shadow-zinc-900/10 dark:border-zinc-300 dark:border-white/15 dark:from-white/10 dark:to-zinc-950/60">
                         <div class="text-[10px] font-semibold uppercase tracking-widest text-zinc-900 dark:text-white">After: engineering achievement</div>
-                        <div class="mt-4 rounded-lg border border-zinc-200 bg-white p-4 dark:bg-zinc-900/50">
+                        <div class="mt-4 rounded-lg bg-zinc-100 p-4 dark:bg-white/5">
                             <p class="text-base font-semibold text-zinc-900 dark:text-white">Solved a high-complexity concurrency problem.</p>
                             <div class="mt-4 grid gap-3 sm:grid-cols-2">
                                 <div>
@@ -278,7 +278,7 @@
                 </div>
 
                 <div class="mx-auto mt-12 max-w-3xl space-y-4">
-                    <div class="rounded-xl border border-zinc-200 bg-white p-4 dark:border-white/10 dark:bg-zinc-900/50">
+                    <div class="rounded-xl bg-zinc-100 p-4 dark:bg-white/5">
                         <div class="text-[10px] font-semibold uppercase tracking-widest text-zinc-400">Instead of</div>
                         <p class="mt-1.5 font-mono text-sm text-zinc-500">"Contributed to Filament"</p>
                     </div>
@@ -318,9 +318,9 @@
                 </div>
 
                 <div class="mx-auto mt-14 grid max-w-4xl items-stretch gap-5 lg:grid-cols-2">
-                    <div class="rounded-xl border border-zinc-200 bg-white p-5 dark:border-white/10 dark:bg-zinc-900/50">
+                    <div class="rounded-xl bg-zinc-100 p-5 dark:bg-white/5">
                         <div class="text-[10px] font-semibold uppercase tracking-widest text-zinc-400">Your DevID</div>
-                        <div class="mt-3 rounded-lg border border-zinc-200 bg-zinc-50 p-4 dark:border-white/10 dark:bg-zinc-900/70">
+                            <div class="mt-3 rounded-lg bg-zinc-100 p-4 dark:bg-white/5">
                             <div class="text-sm font-semibold text-zinc-900 dark:text-white">Senior Laravel Engineer profile</div>
                             <ul class="mt-2 space-y-1 text-xs text-zinc-600 dark:text-zinc-300">
                                 <li class="flex items-center gap-2"><span class="size-1.5 shrink-0 rounded-full bg-emerald-500"></span> 8 projects</li>
@@ -339,7 +339,7 @@
                             </div>
                             <span class="inline-flex items-center rounded-full bg-emerald-400/10 px-3 py-1 text-sm font-bold tabular-nums text-emerald-600 dark:text-emerald-400">94% Work Match</span>
                         </div>
-                        <div class="mt-4 rounded-lg border border-zinc-200 bg-white/70 p-3 dark:border-white/10 dark:bg-zinc-900/50">
+                        <div class="mt-4 rounded-lg bg-zinc-100 p-3 dark:bg-white/5">
                             <div class="text-[10px] font-semibold uppercase tracking-widest text-zinc-400">Why you match</div>
                             <p class="mt-1 text-sm leading-relaxed text-zinc-600 dark:text-zinc-300">Your evidence maps directly onto what this role needs. Apply with your work instead of starting from scratch.</p>
                         </div>
@@ -374,7 +374,7 @@
                         ] as $moment)
                             <li class="relative">
                                 <span class="absolute -start-[31px] top-1 size-3.5 rounded-full border-2 border-white bg-[#3750eb] dark:border-zinc-950"></span>
-                                <div class="rounded-lg border border-zinc-200 bg-white p-3.5 dark:border-white/10 dark:bg-zinc-900/50">
+                                <div class="rounded-lg bg-zinc-100 p-3.5 dark:bg-white/5">
                                     <span class="text-[10px] font-bold uppercase tracking-widest text-zinc-900 dark:text-white">{{ $moment[0] }}</span>
                                     <p class="mt-0.5 text-sm font-medium text-zinc-800 dark:text-zinc-200">{{ $moment[1] }}</p>
                                 </div>
@@ -387,7 +387,7 @@
 
         {{-- ===================== FINAL CTA ===================== --}}
         <section class="section-contained mx-auto max-w-7xl px-4 pb-20 sm:px-6 lg:px-8">
-            <div class="relative overflow-hidden rounded-xl border border-zinc-200 bg-gradient-to-br from-zinc-100 via-white to-zinc-50 px-6 py-16 text-center sm:px-16 dark:border-white/10 dark:from-white/10 dark:via-zinc-900 dark:to-white/5">
+            <div class="relative overflow-hidden rounded-xl bg-gradient-to-br from-zinc-100 via-white to-zinc-50 px-6 py-16 text-center sm:px-16 dark:from-white/10 dark:via-zinc-900 dark:to-white/5">
                 <div class="relative">
                     <h2 class="mx-auto max-w-2xl text-3xl font-bold tracking-tight text-zinc-900 sm:text-5xl dark:text-white">
                         You've Already Done the Hard Work.
@@ -490,6 +490,7 @@
                 @endif
                 <div class="mt-6 flex flex-col items-center justify-between gap-3 border-t border-zinc-200 pt-6 sm:flex-row dark:border-white/5">
                     <p class="text-xs text-zinc-400">&copy; {{ date('Y') }} {{ config('app.name', 'ProoDev') }}. Proof over claims.</p>
+                    <a href="mailto:info@proodev.com" class="text-xs text-zinc-400 transition hover:text-zinc-900 dark:hover:text-white">For inquiries: info@proodev.com</a>
                     <p class="text-xs text-zinc-400">Built for engineers who back their claims with evidence.</p>
                 </div>
             </div>

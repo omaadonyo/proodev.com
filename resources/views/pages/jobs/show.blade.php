@@ -41,7 +41,7 @@ new #[Title('Job')] class extends Component {
             All jobs
         </a>
 
-        <div class="rounded-2xl border border-zinc-200 bg-white p-6 dark:border-zinc-700 dark:bg-zinc-800">
+        <div class="rounded-2xl bg-zinc-100 p-6 dark:bg-white/5">
             <div class="flex flex-wrap items-start justify-between gap-4">
                 <div class="flex items-center gap-4">
                     <x-company-logo :company="$company" size="lg" />

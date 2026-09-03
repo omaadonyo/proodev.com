@@ -295,21 +295,21 @@
             <div class="relative mx-auto mt-16 max-w-5xl animate-fade-up delay-200">
                 <div class="pointer-events-none absolute -inset-x-8 -top-10 bottom-0 -z-10 rounded-xl bg-[#3750eb]/10 blur-3xl dark:bg-[#3750eb]/15" aria-hidden="true"></div>
 
-                <div class="overflow-hidden rounded-lg border border-zinc-200 bg-white/70 shadow-2xl shadow-zinc-900/10 backdrop-blur-xl dark:border-white/10 dark:bg-zinc-900/80 dark:shadow-zinc-900/20">
+                <div class="overflow-hidden rounded-lg bg-zinc-100 shadow-2xl shadow-zinc-900/10 backdrop-blur-xl dark:bg-white/5 dark:shadow-zinc-900/20">
                     {{-- Window chrome --}}
                     <div class="flex items-center justify-between gap-4 border-b border-zinc-200 bg-zinc-50/50 px-5 py-3 dark:border-white/5 dark:bg-white/[0.02]">
                         <div class="flex items-center gap-2">
                             <span class="size-2.5 rounded-full bg-zinc-900"></span>
                             <span class="size-2.5 rounded-full bg-zinc-400"></span>
                             <span class="size-2.5 rounded-full bg-zinc-300 dark:bg-zinc-600"></span>
-                            <span class="ml-2 hidden text-xs font-medium text-zinc-600 dark:text-zinc-400 sm:inline">proodev — scout</span>
+                            <span class="ml-2 hidden text-xs font-medium text-zinc-600 dark:text-zinc-400 sm:inline">proodev scout</span>
                         </div>
                         <div class="flex items-center gap-2 rounded-full border border-emerald-200 bg-emerald-50 px-2.5 py-1 text-xs font-semibold text-emerald-700 dark:border-emerald-500/20 dark:bg-emerald-500/10 dark:text-emerald-400">
                             <span class="relative flex size-1.5">
                                 <span class="absolute inline-flex size-full animate-ping rounded-full bg-emerald-500 opacity-75"></span>
                                 <span class="relative inline-flex size-1.5 rounded-full bg-emerald-500"></span>
                             </span>
-                            Live — Try it now
+                            Try it now
                         </div>
                         <div class="flex items-center gap-1 text-zinc-400 dark:text-zinc-600">
                             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="size-4"><path fill-rule="evenodd" d="{{ $iconPaths['arrow-up-right'] }}" clip-rule="evenodd"/></svg>
@@ -331,7 +331,7 @@
                             </div>
 
                             {{-- Live achievement card --}}
-                            <div class="flex flex-col gap-3 rounded-xl border border-zinc-200 bg-white p-4 shadow-sm dark:border-white/10 dark:bg-zinc-950/80">
+                            <div class="flex flex-col gap-3 rounded-xl bg-zinc-100 p-4 shadow-sm dark:bg-white/5">
                                 <div class="flex items-center gap-3">
                                     <span class="flex size-10 items-center justify-center rounded-full bg-gradient-to-br from-[#3750eb] to-[#5b6cff] text-sm font-bold text-white">J</span>
                                     <div>
@@ -417,7 +417,7 @@
 
                 <div class="mt-14 grid gap-5 lg:grid-cols-3">
                     {{-- Step 1 --}}
-                    <div class="flex flex-col rounded-xl border border-zinc-200 bg-white p-6 transition duration-300 hover:-translate-y-1 hover:border-zinc-900 hover:shadow-xl hover:shadow-zinc-900/10 dark:border-white/10 dark:bg-zinc-900/50 dark:hover:border-white/25 dark:hover:bg-white/[0.06]">
+                    <div class="flex flex-col rounded-xl bg-zinc-100 p-6 transition duration-300 hover:-translate-y-1 hover:shadow-xl hover:shadow-zinc-900/10 dark:bg-white/5 dark:hover:bg-white/[0.06]">
                         <span class="inline-flex w-fit items-center rounded-full bg-zinc-950 px-3 py-1 text-xs font-bold tracking-widest text-white ring-1 ring-zinc-200 dark:bg-white dark:text-zinc-950 dark:ring-white/10">01: ADD YOUR WORK</span>
                         <div class="mt-5 flex flex-wrap gap-1.5">
                             @foreach (['GitHub repositories', 'Pull requests', 'Projects', 'Packages', 'Articles', 'Demos', 'Open-source contributions'] as $source)
@@ -429,7 +429,7 @@
                     </div>
 
                     {{-- Step 2 --}}
-                    <div class="flex flex-col rounded-xl border border-zinc-200 bg-white p-6 transition duration-300 hover:-translate-y-1 hover:border-zinc-900 hover:shadow-xl hover:shadow-zinc-900/10 dark:border-white/10 dark:bg-zinc-900/50 dark:hover:border-white/25 dark:hover:bg-white/[0.06]">
+                    <div class="flex flex-col rounded-xl bg-zinc-100 p-6 transition duration-300 hover:-translate-y-1 hover:shadow-xl hover:shadow-zinc-900/10 dark:bg-white/5 dark:hover:bg-white/[0.06]">
                         <span class="inline-flex w-fit items-center rounded-full bg-zinc-950 px-3 py-1 text-xs font-bold tracking-widest text-white ring-1 ring-zinc-200 dark:bg-white dark:text-zinc-950 dark:ring-white/10">02: PROODEV FINDS THE STORY</span>
                         <ul class="mt-5 space-y-1.5 text-sm text-zinc-600 dark:text-zinc-300">
                             @foreach (['Engineering achievements', 'Problems solved', 'Technical expertise', 'Project complexity', 'Open-source contributions', 'Impact and reach', 'Evidence'] as $found)
@@ -443,7 +443,7 @@
                     </div>
 
                     {{-- Step 3 --}}
-                    <div class="flex flex-col rounded-xl border border-zinc-200 bg-white p-6 transition duration-300 hover:-translate-y-1 hover:border-zinc-900 hover:shadow-xl hover:shadow-zinc-900/10 dark:border-white/10 dark:bg-zinc-900/50 dark:hover:border-white/25 dark:hover:bg-white/[0.06]">
+                    <div class="flex flex-col rounded-xl bg-zinc-100 p-6 transition duration-300 hover:-translate-y-1 hover:shadow-xl hover:shadow-zinc-900/10 dark:bg-white/5 dark:hover:bg-white/[0.06]">
                         <span class="inline-flex w-fit items-center rounded-full bg-zinc-950 px-3 py-1 text-xs font-bold tracking-widest text-white ring-1 ring-zinc-200 dark:bg-white dark:text-zinc-950 dark:ring-white/10">03: GET DISCOVERED</span>
                         <div class="mt-5 flex flex-wrap gap-1.5">
                             @foreach (['Recruiters', 'Engineering managers', 'Startups', 'Companies', 'Hiring teams'] as $audience)
@@ -467,12 +467,12 @@
 
                 <div class="mt-14 grid items-stretch gap-5 lg:grid-cols-2">
                     {{-- Before --}}
-                    <div class="flex flex-col rounded-xl border border-zinc-200 bg-white p-5 dark:border-white/10 dark:bg-zinc-950/60">
+                    <div class="flex flex-col rounded-xl bg-zinc-100 p-5 dark:bg-white/5">
                         <div class="flex items-center gap-2 text-[10px] font-semibold uppercase tracking-widest text-zinc-400">
                             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" class="size-3.5"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27s1.36.09 2 .27c1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.01 8.01 0 0 0 16 8c0-4.42-3.58-8-8-8Z"/></svg>
                             GitHub
                         </div>
-                        <div class="mt-4 rounded-lg border border-zinc-200 bg-zinc-50 p-4 font-mono text-sm dark:border-white/10 dark:bg-zinc-900/70">
+                        <div class="mt-4 rounded-lg bg-zinc-100 p-4 font-mono text-sm dark:bg-white/5">
                             <div class="flex items-center gap-2">
                                 <span class="rounded-full bg-emerald-400/10 px-2 py-0.5 text-[10px] font-semibold text-emerald-600 dark:text-emerald-400">Merged ✓</span>
                                 <span class="text-zinc-500">PR #4821</span>
@@ -485,7 +485,7 @@
                     {{-- After --}}
                     <div class="relative flex flex-col rounded-xl border border-zinc-300 dark:border-white/15 bg-gradient-to-br from-zinc-100 to-white p-5 shadow-lg shadow-zinc-900/10 dark:border-zinc-300 dark:border-white/15 dark:from-white/10 dark:to-zinc-950/60">
                         <div class="text-[10px] font-semibold uppercase tracking-widest text-zinc-900 dark:text-white">ProoDev</div>
-                        <div class="mt-4 rounded-lg border border-zinc-200 bg-white p-4 dark:bg-zinc-950/60">
+                        <div class="mt-4 rounded-lg bg-zinc-100 p-4 dark:bg-white/5">
                             <div class="text-[10px] font-semibold uppercase tracking-widest text-zinc-900 dark:text-white">Engineering achievement</div>
                             <p class="mt-2 text-base font-semibold text-zinc-900 dark:text-white">Solved a high-complexity concurrency problem.</p>
                             <div class="mt-4 grid gap-3 sm:grid-cols-2">
@@ -536,7 +536,7 @@
                         </p>
                     </div>
 
-                    <div class="rounded-xl border border-zinc-200 bg-white p-5 shadow-xl shadow-zinc-900/5 dark:border-white/10 dark:bg-zinc-900/50">
+                    <div class="rounded-xl bg-zinc-100 p-5 shadow-xl shadow-zinc-900/5 dark:bg-white/5">
                         <div class="text-[10px] font-semibold uppercase tracking-widest text-zinc-400">Contributed to</div>
                         <div class="mt-1 flex items-center gap-2">
                             <img src="{{ asset('images/logo-black.png') }}" alt="ProoDev" class="h-6 w-auto dark:hidden" />
@@ -581,7 +581,7 @@
                         ['title' => 'Impact', 'copy' => 'Help people understand the significance and reach of your work.'],
                         ['title' => 'Evidence', 'copy' => 'Keep every important conclusion connected to its source.'],
                     ] as $card)
-                        <div class="group relative rounded-lg border border-zinc-200 bg-white p-5 transition duration-300 hover:-translate-y-1 hover:border-zinc-900 hover:shadow-xl hover:shadow-zinc-900/10 dark:border-white/10 dark:bg-zinc-950/60 dark:hover:border-white/25 dark:hover:bg-white/[0.04]">
+                        <div class="group relative rounded-lg bg-zinc-100 p-5 transition duration-300 hover:-translate-y-1 hover:shadow-xl hover:shadow-zinc-900/10 dark:bg-white/5 dark:hover:bg-white/[0.04]">
                             <span class="inline-flex size-11 items-center justify-center rounded-lg bg-emerald-50 dark:bg-emerald-500/10" aria-hidden="true">
                                 <span class="size-2.5 rounded-full bg-emerald-500"></span>
                             </span>
@@ -618,7 +618,7 @@
                             ['step' => '02', 'title' => 'Prove', 'copy' => 'Evidence-backed achievements emerge from your real technical work.'],
                             ['step' => '03', 'title' => 'Get Noticed', 'copy' => 'The right people — recruiters, engineering managers, companies — see your work.'],
                         ] as $i => $s)
-                            <div class="flex items-start gap-4 rounded-xl border border-zinc-200 bg-white p-5 transition duration-300 hover:border-zinc-900 hover:shadow-lg dark:border-white/10 dark:bg-zinc-900/50 dark:hover:border-white/25">
+                            <div class="flex items-start gap-4 rounded-xl bg-zinc-100 p-5 transition duration-300 hover:shadow-lg dark:bg-white/5">
                                 <span class="flex size-10 shrink-0 items-center justify-center rounded-full bg-[#3750eb] text-sm font-bold text-white">{{ $s['step'] }}</span>
                                 <div>
                                     <div class="text-base font-semibold text-zinc-900 dark:text-white">{{ $s['title'] }}</div>
@@ -647,7 +647,7 @@
                         ['label' => 'Verified work', 'value' => 'Repos, projects, vouches'],
                         ['label' => 'One click to recruit', 'value' => 'DevID -> apply'],
                     ] as $globeStat)
-                        <div class="rounded-xl border border-zinc-200 bg-white p-4 text-center dark:border-white/10 dark:bg-white/[0.03]">
+                        <div class="rounded-xl bg-zinc-100 p-4 text-center dark:bg-white/5">
                             <div class="text-xl font-bold tracking-tight text-zinc-900 dark:text-white">{{ $globeStat['value'] }}</div>
                             <div class="mt-0.5 text-xs font-medium uppercase tracking-wider text-zinc-500">{{ $globeStat['label'] }}</div>
                         </div>
@@ -656,7 +656,7 @@
 
                 <div class="relative mt-10">
                     <div class="pointer-events-none absolute inset-0 -z-10 rounded-full bg-zinc-900/10 blur-3xl" aria-hidden="true"></div>
-                    <div class="relative z-10 w-full h-[400px] overflow-hidden rounded-xl border border-zinc-200 bg-white sm:h-[500px] dark:border-white/10 dark:bg-zinc-900">
+                    <div class="relative z-10 w-full h-[400px] overflow-hidden rounded-xl bg-zinc-100 sm:h-[500px] dark:bg-white/5">
                         <canvas id="talent-globe" class="block size-full cursor-grab active:cursor-grabbing" style="width:100%;height:100%;display:block" aria-label="3D globe of developers"></canvas>
 
                         <div id="globe-tooltip" class="absolute z-20 hidden w-72 -translate-x-1/2 rounded-lg border border-zinc-200 bg-white/95 p-4 shadow-2xl shadow-zinc-900/20 backdrop-blur-xl dark:border-white/10 dark:bg-zinc-900/95 dark:shadow-black/40" data-tooltip-interactive>
@@ -733,21 +733,21 @@
                             @endforeach
                         </div>
 
-                        <div class="mt-4 rounded-lg border border-zinc-200 bg-white/70 p-3 dark:border-white/10 dark:bg-zinc-950/60">
+                        <div class="mt-4 rounded-lg bg-zinc-100 p-3 dark:bg-white/5">
                             <div class="text-[10px] font-semibold uppercase tracking-widest text-zinc-400">Why you match</div>
                             <p class="mt-1 text-sm leading-relaxed text-zinc-600 dark:text-zinc-300">Your projects and open-source contributions demonstrate the backend architecture experience this role requires.</p>
                         </div>
 
                         <div class="mt-4 grid grid-cols-3 gap-3">
-                            <div class="rounded-lg border border-zinc-200 bg-white/70 p-3 text-center dark:border-white/10 dark:bg-zinc-950/60">
+                            <div class="rounded-lg bg-zinc-100 p-3 text-center dark:bg-white/5">
                                 <div class="text-lg font-bold text-zinc-900 dark:text-white">{{ number_format($stats[0]['value']) }}</div>
                                 <div class="text-[10px] font-medium uppercase tracking-wider text-zinc-500">Developers</div>
                             </div>
-                            <div class="rounded-lg border border-zinc-200 bg-white/70 p-3 text-center dark:border-white/10 dark:bg-zinc-950/60">
+                            <div class="rounded-lg bg-zinc-100 p-3 text-center dark:bg-white/5">
                                 <div class="text-lg font-bold text-zinc-900 dark:text-white">{{ count($openJobs) }}</div>
                                 <div class="text-[10px] font-medium uppercase tracking-wider text-zinc-500">Open roles</div>
                             </div>
-                            <div class="rounded-lg border border-zinc-200 bg-white/70 p-3 text-center dark:border-white/10 dark:bg-zinc-950/60">
+                            <div class="rounded-lg bg-zinc-100 p-3 text-center dark:bg-white/5">
                                 <div class="text-lg font-bold text-emerald-600 dark:text-emerald-400">Free</div>
                                 <div class="text-[10px] font-medium uppercase tracking-wider text-zinc-500">For devs</div>
                             </div>
@@ -777,7 +777,7 @@
                     </div>
 
                     {{-- Real developer profile card --}}
-                    <div class="rounded-xl border border-zinc-200 bg-white p-5 shadow-xl shadow-zinc-900/5 dark:border-white/10 dark:bg-zinc-900/50">
+                    <div class="rounded-xl bg-zinc-100 p-5 shadow-xl shadow-zinc-900/5 dark:bg-white/5">
                         <div class="flex items-center justify-between">
                             <div class="flex items-center gap-3">
                                 <div class="relative overflow-hidden size-12 rounded-full bg-gradient-to-br from-[#3750eb] to-[#5b6cff]">
@@ -838,7 +838,7 @@
 
                         <div class="mt-8">
                             @forelse ($vouches->take(2) as $vouch)
-                                <figure class="mb-5 rounded-lg border border-zinc-200 bg-white p-4 dark:border-white/10 dark:bg-zinc-900/50">
+                                <figure class="mb-5 rounded-lg bg-zinc-100 p-4 dark:bg-white/5">
                                     <div class="flex gap-1 text-zinc-900 dark:text-white">
                                         @for ($i = 0; $i < 5; $i++)
                                             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="size-4"><path fill-rule="evenodd" d="{{ $iconPaths['star'] }}" /></svg>
@@ -858,7 +858,7 @@
                                 </figure>
                             @empty
                                 @foreach ([[], []] as $i => $skeleton)
-                                    <figure class="mb-5 rounded-lg border border-zinc-200 bg-white p-4 dark:border-white/10 dark:bg-zinc-900/50">
+                                    <figure class="mb-5 rounded-lg bg-zinc-100 p-4 dark:bg-white/5">
                                         <div class="flex gap-1 text-zinc-500">
                                             @for ($j = 0; $j < 5; $j++)
                                                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="size-4"><path fill-rule="evenodd" d="{{ $iconPaths['star'] }}" /></svg>
@@ -877,7 +877,7 @@
 
                     <div>
                         @forelse ($vouches->slice(2) as $vouch)
-                            <figure class="mb-5 rounded-lg border border-zinc-200 bg-white p-4 dark:border-white/10 dark:bg-zinc-900/50">
+                            <figure class="mb-5 rounded-lg bg-zinc-100 p-4 dark:bg-white/5">
                                 <div class="flex gap-1 text-zinc-900 dark:text-white">
                                     @for ($i = 0; $i < 5; $i++)
                                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="size-4"><path fill-rule="evenodd" d="{{ $iconPaths['star'] }}" /></svg>
@@ -896,7 +896,7 @@
                                 </figcaption>
                             </figure>
                         @empty
-                            <figure class="rounded-lg border border-zinc-200 bg-white p-4 dark:border-white/10 dark:bg-zinc-900/50">
+                            <figure class="rounded-lg bg-zinc-100 p-4 dark:bg-white/5">
                                 <div class="flex gap-1 text-zinc-500">
                                     @for ($j = 0; $j < 5; $j++)
                                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="size-4"><path fill-rule="evenodd" d="{{ $iconPaths['star'] }}" /></svg>
@@ -929,7 +929,7 @@
 
                 <div class="mt-12 grid gap-3">
                     @foreach ($faqs as $index => $faq)
-                        <div data-faq class="overflow-hidden rounded-xl border border-zinc-200 bg-white dark:border-white/10 dark:bg-white/[0.03]">
+                        <div data-faq class="overflow-hidden rounded-xl bg-zinc-100 dark:bg-white/5">
                             <button type="button" data-faq-toggle class="flex w-full items-center justify-between gap-4 px-5 py-4 text-left">
                                 <span class="text-sm font-semibold text-zinc-900 dark:text-white">{{ $faq['question'] }}</span>
                                 <svg data-faq-chevron xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="size-4 shrink-0 text-zinc-500 transition duration-200">
@@ -947,7 +947,7 @@
 
         {{-- ===================== CTA ===================== --}}
         <section class="section-contained mx-auto max-w-7xl px-4 pb-20 sm:px-6 lg:px-8">
-            <div class="relative overflow-hidden rounded-xl border border-zinc-200 bg-gradient-to-br from-zinc-100 via-white to-zinc-50 px-6 py-16 text-center sm:px-16 dark:border-white/10 dark:from-white/10 dark:via-zinc-900 dark:to-white/5">
+            <div class="relative overflow-hidden rounded-xl bg-zinc-100 px-6 py-16 text-center sm:px-16 dark:bg-white/5">
                 <div class="relative">
                     <h2 class="mx-auto max-w-2xl text-3xl font-bold tracking-tight text-zinc-900 sm:text-5xl dark:text-white">
                         Your Work Is Already Telling Your Story.

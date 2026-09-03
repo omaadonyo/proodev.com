@@ -136,19 +136,19 @@ new #[Title('Vouches')] class extends Component
     </div>
 
     <div class="grid grid-cols-2 gap-4 lg:grid-cols-4">
-        <div class="rounded-lg border border-zinc-200 bg-white p-3 dark:border-zinc-700 dark:bg-zinc-800">
+        <div class="rounded-lg bg-zinc-100 p-3 dark:bg-white/5">
             <div class="text-xs text-zinc-500">Pending</div>
             <div class="text-2xl font-bold text-amber-500">{{ number_format($this->overview['pending']) }}</div>
         </div>
-        <div class="rounded-lg border border-zinc-200 bg-white p-3 dark:border-zinc-700 dark:bg-zinc-800">
+        <div class="rounded-lg bg-zinc-100 p-3 dark:bg-white/5">
             <div class="text-xs text-zinc-500">Approved</div>
             <div class="text-2xl font-bold text-emerald-600">{{ number_format($this->overview['approved']) }}</div>
         </div>
-        <div class="rounded-lg border border-zinc-200 bg-white p-3 dark:border-zinc-700 dark:bg-zinc-800">
+        <div class="rounded-lg bg-zinc-100 p-3 dark:bg-white/5">
             <div class="text-xs text-zinc-500">Rejected</div>
             <div class="text-2xl font-bold text-red-500">{{ number_format($this->overview['rejected']) }}</div>
         </div>
-        <div class="rounded-lg border border-zinc-200 bg-white p-3 dark:border-zinc-700 dark:bg-zinc-800">
+        <div class="rounded-lg bg-zinc-100 p-3 dark:bg-white/5">
             <div class="text-xs text-zinc-500">Total</div>
             <div class="text-2xl font-bold">{{ number_format($this->overview['total']) }}</div>
         </div>
@@ -170,11 +170,11 @@ new #[Title('Vouches')] class extends Component
         <flux:input icon="magnifying-glass" type="search" placeholder="Search vouches..." wire:model.live.debounce.300ms="search" class="w-full sm:w-72" />
         @if (count($this->selectedIds) > 0)
             <span class="text-xs font-medium text-accent">{{ count($this->selectedIds) }} selected</span>
-            <button type="button" wire:click="exportSelectedPdf" class="inline-flex h-9 items-center gap-1.5 rounded-lg border border-zinc-200 px-3 text-sm font-medium text-zinc-700 transition hover:border-accent hover:text-accent dark:border-zinc-700 dark:text-zinc-200">
+            <button type="button" wire:click="exportSelectedPdf" class="inline-flex h-9 items-center gap-1.5 rounded-lg bg-zinc-100 px-3 text-sm font-medium text-zinc-700 transition hover:bg-zinc-200 dark:bg-white/10 dark:text-zinc-200 dark:hover:bg-white/15">
                 <flux:icon name="document-arrow-down" variant="micro" />
                 PDF
             </button>
-            <button type="button" wire:click="exportSelectedExcel" class="inline-flex h-9 items-center gap-1.5 rounded-lg border border-zinc-200 px-3 text-sm font-medium text-zinc-700 transition hover:border-accent hover:text-accent dark:border-zinc-700 dark:text-zinc-200">
+            <button type="button" wire:click="exportSelectedExcel" class="inline-flex h-9 items-center gap-1.5 rounded-lg bg-zinc-100 px-3 text-sm font-medium text-zinc-700 transition hover:bg-zinc-200 dark:bg-white/10 dark:text-zinc-200 dark:hover:bg-white/15">
                 <flux:icon name="table-cells" variant="micro" />
                 Excel
             </button>

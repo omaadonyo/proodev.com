@@ -73,7 +73,7 @@ new #[Title('Apply')] class extends Component {
             <flux:text>{{ $company->name }} · your DevID travels with the application as proof.</flux:text>
         </div>
 
-        <div class="rounded-xl border border-zinc-200 bg-white p-5 dark:border-zinc-700 dark:bg-zinc-800">
+        <div class="rounded-xl bg-zinc-100 p-5 dark:bg-white/5">
             <div class="flex items-center gap-3">
                 <flux:avatar :src="auth()->user()->avatarUrl()" :alt="auth()->user()->name" circle class="size-10" />
                 <div>
@@ -88,7 +88,7 @@ new #[Title('Apply')] class extends Component {
             </div>
         </div>
 
-        <div class="rounded-xl border border-zinc-200 bg-white p-5 dark:border-zinc-700 dark:bg-zinc-800">
+        <div class="rounded-xl bg-zinc-100 p-5 dark:bg-white/5">
             <div class="flex items-start gap-3">
                 <div class="flex size-9 shrink-0 items-center justify-center rounded-lg bg-accent/10 text-accent">
                     <flux:icon name="paper-airplane" variant="solid" class="size-4" />

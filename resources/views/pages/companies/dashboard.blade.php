@@ -50,24 +50,24 @@ new #[Title('Company Dashboard')] class extends Component
                     <flux:icon name="plus" variant="micro" />
                     Post a job
                 </flux:button>
-                <a href="{{ route('companies.onboarding', $company) }}" wire:navigate class="inline-flex h-8 items-center gap-1.5 rounded-lg border border-zinc-200 bg-white px-3 text-sm font-medium text-zinc-700 transition hover:bg-zinc-50 dark:border-zinc-600 dark:bg-black dark:text-zinc-200 dark:hover:bg-zinc-900">
+                <a href="{{ route('companies.onboarding', $company) }}" wire:navigate class="inline-flex h-8 items-center gap-1.5 rounded-lg bg-zinc-100 px-3 text-sm font-medium text-zinc-700 transition hover:bg-zinc-200 dark:bg-white/10 dark:text-zinc-200 dark:hover:bg-white/15">
                     Company details
                 </a>
-                <a href="{{ route('companies.show', $company) }}" wire:navigate class="inline-flex h-8 items-center gap-1.5 rounded-lg border border-zinc-200 bg-white px-3 text-sm font-medium text-zinc-700 transition hover:bg-zinc-50 dark:border-zinc-600 dark:bg-black dark:text-zinc-200 dark:hover:bg-zinc-900">
+                <a href="{{ route('companies.show', $company) }}" wire:navigate class="inline-flex h-8 items-center gap-1.5 rounded-lg bg-zinc-100 px-3 text-sm font-medium text-zinc-700 transition hover:bg-zinc-200 dark:bg-white/10 dark:text-zinc-200 dark:hover:bg-white/15">
                     View public profile
                 </a>
             </div>
         </div>
 
         <div class="grid gap-4 sm:grid-cols-2">
-            <div class="rounded-xl border border-zinc-200 bg-white p-5 dark:border-zinc-700 dark:bg-zinc-800">
+            <div class="rounded-xl bg-zinc-100 p-5 dark:bg-white/5">
                 <div class="flex items-center justify-between">
                     <span class="text-xs font-medium uppercase tracking-wide text-zinc-400">Open roles</span>
                     <flux:icon name="briefcase" variant="micro" class="text-accent" />
                 </div>
                 <div class="mt-2 text-3xl font-bold tabular-nums">{{ $this->openJobsCount }}</div>
             </div>
-            <div class="rounded-xl border border-zinc-200 bg-white p-5 dark:border-zinc-700 dark:bg-zinc-800">
+            <div class="rounded-xl bg-zinc-100 p-5 dark:bg-white/5">
                 <div class="flex items-center justify-between">
                     <span class="text-xs font-medium uppercase tracking-wide text-zinc-400">Applications</span>
                     <flux:icon name="users" variant="micro" class="text-accent" />
@@ -92,7 +92,7 @@ new #[Title('Company Dashboard')] class extends Component
                     ];
                 @endphp
                 @foreach ($tools as $tool)
-                    <a href="{{ $tool['href'] }}" wire:navigate class="group rounded-lg border border-zinc-200 p-4 transition hover:border-accent/50 hover:bg-zinc-50 dark:border-zinc-700 dark:hover:bg-zinc-900">
+                    <a href="{{ $tool['href'] }}" wire:navigate class="group rounded-lg bg-zinc-100 p-4 transition hover:bg-zinc-200 dark:bg-white/5 dark:hover:bg-white/10">
                         <div class="flex items-center gap-2">
                             <flux:icon :name="$tool['icon']" variant="micro" class="text-accent" />
                             <span class="text-sm font-semibold text-zinc-900 dark:text-white">{{ $tool['label'] }}</span>
@@ -110,7 +110,7 @@ new #[Title('Company Dashboard')] class extends Component
             </div>
             <div class="mt-4 grid gap-3">
                 @forelse ($this->jobs as $job)
-                    <div class="rounded-lg border border-zinc-200 p-4 dark:border-zinc-700">
+                    <div class="rounded-lg bg-zinc-100 p-4 dark:bg-white/5">
                         <div class="flex flex-wrap items-center justify-between gap-2">
                             <div class="flex min-w-0 flex-wrap items-center gap-2">
                                 <span class="font-semibold text-zinc-900 dark:text-white">{{ $job->title }}</span>

@@ -651,7 +651,7 @@ new #[Title('Evidence-Based Talent Search')] class extends Component
     <div class="grid gap-4 lg:grid-cols-4">
         {{-- ============ FILTER COLUMN ============ --}}
         <div class="grid content-start gap-4">
-            <div class="rounded-xl border border-zinc-200 bg-white p-5 dark:border-zinc-700 dark:bg-zinc-800">
+            <div class="rounded-xl bg-zinc-100 p-5 dark:bg-white/5">
                 <div class="flex items-center justify-between">
                     <flux:heading size="sm">Filters</flux:heading>
                     <span class="text-xs text-zinc-400">Verified network included</span>
@@ -699,7 +699,7 @@ new #[Title('Evidence-Based Talent Search')] class extends Component
                     </flux:field>
 
                     <flux:field>
-                        <div class="flex items-center justify-between rounded-lg border border-zinc-200 px-3 py-2 dark:border-zinc-700">
+                        <div class="flex items-center justify-between rounded-lg bg-zinc-100 px-3 py-2 dark:bg-white/5">
                             <span class="text-sm">Verified only</span>
                             <flux:switch wire:model.live="verifiedOnly" />
                         </div>
@@ -735,7 +735,7 @@ new #[Title('Evidence-Based Talent Search')] class extends Component
                         <flux:input wire:model="jobUrl" type="url" placeholder="…or a job posting URL" />
                     </flux:field>
 
-                    <div class="flex items-center justify-between gap-3 rounded-lg border border-zinc-200 px-3 py-2 dark:border-zinc-700">
+                    <div class="flex items-center justify-between gap-3 rounded-lg bg-zinc-100 px-3 py-2 dark:bg-white/5">
                         <div class="min-w-0">
                             <span class="text-sm">Include evidence technologies</span>
                             <div class="text-[11px] leading-snug text-zinc-500">Count techs found in analyzed work toward the match %</div>
@@ -842,7 +842,7 @@ new #[Title('Evidence-Based Talent Search')] class extends Component
                 </div>
             @endif
 
-            <div class="rounded-xl border border-zinc-200 bg-white p-5 dark:border-zinc-700 dark:bg-zinc-800">
+            <div class="rounded-xl bg-zinc-100 p-5 dark:bg-white/5">
                 <flux:heading size="sm">Evidence deep search</flux:heading>
                 <flux:text class="mt-1 text-sm">Find engineers by the technologies and areas that appear inside their analyzed work.</flux:text>
 
@@ -862,7 +862,7 @@ new #[Title('Evidence-Based Talent Search')] class extends Component
                         <div class="text-xs font-medium uppercase tracking-wide text-zinc-400">Matched by technology</div>
                         <div class="mt-2 grid gap-2 sm:grid-cols-2">
                             @foreach ($this->technologyMatches as $engineer)
-                                <div class="flex items-center gap-3 rounded-lg border border-zinc-100 p-3 transition hover:border-accent dark:border-zinc-700">
+                                <div class="flex items-center gap-3 rounded-lg bg-zinc-100 p-3 transition hover:border-accent dark:bg-white/5">
                                     <button type="button" wire:click="toggleSelect({{ $engineer->id }})" class="relative shrink-0" title="Select {{ $engineer->name }}">
                                         <flux:avatar :src="$engineer->avatarUrl()" :alt="$engineer->name" circle class="size-8 {{ in_array($engineer->id, $this->selected, true) ? 'ring-2 ring-accent ring-offset-2' : '' }}" />
                                     </button>
@@ -887,7 +887,7 @@ new #[Title('Evidence-Based Talent Search')] class extends Component
                         <div class="text-xs font-medium uppercase tracking-wide text-zinc-400">Matched by engineering area</div>
                         <div class="mt-2 grid gap-2 sm:grid-cols-2">
                             @foreach ($this->areaMatches as $engineer)
-                                <div class="flex items-center gap-3 rounded-lg border border-zinc-100 p-3 transition hover:border-accent dark:border-zinc-700">
+                                <div class="flex items-center gap-3 rounded-lg bg-zinc-100 p-3 transition hover:border-accent dark:bg-white/5">
                                     <button type="button" wire:click="toggleSelect({{ $engineer->id }})" class="relative shrink-0" title="Select {{ $engineer->name }}">
                                         <flux:avatar :src="$engineer->avatarUrl()" :alt="$engineer->name" circle class="size-8 {{ in_array($engineer->id, $this->selected, true) ? 'ring-2 ring-accent ring-offset-2' : '' }}" />
                                     </button>
@@ -988,7 +988,7 @@ new #[Title('Evidence-Based Talent Search')] class extends Component
                                 $matchPct = $this->matchPct($engineer);
                                 $matchBadges = $this->hasMatchBadges();
                             @endphp
-                            <div wire:key="li-{{ $engineer->id }}" class="group flex flex-wrap items-center gap-3 rounded-lg border border-zinc-100 bg-white p-3 transition hover:border-accent dark:border-zinc-700 dark:bg-zinc-800">
+                            <div wire:key="li-{{ $engineer->id }}" class="group flex flex-wrap items-center gap-3 rounded-lg bg-zinc-100 p-3 transition hover:border-accent dark:bg-white/5">
                                 <button type="button" wire:click="toggleSelect({{ $engineer->id }})" class="relative shrink-0" title="Select {{ $engineer->name }}">
                                     @if ($matchPct === 100 && $matchBadges)
                                         <span class="block rounded-full p-[2.5px]" style="background: linear-gradient(135deg, #34d399, #14b8a6)">
@@ -1042,7 +1042,7 @@ new #[Title('Evidence-Based Talent Search')] class extends Component
                                 $matchPct = $this->matchPct($engineer);
                                 $matchBadges = $this->hasMatchBadges();
                             @endphp
-                            <div wire:key="de-{{ $engineer->id }}" class="rounded-xl border border-zinc-200 bg-white p-5 transition hover:border-accent dark:border-zinc-700 dark:bg-zinc-800">
+                            <div wire:key="de-{{ $engineer->id }}" class="rounded-xl bg-zinc-100 p-5 transition hover:border-accent dark:bg-white/5">
                                 <div class="flex flex-wrap items-start gap-4">
                                     <button type="button" wire:click="toggleSelect({{ $engineer->id }})" class="group relative shrink-0" title="Select {{ $engineer->name }}">
                                         @if ($matchPct === 100 && $matchBadges)
@@ -1128,7 +1128,7 @@ new #[Title('Evidence-Based Talent Search')] class extends Component
                                 $matchPct = $this->matchPct($engineer);
                                 $matchBadges = $this->hasMatchBadges();
                             @endphp
-                            <div wire:key="gr-{{ $engineer->id }}" class="group relative rounded-xl border border-zinc-200 bg-white p-5 transition hover:border-accent dark:border-zinc-700 dark:bg-zinc-800">
+                            <div wire:key="gr-{{ $engineer->id }}" class="group relative rounded-xl bg-zinc-100 p-5 transition hover:border-accent dark:bg-white/5">
                                 <a href="{{ route('recruiter.candidates.show', $engineer->id) }}" wire:navigate class="absolute inset-0 rounded-xl" aria-label="View {{ $engineer->name }}'s passport"></a>
 
                                 <div class="flex items-center gap-3">

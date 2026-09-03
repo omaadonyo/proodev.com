@@ -188,23 +188,23 @@ new #[Title('Plagiarism')] class extends Component
     </div>
 
     <div class="grid grid-cols-2 gap-4 lg:grid-cols-5">
-        <div class="rounded-lg border border-zinc-200 bg-white p-3 dark:border-zinc-700 dark:bg-zinc-800">
+        <div class="rounded-lg bg-zinc-100 p-3 dark:bg-white/5">
             <div class="text-xs text-zinc-500">Total strikes</div>
             <div class="text-2xl font-bold">{{ number_format($this->overview['total']) }}</div>
         </div>
-        <div class="rounded-lg border border-zinc-200 bg-white p-3 dark:border-zinc-700 dark:bg-zinc-800">
+        <div class="rounded-lg bg-zinc-100 p-3 dark:bg-white/5">
             <div class="text-xs text-zinc-500">Warnings</div>
             <div class="text-2xl font-bold text-amber-600">{{ number_format($this->overview['warnings']) }}</div>
         </div>
-        <div class="rounded-lg border border-zinc-200 bg-white p-3 dark:border-zinc-700 dark:bg-zinc-800">
+        <div class="rounded-lg bg-zinc-100 p-3 dark:bg-white/5">
             <div class="text-xs text-zinc-500">Active bans</div>
             <div class="text-2xl font-bold text-rose-600">{{ number_format($this->overview['bans']) }}</div>
         </div>
-        <div class="rounded-lg border border-zinc-200 bg-white p-3 dark:border-zinc-700 dark:bg-zinc-800">
+        <div class="rounded-lg bg-zinc-100 p-3 dark:bg-white/5">
             <div class="text-xs text-zinc-500">Overturned</div>
             <div class="text-2xl font-bold text-emerald-600">{{ number_format($this->overview['overturned']) }}</div>
         </div>
-        <div class="rounded-lg border border-zinc-200 bg-white p-3 dark:border-zinc-700 dark:bg-zinc-800">
+        <div class="rounded-lg bg-zinc-100 p-3 dark:bg-white/5">
             <div class="text-xs text-zinc-500">Suspended accounts</div>
             <div class="text-2xl font-bold text-amber-500">{{ number_format($this->overview['suspended']) }}</div>
         </div>
@@ -226,11 +226,11 @@ new #[Title('Plagiarism')] class extends Component
         <flux:input icon="magnifying-glass" type="search" placeholder="Search repo, owner or offender..." wire:model.live.debounce.300ms="search" class="w-full sm:w-80" />
         @if (count($this->selectedIds) > 0)
             <span class="text-xs font-medium text-accent">{{ count($this->selectedIds) }} selected</span>
-            <button type="button" wire:click="exportSelectedPdf" class="inline-flex h-9 items-center gap-1.5 rounded-lg border border-zinc-200 px-3 text-sm font-medium text-zinc-700 transition hover:border-accent hover:text-accent dark:border-zinc-700 dark:text-zinc-200">
+            <button type="button" wire:click="exportSelectedPdf" class="inline-flex h-9 items-center gap-1.5 rounded-lg bg-zinc-100 px-3 text-sm font-medium text-zinc-700 transition hover:bg-zinc-200 dark:bg-white/10 dark:text-zinc-200 dark:hover:bg-white/15">
                 <flux:icon name="document-arrow-down" variant="micro" />
                 PDF
             </button>
-            <button type="button" wire:click="exportSelectedExcel" class="inline-flex h-9 items-center gap-1.5 rounded-lg border border-zinc-200 px-3 text-sm font-medium text-zinc-700 transition hover:border-accent hover:text-accent dark:border-zinc-700 dark:text-zinc-200">
+            <button type="button" wire:click="exportSelectedExcel" class="inline-flex h-9 items-center gap-1.5 rounded-lg bg-zinc-100 px-3 text-sm font-medium text-zinc-700 transition hover:bg-zinc-200 dark:bg-white/10 dark:text-zinc-200 dark:hover:bg-white/15">
                 <flux:icon name="table-cells" variant="micro" />
                 Excel
             </button>
@@ -370,7 +370,7 @@ new #[Title('Plagiarism')] class extends Component
                     @endif
                 </div>
 
-                <div class="rounded-lg border border-zinc-200 bg-zinc-50 p-4 dark:border-zinc-700 dark:bg-zinc-900">
+                <div class="rounded-lg bg-zinc-100 p-4 dark:bg-white/5">
                     <div class="text-xs font-semibold uppercase tracking-widest text-zinc-500">Repository</div>
                     <div class="mt-1 font-semibold">{{ $strike->repo_owner }}/{{ $strike->repo_name }}</div>
                     <a href="{{ $strike->repo_url }}" target="_blank" rel="noopener" class="mt-0.5 block truncate text-xs text-accent hover:underline">{{ $strike->repo_url }}</a>

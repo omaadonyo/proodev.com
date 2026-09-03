@@ -372,7 +372,7 @@ new #[Title('Credits & Auto-Scan')] class extends Component
 
         {{-- Auto-Scan: pitch when inactive, URL queue + scan controls when active. --}}
         @if ($this->autoScanActive)
-            <div class="overflow-hidden rounded-2xl border border-emerald-300/50 bg-white dark:border-emerald-400/20 dark:bg-zinc-800">
+            <div class="overflow-hidden rounded-2xl bg-zinc-100 dark:bg-white/5">
                 <div class="border-b border-zinc-200 px-6 py-4 dark:border-white/10">
                     <div class="flex flex-wrap items-center justify-between gap-3">
                         <div class="flex items-center gap-3">
@@ -399,7 +399,7 @@ new #[Title('Credits & Auto-Scan')] class extends Component
 
                 <div class="grid gap-5 p-6">
                     <div class="grid gap-4 lg:grid-cols-2">
-                        <div class="rounded-lg border border-zinc-200 bg-zinc-50 p-4 dark:border-zinc-700 dark:bg-zinc-900/50">
+                        <div class="rounded-lg bg-zinc-50 p-4 dark:bg-zinc-900/50">
                             <div class="flex items-center gap-2">
                                 <flux:icon name="link" class="size-4 text-accent" />
                                 <div class="text-sm font-semibold text-zinc-900 dark:text-white">Scan any URL</div>
@@ -424,7 +424,7 @@ new #[Title('Credits & Auto-Scan')] class extends Component
                                 <div class="mt-4 grid gap-2">
                                     @foreach ($this->autoScanUrls as $url)
                                         @php($status = $url->status)
-                                        <div class="flex items-center gap-2 rounded-lg border border-zinc-200 bg-white px-3 py-2 dark:border-zinc-700 dark:bg-zinc-800">
+                                        <div class="flex items-center gap-2 rounded-lg bg-zinc-50 px-3 py-2 dark:bg-zinc-900/50">
                                             <flux:icon name="link" variant="micro" class="size-4 shrink-0 text-zinc-400" />
                                             <span class="min-w-0 flex-1 truncate font-mono text-xs text-zinc-700 dark:text-zinc-300" title="{{ $url->url }}">{{ $url->url }}</span>
 
@@ -521,7 +521,7 @@ new #[Title('Credits & Auto-Scan')] class extends Component
                 </div>
             </div>
         @else
-            <div class="overflow-hidden rounded-2xl border border-zinc-200 bg-white dark:border-zinc-700 dark:bg-zinc-800">
+            <div class="overflow-hidden rounded-2xl bg-zinc-100 dark:bg-white/5">
                 <div class="grid gap-8 p-6 lg:grid-cols-2">
                     <div>
                         <div class="text-xs font-semibold uppercase tracking-widest text-zinc-500">Automatic repository scanning</div>
@@ -538,7 +538,7 @@ new #[Title('Credits & Auto-Scan')] class extends Component
                                 ['icon' => 'link', 'title' => 'Scan any URL', 'text' => 'Add any link after activation to scan the exact work you want.'],
                                 ['icon' => 'bolt', 'title' => 'Feed & DevID stay live', 'text' => 'Your level, engineering magnitude, and community feed update as work lands.'],
                             ] as $benefit)
-                                <div class="flex items-start gap-3 rounded-lg border border-zinc-200 p-3 dark:border-zinc-700">
+                                <div class="flex items-start gap-3 rounded-lg bg-zinc-50 p-3 dark:bg-zinc-900/50">
                                     <span class="mt-0.5 flex size-8 shrink-0 items-center justify-center rounded-lg bg-accent/10 text-accent">
                                         <flux:icon name="{{ $benefit['icon'] }}" variant="solid" />
                                     </span>
@@ -551,12 +551,12 @@ new #[Title('Credits & Auto-Scan')] class extends Component
                         </div>
                     </div>
 
-                    <div class="rounded-xl border border-zinc-200 bg-zinc-50 p-6 dark:border-zinc-700 dark:bg-zinc-900/50">
+                    <div class="rounded-xl bg-zinc-50 p-6 dark:bg-zinc-900/50">
                         <flux:heading size="sm">Activate auto-scan</flux:heading>
                         <flux:text>One checkout. After payment is confirmed, you can queue the exact repository URLs for AI to scan.</flux:text>
 
                         <form wire:submit="purchaseAutoScan" class="mt-5 grid gap-4">
-                            <div class="rounded-lg border border-zinc-200 bg-white p-3 text-xs text-zinc-500 dark:border-zinc-700 dark:bg-zinc-800">
+                            <div class="rounded-lg bg-zinc-50 p-3 text-xs text-zinc-500 dark:bg-zinc-900/50">
                                 <div class="flex justify-between">
                                     <span>Auto-Scan</span>
                                     <span class="font-semibold tabular-nums">${{ number_format($this->autoScanPrice, 2) }}</span>
@@ -586,8 +586,8 @@ new #[Title('Credits & Auto-Scan')] class extends Component
                             </div>
                         @endif
 
-                        @if (! $this->githubHandle)
-                            <div class="mt-4 rounded-lg border border-zinc-200 bg-white p-3 text-xs text-zinc-500 dark:border-zinc-700 dark:bg-zinc-800">
+                            @if (! $this->githubHandle)
+                            <div class="mt-4 rounded-lg bg-zinc-50 p-3 text-xs text-zinc-500 dark:bg-zinc-900/50">
                                 <div class="font-semibold text-zinc-700 dark:text-zinc-300">No GitHub profile linked yet</div>
                                 <p class="mt-1">That's fine. Once auto-scan is active you can queue repository URLs directly instead.</p>
                             </div>
@@ -613,11 +613,11 @@ new #[Title('Credits & Auto-Scan')] class extends Component
                     @endif
                     @if (count($this->selectedIds) > 0)
                         <span class="inline-flex items-center gap-1 text-xs font-medium text-accent">{{ count($this->selectedIds) }} selected</span>
-                        <button type="button" wire:click="exportSelectedPdf" class="inline-flex h-8 items-center gap-1.5 rounded-lg border border-zinc-200 px-3 text-xs font-medium text-zinc-700 transition hover:border-accent hover:text-accent dark:border-zinc-700 dark:text-zinc-200">
+                        <button type="button" wire:click="exportSelectedPdf" class="inline-flex h-8 items-center gap-1.5 rounded-lg bg-zinc-100 px-3 text-xs font-medium text-zinc-700 transition hover:bg-zinc-200 dark:bg-white/10 dark:text-zinc-200">
                             <flux:icon name="document-arrow-down" variant="micro" />
                             PDF
                         </button>
-                        <button type="button" wire:click="exportSelectedExcel" class="inline-flex h-8 items-center gap-1.5 rounded-lg border border-zinc-200 px-3 text-xs font-medium text-zinc-700 transition hover:border-accent hover:text-accent dark:border-zinc-700 dark:text-zinc-200">
+                        <button type="button" wire:click="exportSelectedExcel" class="inline-flex h-8 items-center gap-1.5 rounded-lg bg-zinc-100 px-3 text-xs font-medium text-zinc-700 transition hover:bg-zinc-200 dark:bg-white/10 dark:text-zinc-200">
                             <flux:icon name="table-cells" variant="micro" />
                             Excel
                         </button>
@@ -687,7 +687,7 @@ new #[Title('Credits & Auto-Scan')] class extends Component
                 </div>
                 <div class="mt-3 grid gap-2">
                     @foreach ($this->invoices as $payment)
-                        <div class="flex flex-wrap items-center gap-3 rounded-lg border border-zinc-200 px-4 py-3 text-sm dark:border-zinc-700">
+                        <div class="flex items-center gap-3 rounded-lg bg-zinc-100 px-4 py-3 text-sm dark:bg-white/5">
                             <div class="min-w-0 flex-1">
                                 <div class="flex flex-wrap items-center gap-2 font-medium text-zinc-900 dark:text-white">
                                     {{ $payment->invoiceNumber() }}
@@ -716,7 +716,7 @@ new #[Title('Credits & Auto-Scan')] class extends Component
         @endif
 
         <div class="grid gap-4 lg:grid-cols-3">
-            <div class="rounded-xl border border-accent/20 bg-white p-6 dark:bg-zinc-800">
+            <div class="rounded-xl bg-zinc-100 p-6 dark:bg-white/5">
                 <div class="text-xs font-semibold uppercase tracking-widest text-zinc-500">Credit balance</div>
                 <div class="mt-2 text-4xl font-bold tabular-nums text-accent">{{ number_format($this->balance) }}</div>
                 <div class="mt-1 text-xs text-zinc-500">~ {{ number_format($this->balance * $this->tokensPerCredit) }} tokens of AI analysis</div>
@@ -729,7 +729,7 @@ new #[Title('Credits & Auto-Scan')] class extends Component
                     <flux:progress :value="$this->consumptionPercent" color="accent" />
                 </div>
             </div>
-            <div class="rounded-xl border border-zinc-200 bg-white p-6 dark:border-zinc-700 dark:bg-zinc-800">
+            <div class="rounded-xl bg-zinc-100 p-6 dark:bg-white/5">
                 <div class="text-xs font-semibold uppercase tracking-widest text-zinc-500">Free allowance today</div>
                 <div class="mt-2 flex items-baseline gap-2">
                     <div class="text-4xl font-bold tabular-nums">{{ $this->usedToday }}</div>
@@ -747,7 +747,7 @@ new #[Title('Credits & Auto-Scan')] class extends Component
                     <flux:progress :value="$this->freeUsagePercent" color="{{ $this->freeUsagePercent >= 100 ? 'rose' : ($this->freeUsagePercent >= 66 ? 'amber' : 'emerald') }}" />
                 </div>
             </div>
-            <div class="rounded-xl border border-zinc-200 bg-white p-6 dark:border-zinc-700 dark:bg-zinc-800">
+            <div class="rounded-xl bg-zinc-100 p-6 dark:bg-white/5">
                 <div class="text-xs font-semibold uppercase tracking-widest text-zinc-500">This month</div>
                 <div class="mt-2 text-4xl font-bold tabular-nums">{{ number_format($this->spentThisMonth) }}</div>
                 <div class="mt-1 text-xs text-zinc-500">credits used since {{ now()->startOfMonth()->format('M j') }}</div>
@@ -807,7 +807,7 @@ new #[Title('Credits & Auto-Scan')] class extends Component
 
             <div class="mt-5 grid gap-4 md:grid-cols-3">
                 @foreach ($this->bundles as $bundle)
-                    <div class="relative flex flex-col rounded-lg border border-zinc-200 p-5 dark:border-zinc-700">
+                    <div class="relative flex flex-col rounded-lg bg-zinc-100 p-5 dark:bg-white/5">
                         @if ($loop->last)
                             <span class="absolute -top-2.5 right-4 rounded-full bg-accent px-2 py-0.5 text-[10px] font-semibold uppercase tracking-wide text-white">
                                 Best value
@@ -842,7 +842,7 @@ new #[Title('Credits & Auto-Scan')] class extends Component
 
             <div class="mt-5 grid gap-3 md:grid-cols-2">
                 @foreach ($this->paymentMethods as $option)
-                    <div class="rounded-lg border border-zinc-200 p-4 dark:border-zinc-700">
+                    <div class="rounded-lg bg-zinc-100 p-4 dark:bg-white/5">
                         <div class="flex items-center gap-3">
                             <x-payment-method-logo :method="$option" class="shrink-0" />
                             <div class="min-w-0 flex-1">
@@ -877,7 +877,7 @@ new #[Title('Credits & Auto-Scan')] class extends Component
             </div>
             <div class="mt-4 grid gap-2">
                 @forelse ($this->transactions as $transaction)
-                    <div class="flex items-center gap-3 rounded-lg border border-zinc-200 p-3 text-sm dark:border-zinc-700">
+                    <div class="flex items-center gap-3 rounded-lg bg-zinc-100 p-3 text-sm dark:bg-white/5">
                         <span class="inline-flex items-center gap-1 rounded-full px-2 py-0.5 text-[11px] font-medium {{ $transaction->change > 0 ? 'bg-emerald-400/10 text-emerald-600 dark:text-emerald-400' : 'bg-rose-400/10 text-rose-600 dark:text-rose-400' }}">
                             {{ $transaction->change > 0 ? '+' : '' }}{{ $transaction->change }}
                         </span>

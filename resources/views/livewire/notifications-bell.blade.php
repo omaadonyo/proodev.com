@@ -11,7 +11,7 @@
         :aria-expanded="open"
         aria-haspopup="true"
         title="Notifications"
-        class="relative flex size-8 items-center justify-center rounded-full border border-zinc-200 bg-white/70 text-zinc-500 shadow-sm backdrop-blur transition-colors duration-200 hover:bg-white hover:text-zinc-800 dark:border-zinc-700 dark:bg-zinc-800/70 dark:text-zinc-300 dark:hover:bg-zinc-800 dark:hover:text-white"
+        class="relative flex size-8 items-center justify-center rounded-full bg-zinc-100/70 text-zinc-500 shadow-sm backdrop-blur transition-colors duration-200 hover:bg-white hover:text-zinc-800 dark:bg-white/5 dark:text-zinc-300 dark:hover:bg-zinc-800 dark:hover:text-white"
     >
         <flux:icon name="bell" variant="mini" />
         @if ($this->unreadCount > 0)
@@ -30,7 +30,7 @@
         x-transition:leave="transition ease-in duration-75"
         x-transition:leave-start="opacity-100"
         x-transition:leave-end="opacity-0"
-        class="absolute end-0 top-full z-50 mt-2 w-80 max-w-[calc(100vw-2rem)] overflow-hidden rounded-xl border border-zinc-200 bg-white shadow-xl shadow-zinc-900/10 dark:border-zinc-700 dark:bg-zinc-900"
+        class="absolute end-0 top-full z-50 mt-2 w-80 max-w-[calc(100vw-2rem)] overflow-hidden rounded-xl bg-zinc-100 shadow-xl shadow-zinc-900/10 dark:bg-zinc-900"
         style="overflow-x: hidden;"
     >
         <div class="flex items-center justify-between gap-3 border-b border-zinc-100 px-4 py-3 dark:border-white/10">

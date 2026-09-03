@@ -92,12 +92,12 @@ new #[Title('Database Backups')] class extends Component
 
 <x-pages::admin.settings.layout :heading="__('Database backups')" :subheading="'A full .sql dump of the entire database, generated automatically every '.config('backup.every_hours', 8).' hours and emailed to '.config('backup.email_to').'.'">
     <div class="grid grid-cols-2 gap-4 lg:grid-cols-4">
-        <div class="rounded-lg border border-zinc-200 bg-white p-3 dark:border-zinc-700 dark:bg-zinc-800">
+        <div class="rounded-lg bg-zinc-100 p-3 dark:bg-white/5">
             <div class="text-xs text-zinc-500">Database size</div>
             <div class="text-2xl font-bold">{{ $this->stats['dbSize'] }}</div>
             <div class="mt-1 text-xs text-zinc-400">Current size on disk</div>
         </div>
-        <div class="rounded-lg border border-zinc-200 bg-white p-3 dark:border-zinc-700 dark:bg-zinc-800">
+        <div class="rounded-lg bg-zinc-100 p-3 dark:bg-white/5">
             <div class="text-xs text-zinc-500">Last backup</div>
             <div class="text-2xl font-bold">
                 {{ $this->stats['lastBackup'] ? $this->stats['lastBackup']->diffForHumans() : '-' }}
@@ -106,12 +106,12 @@ new #[Title('Database Backups')] class extends Component
                 {{ $this->stats['lastBackup'] ? $this->stats['lastBackup']->format('M j, Y g:i A') : 'No backup yet' }}
             </div>
         </div>
-        <div class="rounded-lg border border-zinc-200 bg-white p-3 dark:border-zinc-700 dark:bg-zinc-800">
+        <div class="rounded-lg bg-zinc-100 p-3 dark:bg-white/5">
             <div class="text-xs text-zinc-500">Last size</div>
             <div class="text-2xl font-bold">{{ $this->stats['lastSize'] ?? '-' }}</div>
             <div class="mt-1 text-xs text-zinc-400">Latest .sql dump</div>
         </div>
-        <div class="rounded-lg border border-zinc-200 bg-white p-3 dark:border-zinc-700 dark:bg-zinc-800">
+        <div class="rounded-lg bg-zinc-100 p-3 dark:bg-white/5">
             <div class="text-xs text-zinc-500">Schedule</div>
             <div class="text-2xl font-bold">{{ $this->stats['schedule'] }}</div>
             <div class="mt-1 text-xs text-zinc-400">{{ $this->stats['total'] }} successful backups</div>

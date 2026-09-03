@@ -92,7 +92,7 @@ new #[Title('Engineering Magnitude Rankings')] class extends Component
         @endforeach
     </div>
 
-    <div class="overflow-hidden rounded-xl border border-zinc-200 bg-white dark:border-zinc-700 dark:bg-zinc-800">
+    <div class="overflow-hidden rounded-xl bg-zinc-100 dark:bg-white/5">
         <div class="grid gap-0 divide-y divide-zinc-100 dark:divide-zinc-700">
             @forelse ($this->rankings as $entry)
                 <div wire:key="rank-{{ $entry['developer']['id'] }}" class="group flex flex-wrap items-center gap-4 p-4 transition hover:bg-zinc-50 dark:hover:bg-zinc-900">

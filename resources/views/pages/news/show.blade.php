@@ -53,7 +53,7 @@ new #[Title('News')] class extends Component
         </div>
 
         @if ($this->article->cover_url)
-            <img src="{{ $this->article->cover_url }}" alt="{{ $this->article->title }}" class="aspect-video w-full rounded-2xl border border-zinc-200 object-cover dark:border-zinc-700" loading="lazy" />
+            <img src="{{ $this->article->cover_url }}" alt="{{ $this->article->title }}" class="aspect-video w-full rounded-2xl object-cover" loading="lazy" />
         @endif
 
         <x-markdown :text="$this->article->body" />
@@ -64,7 +64,7 @@ new #[Title('News')] class extends Component
             <flux:heading size="lg">More news</flux:heading>
             <div class="grid gap-4 sm:grid-cols-3">
                 @foreach ($this->more as $news)
-                    <a href="{{ route('news.show', $news) }}" wire:navigate class="group overflow-hidden rounded-xl border border-zinc-200 bg-white transition hover:border-accent dark:border-zinc-700 dark:bg-zinc-800">
+                    <a href="{{ route('news.show', $news) }}" wire:navigate class="group overflow-hidden rounded-xl bg-zinc-100 transition hover:border-accent dark:bg-white/5">
                         @if ($news->cover_url)
                             <img src="{{ $news->cover_url }}" alt="{{ $news->title }}" class="aspect-video w-full object-cover" loading="lazy" />
                         @endif

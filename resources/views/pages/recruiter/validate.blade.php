@@ -82,7 +82,7 @@ new #[Title('Resume vs Evidence Validation')] class extends Component {
         <flux:text>Paste a candidate's resume and ProoDev checks its claims against their analyzed evidence. Claims have to point to proof.</flux:text>
     </div>
 
-    <div class="rounded-xl border border-zinc-200 bg-white p-5 dark:border-zinc-700 dark:bg-zinc-800">
+    <div class="rounded-xl bg-zinc-100 p-5 dark:bg-white/5">
         <flux:heading size="sm">Step 1 - Select candidate</flux:heading>
 
         @if ($this->candidate)
@@ -132,7 +132,7 @@ new #[Title('Resume vs Evidence Validation')] class extends Component {
     </div>
 
     @if ($this->result)
-        <div class="rounded-xl border border-zinc-200 bg-white p-5 dark:border-zinc-700 dark:bg-zinc-800">
+        <div class="rounded-xl bg-zinc-100 p-5 dark:bg-white/5">
             <div class="flex flex-wrap items-center justify-between gap-3">
                 <flux:heading size="sm">Validation result</flux:heading>
                 <div class="flex items-center gap-3">
@@ -146,7 +146,7 @@ new #[Title('Resume vs Evidence Validation')] class extends Component {
                 </div>
             </div>
 
-            <div class="mt-3 rounded-lg border border-zinc-100 p-4 dark:border-zinc-700">
+            <div class="mt-3 rounded-lg bg-zinc-100 p-4 dark:bg-white/5">
                 <div class="font-medium">{{ $this->result['verdict'] }}</div>
                 <p class="mt-1 text-sm text-zinc-600 dark:text-zinc-300">{{ $this->result['evidence_count'] }} analyzed evidence sources - evidence supports at most {{ $this->result['evidence_seniority'] }} seniority.</p>
             </div>

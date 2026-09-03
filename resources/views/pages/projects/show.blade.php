@@ -164,7 +164,7 @@ new #[Title('Project')] class extends Component
 
     @auth
         @if ($this->project->isPublished() && $this->project->user_id !== auth()->id())
-            <div class="rounded-xl border border-zinc-200 bg-white p-5 dark:border-zinc-700 dark:bg-zinc-800">
+            <div class="rounded-xl bg-zinc-100 p-5 dark:bg-white/5">
                 <flux:heading size="sm">Recognize this work</flux:heading>
                 <div class="mt-3 flex flex-wrap gap-2">
                     @foreach ($this->recognitions as $key => $recognition)

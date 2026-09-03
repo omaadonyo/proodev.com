@@ -91,7 +91,7 @@ new class extends Component
 
 <div>
     @if ($this->stack->isNotEmpty())
-        <div class="fixed bottom-4 right-4 z-50 w-80 rounded-xl border border-zinc-200 bg-white p-3 shadow-2xl shadow-zinc-900/10 dark:border-zinc-700 dark:bg-zinc-900">
+        <div class="fixed bottom-4 right-4 z-50 w-80 rounded-xl bg-zinc-100 p-3 shadow-2xl shadow-zinc-900/10 dark:bg-white/5">
             <div class="flex items-center justify-between">
                 <span class="text-xs font-semibold uppercase tracking-widest text-zinc-400">Comparison stack ({{ $this->stack->count() }}/3)</span>
                 <button type="button" wire:click="clear" class="text-xs font-medium text-zinc-400 transition hover:text-red-500">Clear</button>

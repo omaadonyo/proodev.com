@@ -227,7 +227,7 @@ new #[Lazy] class extends Component
             <div class="text-[10px] font-semibold uppercase tracking-widest text-zinc-500">Projects</div>
             <div class="mt-2 grid gap-2">
                 @foreach ($this->projects as $project)
-                    <a href="{{ route('projects.show', $project) }}" wire:navigate class="flex items-center gap-2.5 rounded-lg border border-zinc-200 bg-zinc-50 px-3 py-2 transition hover:border-accent dark:border-white/10 dark:bg-zinc-900/70">
+                    <a href="{{ route('projects.show', $project) }}" wire:navigate class="flex items-center gap-2.5 rounded-lg bg-zinc-100 px-3 py-2 transition hover:border-accent dark:bg-white/5">
                         @if ($project->tech_stack)
                             <x-tech-logo :name="$project->tech_stack[0]" class="size-4 shrink-0" />
                         @else
@@ -349,7 +349,7 @@ new #[Lazy] class extends Component
     @endif
 
     <div>
-        <a href="{{ route('devid', $this->user->handle()) }}" wire:navigate class="inline-flex w-full items-center justify-center gap-1.5 rounded-lg border border-zinc-200 px-3 py-2 text-sm font-medium text-zinc-700 transition hover:border-accent hover:text-accent dark:border-white/10 dark:text-zinc-200">
+        <a href="{{ route('devid', $this->user->handle()) }}" wire:navigate class="inline-flex w-full items-center justify-center gap-1.5 rounded-lg bg-zinc-100 px-3 py-2 text-sm font-medium text-zinc-700 transition hover:border-accent hover:text-accent dark:bg-white/5 dark:text-zinc-200">
             View full DevID
             <flux:icon name="arrow-up-right" variant="micro" />
         </a>

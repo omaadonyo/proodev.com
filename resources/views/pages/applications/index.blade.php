@@ -26,7 +26,7 @@ new #[Title('My Applications')] class extends Component {
 
         <div class="grid gap-3">
             @forelse ($this->applications as $application)
-                <div class="rounded-xl border border-zinc-200 bg-white p-5 dark:border-zinc-700 dark:bg-zinc-800">
+                <div class="rounded-xl bg-zinc-100 p-5 dark:bg-white/5">
                     <div class="flex flex-wrap items-center justify-between gap-3">
                         <div class="min-w-0">
                             <div class="font-semibold text-zinc-900 dark:text-white">{{ $application->job->title }}</div>

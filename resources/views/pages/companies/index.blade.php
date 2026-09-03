@@ -70,7 +70,7 @@ new #[Title('Companies')] class extends Component {
         <div class="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
             @forelse ($this->companies as $company)
                 <a href="{{ route('companies.show', $company) }}" wire:navigate
-                    class="group flex flex-col rounded-xl border border-zinc-200 bg-white p-5 transition hover:border-accent/50 hover:shadow-lg hover:shadow-zinc-900/5 dark:border-zinc-700 dark:bg-zinc-800">
+                    class="group flex flex-col rounded-xl bg-zinc-100 p-5 transition hover:border-accent/50 hover:shadow-lg hover:shadow-zinc-900/5 dark:bg-white/5">
                     <div class="flex items-center gap-3">
                         <div class="flex size-11 shrink-0 items-center justify-center rounded-lg bg-accent/10 text-sm font-bold text-accent">
                             <x-company-logo :company="$company" size="sm" />

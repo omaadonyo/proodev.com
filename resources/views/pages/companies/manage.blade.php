@@ -20,11 +20,14 @@ new #[Title('Company')] class extends Component
 
     public string $note = '';
 
+    public array $githubRepos = [''];
+
     public function mount(Company $company): void
     {
         abort_unless($company->isMember(auth()->user()), 403);
 
         $this->company = $company;
+        $this->githubRepos = $company->github_repos ?: [''];
     }
 
     public function buyJobPosts(int $posts): void
@@ -120,6 +123,43 @@ new #[Title('Company')] class extends Component
         unset($this->applications);
 
         Flux::toast(variant: 'success', text: 'Note saved.');
+    }
+
+    public function addGithubRepo(): void
+    {
+        $this->githubRepos[] = '';
+    }
+
+    public function removeGithubRepo(int $index): void
+    {
+        unset($this->githubRepos[$index]);
+        $this->githubRepos = array_values($this->githubRepos);
+
+        if (empty($this->githubRepos)) {
+            $this->githubRepos = [''];
+        }
+    }
+
+    public function saveGithubRepos(): void
+    {
+        $validated = $this->validate([
+            'githubRepos' => ['nullable', 'array'],
+            'githubRepos.*' => ['nullable', 'url', 'max:255'],
+        ]);
+
+        $cleanRepos = collect($validated['githubRepos'] ?? [])
+            ->map(fn ($url) => trim($url))
+            ->filter()
+            ->values()
+            ->all();
+
+        $this->company->update([
+            'github_repos' => $cleanRepos ?: null,
+        ]);
+
+        $this->githubRepos = $cleanRepos ?: [''];
+
+        Flux::toast(variant: 'success', text: 'GitHub repositories updated.');
     }
 
     #[Computed]
@@ -249,17 +289,17 @@ new #[Title('Company')] class extends Component
                     <flux:icon name="plus" variant="micro" />
                     Post a job
                 </flux:button>
-                <a href="{{ route('companies.onboarding', $company) }}" wire:navigate class="inline-flex h-8 items-center gap-1.5 rounded-lg border border-zinc-200 bg-white px-3 text-sm font-medium text-zinc-700 transition hover:bg-zinc-50 dark:border-zinc-600 dark:bg-black dark:text-zinc-200 dark:hover:bg-zinc-900">
+                <a href="{{ route('companies.onboarding', $company) }}" wire:navigate class="inline-flex h-8 items-center gap-1.5 rounded-lg bg-zinc-100 px-3 text-sm font-medium text-zinc-700 transition hover:bg-zinc-200 dark:bg-white/10 dark:text-zinc-200 dark:hover:bg-white/15">
                     Company details
                 </a>
-                <a href="{{ route('companies.show', $company) }}" wire:navigate class="inline-flex h-8 items-center gap-1.5 rounded-lg border border-zinc-200 bg-white px-3 text-sm font-medium text-zinc-700 transition hover:bg-zinc-50 dark:border-zinc-600 dark:bg-black dark:text-zinc-200 dark:hover:bg-zinc-900">
+                <a href="{{ route('companies.show', $company) }}" wire:navigate class="inline-flex h-8 items-center gap-1.5 rounded-lg bg-zinc-100 px-3 text-sm font-medium text-zinc-700 transition hover:bg-zinc-200 dark:bg-white/10 dark:text-zinc-200 dark:hover:bg-white/15">
                     View public profile
                 </a>
             </div>
         </div>
 
         <div class="grid gap-4 sm:grid-cols-3">
-            <div class="rounded-lg border border-zinc-200 bg-white p-4 dark:border-zinc-700 dark:bg-zinc-800">
+            <div class="rounded-lg bg-zinc-100 p-4 dark:bg-white/5">
                 <div class="text-xs font-semibold uppercase tracking-widest text-zinc-500">Current plan</div>
                 <div class="mt-1.5 flex items-center gap-2">
                     <span class="text-lg font-bold text-zinc-900 dark:text-white">{{ $company->plan->label() }}</span>
@@ -278,7 +318,7 @@ new #[Title('Company')] class extends Component
                 </div>
             </div>
 
-            <div class="rounded-lg border border-zinc-200 bg-white p-4 dark:border-zinc-700 dark:bg-zinc-800">
+            <div class="rounded-lg bg-zinc-100 p-4 dark:bg-white/5">
                 <div class="text-xs font-semibold uppercase tracking-widest text-zinc-500">Job post credits</div>
                 <div class="mt-1.5 text-lg font-bold tabular-nums text-zinc-900 dark:text-white">
                     @if ($company->plan->isPaid())
@@ -290,7 +330,7 @@ new #[Title('Company')] class extends Component
                 <div class="mt-1 text-xs text-zinc-500">{{ $company->plan->isPaid() ? 'active roles' : 'used' }}</div>
             </div>
 
-            <div class="rounded-lg border border-zinc-200 bg-white p-4 dark:border-zinc-700 dark:bg-zinc-800">
+            <div class="rounded-lg bg-zinc-100 p-4 dark:bg-white/5">
                 <div class="text-xs font-semibold uppercase tracking-widest text-zinc-500">Plan renews</div>
                 @if ($company->plan->isPaid() && $this->planRenewsAt)
                     <div class="mt-1.5 text-lg font-bold tabular-nums text-zinc-900 dark:text-white">{{ $this->planRenewsAt }}</div>
@@ -345,7 +385,7 @@ new #[Title('Company')] class extends Component
 
                 <div class="mt-5 grid gap-4 md:grid-cols-2">
                     @foreach ($this->jobPostBundles as $bundle)
-                        <div class="rounded-lg border border-zinc-200 p-5 dark:border-zinc-700">
+                        <div class="rounded-lg bg-zinc-100 p-5 dark:bg-white/5">
                             <div class="flex items-center justify-between">
                                 <span class="font-semibold">{{ $bundle['posts'] }} job post{{ $bundle['posts'] === 1 ? '' : 's' }}</span>
                             </div>
@@ -357,7 +397,7 @@ new #[Title('Company')] class extends Component
                         </div>
                     @endforeach
 
-                    <div class="rounded-lg border border-zinc-200 p-5 dark:border-zinc-700">
+                    <div class="rounded-lg bg-zinc-100 p-5 dark:bg-white/5">
                         <div class="flex items-center justify-between">
                             <span class="font-semibold">Recruiter Intelligence Suite</span>
                             <flux:badge size="sm" variant="success" inset="top bottom">Best value</flux:badge>
@@ -375,7 +415,7 @@ new #[Title('Company')] class extends Component
             </div>
         @endunless
 
-        <div class="rounded-lg border border-zinc-200 p-5 dark:border-zinc-700">
+        <div class="rounded-lg bg-zinc-100 p-5 dark:bg-white/5">
             <div class="flex flex-wrap items-center justify-between gap-3">
                 <div>
                     <div class="font-semibold">Company verification</div>
@@ -389,6 +429,34 @@ new #[Title('Company')] class extends Component
             </div>
         </div>
 
+        <div class="rounded-lg bg-zinc-100 p-5 dark:bg-white/5">
+            <div class="font-semibold">GitHub Repositories</div>
+            <div class="mt-1 text-xs text-zinc-500">Add links to your public GitHub repositories to showcase your work.</div>
+            <form wire:submit="saveGithubRepos" class="mt-4 grid gap-3">
+                @foreach ($githubRepos as $index => $repo)
+                    <div class="flex items-center gap-2">
+                        <flux:input wire:model="githubRepos.{{ $index }}" type="url" placeholder="https://github.com/your-org/your-repo" class="flex-1" size="sm" />
+                        @if (count($githubRepos) > 1)
+                            <button type="button" wire:click="removeGithubRepo({{ $index }})" class="shrink-0 rounded-lg p-1.5 text-zinc-400 transition hover:bg-zinc-100 hover:text-zinc-600 dark:hover:bg-zinc-800 dark:hover:text-zinc-300">
+                                <flux:icon name="x-mark" variant="micro" />
+                            </button>
+                        @endif
+                    </div>
+                @endforeach
+                <div class="flex items-center gap-3">
+                    <button type="button" wire:click="addGithubRepo" class="inline-flex items-center gap-1 text-xs font-medium text-accent hover:underline">
+                        <flux:icon name="plus" variant="micro" />
+                        Add another repo
+                    </button>
+                </div>
+                <flux:error name="githubRepos" />
+                <flux:error name="githubRepos.*" />
+                <div class="flex justify-end">
+                    <flux:button type="submit" variant="primary" size="sm">Save repositories</flux:button>
+                </div>
+            </form>
+        </div>
+
         <div>
             <div class="flex items-center justify-between">
                 <flux:heading size="sm">Job posts</flux:heading>
@@ -397,7 +465,7 @@ new #[Title('Company')] class extends Component
 
             <div class="mt-4 grid gap-3">
                 @forelse ($this->jobs as $job)
-                    <div class="rounded-lg border border-zinc-200 p-4 dark:border-zinc-700">
+                    <div class="rounded-lg bg-zinc-100 p-4 dark:bg-white/5">
                         <div class="flex flex-wrap items-center justify-between gap-3">
                             <div class="min-w-0">
                                 <div class="flex flex-wrap items-center gap-2">
@@ -422,7 +490,7 @@ new #[Title('Company')] class extends Component
                                 <div class="mb-3 text-sm font-medium">Applicants</div>
                                 <div class="grid gap-3">
                                     @forelse ($this->applications as $application)
-                                        <div class="rounded-lg border border-zinc-200 bg-zinc-50 p-4 dark:border-zinc-700 dark:bg-zinc-900/40">
+                                        <div class="rounded-lg bg-zinc-50 p-4 dark:bg-zinc-900/40">
                                             <div class="flex flex-wrap items-center gap-3">
                                                 <flux:avatar :src="$application->user->avatarUrl()" :alt="$application->user->name" circle class="size-9" />
                                                 <div class="min-w-0 flex-1">

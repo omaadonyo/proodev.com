@@ -43,7 +43,7 @@ new #[Title('Company')] class extends Component {
 
 <div class="mx-auto w-full max-w-5xl">
     <div class="grid gap-6">
-        <div class="rounded-2xl border border-zinc-200 bg-white p-6 dark:border-zinc-700 dark:bg-zinc-800">
+        <div class="rounded-2xl bg-zinc-100 p-6 dark:bg-white/5">
             <div class="flex flex-wrap items-start justify-between gap-4">
                 <div class="flex items-center gap-4">
                     <div class="flex size-16 shrink-0 items-center justify-center rounded-xl bg-accent/10 text-xl font-bold text-accent">
@@ -94,7 +94,7 @@ new #[Title('Company')] class extends Component {
             <div class="mt-4 grid gap-3">
                 @forelse ($this->openJobs as $job)
                     <a href="{{ route('jobs.show', ['company' => $company, 'job' => $job]) }}" wire:navigate
-                        class="group flex flex-wrap items-center justify-between gap-3 rounded-xl border border-zinc-200 bg-white p-4 transition hover:border-accent/50 hover:shadow-lg hover:shadow-zinc-900/5 dark:border-zinc-700 dark:bg-zinc-800">
+                        class="group flex flex-wrap items-center justify-between gap-3 rounded-xl bg-zinc-100 p-4 transition hover:shadow-lg hover:shadow-zinc-900/5 dark:bg-white/5">
                         <div class="min-w-0">
                             <div class="font-semibold text-zinc-900 group-hover:text-accent dark:text-white">{{ $job->title }}</div>
                             <div class="mt-1 flex flex-wrap gap-x-3 gap-y-1 text-xs text-zinc-500">

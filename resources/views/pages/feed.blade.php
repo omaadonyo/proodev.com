@@ -89,7 +89,7 @@ new #[Title('Home')] class extends Component
         </div>
 
                 @unless (auth()->user()->hasCompletedOnboarding() || $this->profileCompletion > 75)
-            <div class="mb-5 overflow-hidden rounded-xl border border-accent/20 bg-white p-4 dark:border-white/10 dark:bg-zinc-800">
+            <div class="mb-5 overflow-hidden rounded-xl border border-accent/20 bg-white p-4 dark:bg-zinc-800">
                 <div class="flex flex-wrap items-center justify-between gap-4">
                     <div class="min-w-0 flex-1">
                         <div class="flex items-center justify-between gap-3">
@@ -142,7 +142,7 @@ new #[Title('Home')] class extends Component
                 </button>
             @endforeach
 
-            <div class="ms-auto inline-flex items-center gap-1 rounded-full border border-zinc-200 bg-zinc-100 p-1 dark:border-zinc-700 dark:bg-zinc-900">
+            <div class="ms-auto inline-flex items-center gap-1 rounded-full bg-zinc-100 p-1 dark:bg-white/5">
                 <button
                     wire:click="setLayout('list')"
                     :aria-pressed="$layout === 'list'"

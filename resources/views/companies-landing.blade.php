@@ -228,7 +228,7 @@
                         ['value' => $openJobsCount, 'label' => 'Open roles'],
                         ['value' => $onlineCount, 'label' => 'Online now'],
                     ] as $stat)
-                        <div class="rounded-xl border border-zinc-200 bg-white/60 px-4 py-4 dark:border-white/10 dark:bg-white/[0.03]">
+                        <div class="rounded-xl bg-zinc-100 px-4 py-4 dark:bg-white/5">
                             <div class="text-2xl font-bold tabular-nums tracking-tight text-zinc-900 dark:text-white">{{ $stat['value'] }}</div>
                             <div class="mt-0.5 text-[11px] font-medium uppercase tracking-wider text-zinc-500">{{ $stat['label'] }}</div>
                         </div>
@@ -240,7 +240,7 @@
             <div id="preview" class="relative mx-auto mt-14 max-w-5xl" x-data="companySearch()">
                 <div class="pointer-events-none absolute -inset-6 -z-10 rounded-3xl bg-[#3750eb]/10 blur-3xl" aria-hidden="true"></div>
 
-                <div class="overflow-hidden rounded-2xl border border-zinc-200 bg-white/90 shadow-2xl shadow-zinc-900/10 backdrop-blur-xl dark:border-white/10 dark:bg-zinc-950/80">
+                <div class="overflow-hidden rounded-2xl bg-zinc-100 shadow-2xl shadow-zinc-900/10 backdrop-blur-xl dark:bg-white/5">
                     <div class="flex flex-wrap items-center justify-between gap-3 border-b border-zinc-200 px-5 py-3.5 dark:border-white/5">
                         <div class="flex items-center gap-2">
                             <span class="flex size-8 items-center justify-center rounded-lg bg-[#3750eb]/10 text-[#3750eb] dark:text-[#8f9dff]">
@@ -398,7 +398,7 @@
                         <div class="mt-3 rounded-xl border-2 border-amber-300 bg-amber-50/60 p-3 shadow-sm shadow-amber-500/10 dark:border-amber-500/30 dark:bg-amber-500/10">
                             <div class="flex items-center gap-2 text-xs font-semibold uppercase tracking-widest text-amber-700 dark:text-amber-400">
                                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="size-3.5"><path fill-rule="evenodd" d="M12 1.5a5.25 5.25 0 0 0-5.25 5.25v3a3 3 0 0 0-3 3v6.75a3 3 0 0 0 3 3h10.5a3 3 0 0 0 3-3v-6.75a3 3 0 0 0-3-3v-3c0-2.90-2.35-5.25-5.25-5.25Zm3.75 8.25v-3a3.75 3.75 0 1 0-7.5 0v3h7.5Z" clip-rule="evenodd"/></svg>
-                                Register to unlock — preview below is blurred
+                                Register to unlock
                             </div>
                             <div class="mt-3 flex flex-wrap gap-2">
                                 <button type="button" @click="exportPdf()" class="inline-flex items-center gap-1.5 rounded-full bg-amber-500 px-3.5 py-1.5 text-xs font-semibold text-white shadow-sm transition hover:bg-amber-600">
@@ -434,7 +434,7 @@
                     <h2 class="mt-3 text-3xl font-bold tracking-tight text-zinc-900 sm:text-4xl dark:text-white">ProoDev gives recruiters what self-reported profiles cannot: verifiable proof</h2>
                 </div>
 
-                <div class="relative mx-auto mt-12 max-w-4xl overflow-hidden rounded-2xl border border-zinc-200 bg-white dark:border-white/10 dark:bg-white/[0.03]">
+                <div class="relative mx-auto mt-12 max-w-4xl overflow-hidden rounded-2xl bg-zinc-100 dark:bg-white/5">
                     <div class="border-b border-zinc-200 px-6 py-4 dark:border-white/10">
                         <h3 class="text-lg font-semibold text-zinc-900 dark:text-white">Evidence vs resume-driven sourcing</h3>
                         <p class="text-sm text-zinc-500">Every row is verifiable - claims have to point to real work.</p>
@@ -496,7 +496,7 @@
                         ['icon' => 'briefcase', 'title' => 'Job posts & tracking', 'text' => 'Post unlimited roles with AI-drafted descriptions. Track every applicant in one board.'],
                         ['icon' => 'folder', 'title' => 'Talent pools', 'text' => 'Save candidates into named pools and move them through your hiring pipeline.'],
                     ] as $tool)
-                        <div class="group rounded-2xl border border-zinc-200 bg-white p-5 transition duration-300 hover:-translate-y-1 hover:border-[#3750eb]/40 hover:shadow-xl hover:shadow-[#3750eb]/10 dark:border-white/10 dark:bg-white/[0.03] dark:hover:border-[#3750eb]/30 dark:hover:bg-white/[0.06]">
+                        <div class="group rounded-2xl bg-zinc-100 p-5 transition duration-300 hover:-translate-y-1 hover:border-[#3750eb]/40 hover:shadow-xl hover:shadow-[#3750eb]/10 dark:bg-white/5 dark:hover:border-[#3750eb]/30 dark:hover:bg-white/[0.06]">
                             <span class="flex size-10 items-center justify-center rounded-xl bg-[#3750eb]/10 text-[#3750eb] ring-1 ring-zinc-200 transition group-hover:scale-105 dark:text-[#8f9dff] dark:ring-white/10">
                                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="size-5"><path fill-rule="evenodd" d="{{ $iconPaths[$tool['icon']] }}" clip-rule="evenodd"/></svg>
                             </span>
@@ -524,7 +524,7 @@
                         ['icon' => 'folder', 'number' => '03', 'title' => 'Save, compare & collaborate', 'description' => 'Drop matches into talent pools, set statuses, compare candidates side-by-side, and share the shortlist with your team.'],
                         ['icon' => 'calendar-days', 'number' => '04', 'title' => 'Interview & hire', 'description' => 'Schedule interviews with calendar invites, generate evidence-grounded questions, and move the winner through to offer.'],
                     ] as $step)
-                        <div class="flex flex-col rounded-2xl border border-zinc-200 bg-white p-6 transition duration-300 hover:-translate-y-1 hover:border-[#3750eb]/50 hover:shadow-xl hover:shadow-[#3750eb]/10 dark:border-white/10 dark:bg-white/[0.03] dark:hover:border-[#3750eb]/30 dark:hover:bg-white/[0.05]">
+                        <div class="flex flex-col rounded-2xl bg-zinc-100 p-6 transition duration-300 hover:-translate-y-1 hover:border-[#3750eb]/50 hover:shadow-xl hover:shadow-[#3750eb]/10 dark:bg-white/5 dark:hover:border-[#3750eb]/30 dark:hover:bg-white/[0.05]">
                             <div class="flex items-center justify-between">
                                 <span class="flex size-10 items-center justify-center rounded-xl bg-[#3750eb]/10 text-[#3750eb] dark:text-[#8f9dff]">
                                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="size-5"><path fill-rule="evenodd" d="{{ $iconPaths[$step['icon']] }}" clip-rule="evenodd"/></svg>
@@ -675,7 +675,7 @@
                         ['q' => 'Is there a free plan for companies?', 'a' => 'Yes. Creating a company account and publishing roles is free. The Recruiter and Recruiter Intelligence Suite plans add reports, comparison, exports, and the full agency toolkit.'],
                         ['q' => 'Is candidate data private?', 'a' => 'DevIDs are public by default so the community can verify work, but candidates control what appears. Candidate contact details are only visible to verified recruiters and hiring companies.'],
                     ] as $faq)
-                        <div data-faq class="overflow-hidden rounded-xl border border-zinc-200 bg-white dark:border-white/10 dark:bg-white/[0.03]">
+                        <div data-faq class="overflow-hidden rounded-xl bg-zinc-100 dark:bg-white/5">
                             <button type="button" data-faq-toggle class="flex w-full items-center justify-between gap-4 px-5 py-4 text-left">
                                 <span class="text-sm font-semibold text-zinc-900 dark:text-white">{{ $faq['q'] }}</span>
                                 <svg data-faq-chevron xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="size-4 shrink-0 text-zinc-500 transition duration-200">
@@ -693,7 +693,7 @@
 
         {{-- ===================== CTA ===================== --}}
         <section class="section-contained mx-auto max-w-7xl px-4 pb-16 sm:px-6 lg:px-8">
-            <div class="relative overflow-hidden rounded-2xl border border-zinc-200 bg-gradient-to-br from-[#f1f4ff] via-white to-[#eef1ff] px-6 py-16 text-center sm:px-16 dark:border-white/10 dark:from-[#3750eb]/25 dark:via-zinc-900 dark:to-[#3750eb]/10">
+            <div class="relative overflow-hidden rounded-2xl bg-zinc-100 bg-gradient-to-br from-[#f1f4ff] via-white to-[#eef1ff] px-6 py-16 text-center sm:px-16 dark:bg-white/5 dark:from-[#3750eb]/25 dark:via-zinc-900 dark:to-[#3750eb]/10">
                 <div class="pointer-events-none absolute inset-0 -z-10 bg-[#3750eb]/5 blur-3xl" aria-hidden="true"></div>
                 <div class="relative">
                     <h2 class="mx-auto max-w-2xl text-3xl font-bold tracking-tight text-zinc-900 sm:text-5xl dark:text-white">
@@ -789,6 +789,7 @@
                 @endif
                 <div class="mt-6 flex flex-col items-center justify-between gap-3 border-t border-zinc-200 pt-6 sm:flex-row dark:border-white/5">
                     <p class="text-xs text-zinc-400">&copy; {{ date('Y') }} {{ config('app.name', 'ProoDev') }}. Proof over claims.</p>
+                    <a href="mailto:info@proodev.com" class="text-xs text-zinc-400 transition hover:text-zinc-900 dark:hover:text-white">For inquiries: info@proodev.com</a>
                     <p class="text-xs text-zinc-400">Built for companies who hire engineers based on evidence.</p>
                 </div>
             </div>

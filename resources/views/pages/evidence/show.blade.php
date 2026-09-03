@@ -74,7 +74,7 @@ new #[Title('Evidence')] class extends Component
         @if ($this->evidence->status->value === 'ready' && $this->evidence->analysis)
             @php($analysis = $this->evidence->analysis)
 
-            <div class="overflow-hidden rounded-2xl border border-zinc-200 bg-white dark:border-white/10 dark:bg-zinc-950/80">
+            <div class="overflow-hidden rounded-2xl bg-zinc-100 dark:bg-white/5">
                 <div class="flex items-center justify-between border-b border-zinc-200 px-5 py-3 dark:border-white/10">
                     <span class="inline-flex items-center gap-1.5 text-xs font-semibold text-zinc-700 dark:text-zinc-300">
                         <flux:icon name="sparkles" variant="micro" class="text-accent" />
@@ -154,7 +154,7 @@ new #[Title('Evidence')] class extends Component
                             <div class="text-[10px] font-semibold uppercase tracking-widest text-zinc-500">References</div>
                             <div class="mt-2 grid gap-2">
                                 @foreach ($analysis->references as $reference)
-                                    <div class="rounded-lg border border-zinc-100 bg-zinc-50 px-3 py-2 dark:border-zinc-700/60 dark:bg-zinc-900/60">
+                                     <div class="rounded-lg bg-zinc-100 px-3 py-2 dark:bg-white/5">
                                         <div class="flex items-start gap-2 text-xs">
                                             <flux:icon name="link" variant="micro" class="mt-0.5 shrink-0 text-accent" />
                                             <div class="min-w-0">
@@ -170,7 +170,7 @@ new #[Title('Evidence')] class extends Component
                 </div>
             </div>
         @else
-            <div class="overflow-hidden rounded-2xl border border-zinc-200 bg-white p-8 text-center dark:border-zinc-700 dark:bg-zinc-800">
+            <div class="overflow-hidden rounded-2xl bg-zinc-100 p-8 text-center dark:bg-white/5">
                 @if ($this->evidence->status->value === 'failed')
                     <div class="mx-auto mb-3 flex size-12 items-center justify-center rounded-full bg-rose-400/10 text-rose-500">
                         <flux:icon name="x-circle" />
@@ -192,7 +192,7 @@ new #[Title('Evidence')] class extends Component
 
         <div class="grid gap-6 lg:grid-cols-2">
             @if ($this->evidence->analysis?->highlights)
-                <div class="rounded-xl border border-zinc-200 bg-white p-5 dark:border-zinc-700 dark:bg-zinc-800">
+                <div class="rounded-xl bg-zinc-100 p-5 dark:bg-white/5">
                     <flux:heading size="sm">Highlights</flux:heading>
                     <div class="mt-3 grid gap-2">
                         @foreach ($this->evidence->analysis->highlights as $highlight)
@@ -206,7 +206,7 @@ new #[Title('Evidence')] class extends Component
             @endif
 
             @if ($this->evidence->analysis?->strengths)
-                <div class="rounded-xl border border-zinc-200 bg-white p-5 dark:border-zinc-700 dark:bg-zinc-800">
+                <div class="rounded-xl bg-zinc-100 p-5 dark:bg-white/5">
                     <flux:heading size="sm">Potential Strength Areas</flux:heading>
                     <div class="mt-3 grid gap-2">
                         @foreach ($this->evidence->analysis->strengths as $strength)
@@ -221,7 +221,7 @@ new #[Title('Evidence')] class extends Component
         </div>
 
         @if ($this->evidence->project_id)
-            <div class="rounded-xl border border-zinc-200 bg-white p-5 dark:border-zinc-700 dark:bg-zinc-800">
+            <div class="rounded-xl bg-zinc-100 p-5 dark:bg-white/5">
                 <flux:heading size="sm">Linked Project</flux:heading>
                 <a href="{{ route('projects.show', $this->evidence->project_id) }}" wire:navigate class="mt-3 inline-flex items-center gap-2 text-sm font-medium text-accent hover:underline">
                     <flux:icon name="folder-git-2" variant="micro" />

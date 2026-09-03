@@ -240,33 +240,33 @@ new #[Title('Analytics')] class extends Component {
     </div>
 
     <div class="grid grid-cols-2 gap-4 lg:grid-cols-5">
-        <div class="rounded-lg border border-zinc-200 bg-white p-3 dark:border-zinc-700 dark:bg-zinc-800">
+        <div class="rounded-lg bg-zinc-100 p-3 dark:bg-white/5">
             <div class="text-2xl font-bold">{{ $this->stats['users'] }}</div>
             <div class="text-xs text-zinc-500">Total users</div>
         </div>
-        <div class="rounded-lg border border-zinc-200 bg-white p-3 dark:border-zinc-700 dark:bg-zinc-800">
+        <div class="rounded-lg bg-zinc-100 p-3 dark:bg-white/5">
             <div class="flex items-center gap-2 text-2xl font-bold">
                 {{ $this->stats['online'] }}
                 <span class="size-2.5 rounded-full bg-emerald-500"></span>
             </div>
             <div class="text-xs text-zinc-500">Online now</div>
         </div>
-        <div class="rounded-lg border border-zinc-200 bg-white p-3 dark:border-zinc-700 dark:bg-zinc-800">
+        <div class="rounded-lg bg-zinc-100 p-3 dark:bg-white/5">
             <div class="text-2xl font-bold">{{ $this->stats['loginsToday'] }}</div>
             <div class="text-xs text-zinc-500">Logins today</div>
         </div>
-        <div class="rounded-lg border border-zinc-200 bg-white p-3 dark:border-zinc-700 dark:bg-zinc-800">
+        <div class="rounded-lg bg-zinc-100 p-3 dark:bg-white/5">
             <div class="text-2xl font-bold">{{ $this->stats['sessions'] }}</div>
             <div class="text-xs text-zinc-500">Active sessions</div>
         </div>
-        <div class="rounded-lg border border-zinc-200 bg-white p-3 dark:border-zinc-700 dark:bg-zinc-800">
+        <div class="rounded-lg bg-zinc-100 p-3 dark:bg-white/5">
             <div class="text-2xl font-bold {{ $this->stats['blocked'] ? 'text-red-500' : '' }}">{{ $this->stats['blocked'] }}</div>
             <div class="text-xs text-zinc-500">Blocked IPs</div>
         </div>
     </div>
 
     <div class="grid gap-6 lg:grid-cols-3">
-        <div class="rounded-lg border border-zinc-200 bg-white p-3 dark:border-zinc-700 dark:bg-zinc-800">
+        <div class="rounded-lg bg-zinc-100 p-3 dark:bg-white/5">
             <flux:heading size="sm">Devices</flux:heading>
             <div class="mt-3 grid gap-2 text-sm">
                 @forelse ($this->devices as $device => $count)
@@ -280,7 +280,7 @@ new #[Title('Analytics')] class extends Component {
             </div>
         </div>
 
-        <div class="rounded-lg border border-zinc-200 bg-white p-3 dark:border-zinc-700 dark:bg-zinc-800">
+        <div class="rounded-lg bg-zinc-100 p-3 dark:bg-white/5">
             <flux:heading size="sm">Countries</flux:heading>
             <div class="mt-3 grid gap-2 text-sm">
                 @forelse ($this->countries as $country => $count)
@@ -294,7 +294,7 @@ new #[Title('Analytics')] class extends Component {
             </div>
         </div>
 
-        <div class="rounded-lg border border-zinc-200 bg-white p-3 dark:border-zinc-700 dark:bg-zinc-800">
+        <div class="rounded-lg bg-zinc-100 p-3 dark:bg-white/5">
             <flux:heading size="sm">Browsers</flux:heading>
             <div class="mt-3 grid gap-2 text-sm">
                 @forelse ($this->browsers as $browser => $count)
@@ -315,11 +315,11 @@ new #[Title('Analytics')] class extends Component {
             <flux:input icon="magnifying-glass" type="search" placeholder="Search users log..." wire:model.live.debounce.300ms="logSearch" class="w-full sm:w-72" />
             @if (count($this->selectedIds) > 0)
                 <span class="text-xs font-medium text-accent">{{ count($this->selectedIds) }} selected</span>
-                <button type="button" wire:click="exportSelectedPdf" class="inline-flex h-9 items-center gap-1.5 rounded-lg border border-zinc-200 px-3 text-sm font-medium text-zinc-700 transition hover:border-accent hover:text-accent dark:border-zinc-700 dark:text-zinc-200">
+                <button type="button" wire:click="exportSelectedPdf" class="inline-flex h-9 items-center gap-1.5 rounded-lg bg-zinc-100 px-3 text-sm font-medium text-zinc-700 transition hover:bg-zinc-200 dark:bg-white/10 dark:text-zinc-200 dark:hover:bg-white/15">
                     <flux:icon name="document-arrow-down" variant="micro" />
                     PDF
                 </button>
-                <button type="button" wire:click="exportSelectedExcel" class="inline-flex h-9 items-center gap-1.5 rounded-lg border border-zinc-200 px-3 text-sm font-medium text-zinc-700 transition hover:border-accent hover:text-accent dark:border-zinc-700 dark:text-zinc-200">
+                <button type="button" wire:click="exportSelectedExcel" class="inline-flex h-9 items-center gap-1.5 rounded-lg bg-zinc-100 px-3 text-sm font-medium text-zinc-700 transition hover:bg-zinc-200 dark:bg-white/10 dark:text-zinc-200 dark:hover:bg-white/15">
                     <flux:icon name="table-cells" variant="micro" />
                     Excel
                 </button>
@@ -436,7 +436,7 @@ new #[Title('Analytics')] class extends Component {
             <flux:text>Blocked IPs are rejected by middleware before any request is served.</flux:text>
         </div>
 
-        <div class="mt-4 rounded-md border border-zinc-200 p-3 dark:border-zinc-700">
+        <div class="mt-4 rounded-md bg-zinc-100 p-3 dark:bg-white/5">
             <div class="grid gap-3 md:grid-cols-3">
                 <flux:field>
                     <flux:label>IP address</flux:label>
@@ -454,7 +454,7 @@ new #[Title('Analytics')] class extends Component {
 
         <div class="mt-4 grid gap-2">
             @forelse ($this->blockedIps as $blocked)
-                <div class="flex flex-wrap items-center gap-3 rounded-lg border border-zinc-200 p-3 text-sm dark:border-zinc-700">
+                <div class="flex flex-wrap items-center gap-3 rounded-lg bg-zinc-100 p-3 text-sm dark:bg-white/5">
                     <span class="font-mono text-xs font-medium">{{ $blocked->ip_address }}</span>
                     <span class="text-zinc-500">
                         {{ $blocked->reason ?: 'No reason given' }}

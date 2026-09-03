@@ -11,7 +11,7 @@
         x-transition:leave-end="opacity-0 translate-y-3 scale-95"
         role="dialog"
         aria-label="{{ __('Feature requests and suggestions') }}"
-        class="absolute bottom-[5.5rem] right-0 flex max-h-[min(38rem,calc(100vh-8rem))] w-[22rem] max-w-[calc(100vw-2.5rem)] flex-col overflow-hidden rounded-2xl border border-zinc-200 bg-white shadow-2xl shadow-zinc-900/20 dark:border-zinc-700 dark:bg-zinc-900"
+        class="absolute bottom-[5.5rem] right-0 flex max-h-[min(38rem,calc(100vh-8rem))] w-[22rem] max-w-[calc(100vw-2.5rem)] flex-col overflow-hidden rounded-2xl bg-zinc-100 shadow-2xl shadow-zinc-900/20 dark:bg-zinc-900 dark:ring-1 dark:ring-white/10"
     >
         {{-- Header --}}
         <div class="flex items-center justify-between gap-2 border-b border-zinc-100 px-4 py-3 dark:border-zinc-800">
@@ -108,7 +108,7 @@
             @forelse ($this->featureRequests as $feature)
                 <div
                     wire:key="fr-card-{{ $feature->id }}-{{ $feature->voted_by_me ? 'v' : 'n' }}-{{ $feature->votes }}"
-                    class="rounded-xl border p-3 transition @if ($feature->status === 'built') border-emerald-200 bg-emerald-50/50 dark:border-emerald-900/40 dark:bg-emerald-900/10 @else border-zinc-200 bg-white hover:border-zinc-300 dark:border-zinc-700 dark:bg-zinc-800/60 dark:hover:border-zinc-600 @endif"
+                    class="rounded-xl p-3 transition @if ($feature->status === 'built') border border-emerald-200 bg-emerald-50/50 dark:border-emerald-900/40 dark:bg-emerald-900/10 @else bg-zinc-100 dark:bg-white/5 @endif"
                 >
                     <div class="flex gap-3">
                         {{-- Vote button --}}

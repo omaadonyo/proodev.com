@@ -1,4 +1,4 @@
-<div wire:poll.60s class="overflow-hidden rounded-xl border border-zinc-200 bg-white dark:border-zinc-700 dark:bg-zinc-800">
+<div wire:poll.60s class="overflow-hidden rounded-xl bg-zinc-100 dark:bg-white/5">
     <div class="flex items-center justify-between gap-2 border-b border-zinc-100 px-4 py-3 dark:border-zinc-700">
         <div class="flex items-center gap-2">
             <span class="flex size-7 items-center justify-center rounded-full bg-amber-500/10 text-amber-600 dark:text-amber-400">

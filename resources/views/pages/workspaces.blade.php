@@ -157,7 +157,7 @@ new #[Title('Workspaces')] class extends Component {
 
         <div class="grid gap-4">
             @forelse ($this->workspaces as $workspace)
-                <div class="rounded-xl border border-zinc-200 bg-white p-5 dark:border-zinc-700 dark:bg-zinc-800">
+                <div class="rounded-xl bg-zinc-100 p-5 dark:bg-white/5">
                     <div class="flex flex-wrap items-center justify-between gap-4">
                         <div class="flex items-center gap-3">
                             <div class="flex size-11 items-center justify-center rounded-lg bg-accent/10 text-sm font-bold text-accent">
@@ -193,12 +193,12 @@ new #[Title('Workspaces')] class extends Component {
                     </div>
 
                     @if ($this->manageWorkspaceId === $workspace->id && $this->workspaceDetail)
-                        <div class="mt-5 rounded-lg border border-zinc-100 bg-zinc-50 p-4 dark:border-zinc-700 dark:bg-zinc-900">
+                        <div class="mt-5 rounded-lg bg-zinc-100 p-4 dark:bg-white/5">
                             <flux:heading size="sm">Members ({{ $this->workspaceDetail->users()->count() }})</flux:heading>
 
                             <div class="mt-3 grid gap-2">
                                 @foreach ($this->workspaceDetail->users as $member)
-                                    <div class="flex items-center gap-3 rounded-lg border border-zinc-200 bg-white p-3 text-sm dark:border-zinc-700 dark:bg-zinc-800">
+                                    <div class="flex items-center gap-3 rounded-lg bg-zinc-100 p-3 text-sm dark:bg-white/5">
                                         <flux:avatar :src="$member->avatarUrl()" :alt="$member->name" circle class="size-8" />
                                         <div class="min-w-0 flex-1">
                                             <div class="truncate font-medium">{{ $member->name }}</div>

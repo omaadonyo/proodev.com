@@ -84,7 +84,7 @@ new #[Title('Projects')] class extends Component
     @if ($view === 'mine')
         <div class="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
             @forelse ($this->myProjects as $project)
-                <a href="{{ route('projects.show', $project) }}" wire:navigate class="group rounded-xl border border-zinc-200 bg-white p-4 transition hover:border-accent dark:border-zinc-700 dark:bg-zinc-800">
+                <a href="{{ route('projects.show', $project) }}" wire:navigate class="group rounded-xl bg-zinc-100 p-4 transition hover:border-accent dark:bg-white/5">
                     <div class="flex items-center justify-between gap-2">
                         <span class="text-xs font-semibold uppercase tracking-wide text-zinc-400">{{ $project->status->label() }}</span>
                         @if ($project->isPublished())
@@ -117,7 +117,7 @@ new #[Title('Projects')] class extends Component
     @else
         <div class="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
             @forelse ($this->published as $project)
-                <a href="{{ route('projects.show', $project) }}" wire:navigate class="group rounded-xl border border-zinc-200 bg-white p-4 transition hover:border-accent dark:border-zinc-700 dark:bg-zinc-800">
+                <a href="{{ route('projects.show', $project) }}" wire:navigate class="group rounded-xl bg-zinc-100 p-4 transition hover:border-accent dark:bg-white/5">
                     <div class="flex items-center gap-2">
                         <flux:avatar :src="$project->user->avatarUrl()" :alt="$project->user->name" circle class="size-8" />
                         <div class="min-w-0">

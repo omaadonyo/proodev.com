@@ -86,7 +86,7 @@ new #[Title('Pricing')] class extends Component {
             <flux:heading size="xl">Pricing</flux:heading>
             <flux:text class="mt-2">Recruit at scale with evidence-backed intelligence, or drop into the Enterprise tier for custom needs.</flux:text>
 
-            <div class="mx-auto mt-6 inline-flex items-center gap-1 rounded-full border border-zinc-200 p-1 text-sm dark:border-zinc-700">
+            <div class="mx-auto mt-6 inline-flex items-center gap-1 rounded-full bg-zinc-100 p-1 text-sm dark:bg-white/5">
                 <button type="button" wire:click="$set('annual', false)" class="rounded-full px-4 py-1.5 font-medium transition {{ ! $this->annual ? 'bg-accent text-white' : 'text-zinc-500 hover:text-zinc-900 dark:hover:text-white' }}">Monthly</button>
                 <button type="button" wire:click="$set('annual', true)" class="rounded-full px-4 py-1.5 font-medium transition {{ $this->annual ? 'bg-accent text-white' : 'text-zinc-500 hover:text-zinc-900 dark:hover:text-white' }}">Annual</button>
             </div>
@@ -94,7 +94,7 @@ new #[Title('Pricing')] class extends Component {
 
         <div class="grid items-stretch gap-6 sm:grid-cols-2 lg:grid-cols-3">
             @foreach ($this->tiers() as $tier)
-                <div class="flex flex-col rounded-2xl border p-6 {{ $tier['highlight'] ? 'border-accent/50 bg-white shadow-2xl shadow-accent/15 dark:border-accent/40 dark:bg-white/[0.06] lg:-translate-y-2' : 'border-zinc-200 bg-white dark:border-zinc-700 dark:bg-zinc-800' }}">
+                <div class="flex flex-col rounded-2xl border p-6 {{ $tier['highlight'] ? 'border-accent/50 bg-white shadow-2xl shadow-accent/15 dark:border-accent/40 dark:bg-white/[0.06] lg:-translate-y-2' : 'bg-zinc-100 dark:bg-white/5' }}">
                     <div class="flex items-center justify-between">
                         <flux:heading size="sm">{{ $tier['name'] }}</flux:heading>
                         @if (! empty($tier['badge']))
@@ -130,7 +130,7 @@ new #[Title('Pricing')] class extends Component {
             <flux:heading size="lg" class="text-center">Frequently asked questions</flux:heading>
             <div class="mt-6 grid gap-3">
                 @foreach ($this->faqs() as $faq)
-                    <div class="rounded-xl border border-zinc-200 bg-white p-5 dark:border-zinc-700 dark:bg-zinc-800">
+                    <div class="rounded-xl bg-zinc-100 p-5 dark:bg-white/5">
                         <div class="font-semibold">{{ $faq['q'] }}</div>
                         <p class="mt-1.5 text-sm leading-relaxed text-zinc-600 dark:text-zinc-300">{{ $faq['a'] }}</p>
                     </div>

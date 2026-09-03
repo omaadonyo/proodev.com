@@ -52,7 +52,7 @@ new #[Title('News')] class extends Component
 
         @if ($this->featured && ! $this->search)
             @php($news = $this->featured)
-            <a href="{{ route('news.show', $news) }}" wire:navigate class="group relative overflow-hidden rounded-2xl border border-zinc-200 bg-white dark:border-zinc-700 dark:bg-zinc-800">
+            <a href="{{ route('news.show', $news) }}" wire:navigate class="group relative overflow-hidden rounded-2xl bg-zinc-100 dark:bg-white/5">
                 @if ($news->cover_url)
                     <img src="{{ $news->cover_url }}" alt="{{ $news->title }}" class="aspect-[21/9] w-full object-cover" loading="lazy" />
                 @endif
@@ -80,7 +80,7 @@ new #[Title('News')] class extends Component
                 @if ($news->is($this->featured) && ! $this->search)
                     @continue
                 @endif
-                <a href="{{ route('news.show', $news) }}" wire:navigate class="group flex flex-col overflow-hidden rounded-xl border border-zinc-200 bg-white transition hover:border-accent dark:border-zinc-700 dark:bg-zinc-800">
+                <a href="{{ route('news.show', $news) }}" wire:navigate class="group flex flex-col overflow-hidden rounded-xl bg-zinc-100 transition hover:border-accent dark:bg-white/5">
                     @if ($news->cover_url)
                         <img src="{{ $news->cover_url }}" alt="{{ $news->title }}" class="aspect-video w-full object-cover" loading="lazy" />
                     @else

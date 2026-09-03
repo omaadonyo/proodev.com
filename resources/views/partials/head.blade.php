@@ -28,4 +28,5 @@
 @fonts
 
 @vite(['resources/css/app.css', 'resources/js/app.js'])
+<style>html { zoom: 1; }</style>
 @fluxAppearance

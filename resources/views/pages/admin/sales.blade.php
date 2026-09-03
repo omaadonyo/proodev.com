@@ -650,11 +650,11 @@ new #[Title('Sales')] class extends Component
                     </button>
                 @endforeach
             </div>
-            <a href="{{ route('admin.sales.export') }}" class="inline-flex h-9 items-center gap-1.5 rounded-lg border border-zinc-200 px-3 text-sm font-medium text-zinc-700 transition hover:border-accent hover:text-accent dark:border-zinc-700 dark:text-zinc-200" title="Export the full payment ledger as CSV">
+            <a href="{{ route('admin.sales.export') }}" class="inline-flex h-9 items-center gap-1.5 rounded-lg bg-zinc-100 px-3 text-sm font-medium text-zinc-700 transition hover:bg-zinc-200 dark:bg-white/10 dark:text-zinc-200 dark:hover:bg-white/15" title="Export the full payment ledger as CSV">
                 <flux:icon name="arrow-down-tray" variant="micro" />
                 CSV
             </a>
-            <a href="{{ route('admin.sales.export.pdf', ['period' => $this->period]) }}" class="inline-flex h-9 items-center gap-1.5 rounded-lg border border-zinc-200 px-3 text-sm font-medium text-zinc-700 transition hover:border-accent hover:text-accent dark:border-zinc-700 dark:text-zinc-200" title="Export the sales report as PDF">
+            <a href="{{ route('admin.sales.export.pdf', ['period' => $this->period]) }}" class="inline-flex h-9 items-center gap-1.5 rounded-lg bg-zinc-100 px-3 text-sm font-medium text-zinc-700 transition hover:bg-zinc-200 dark:bg-white/10 dark:text-zinc-200 dark:hover:bg-white/15" title="Export the sales report as PDF">
                 <flux:icon name="document-arrow-down" variant="micro" />
                 PDF
             </a>
@@ -674,22 +674,22 @@ new #[Title('Sales')] class extends Component
         </div>
 
         <div class="mt-3 grid grid-cols-2 gap-4 lg:grid-cols-4">
-            <div class="rounded-lg border border-zinc-200 bg-white p-3 dark:border-zinc-700 dark:bg-zinc-800">
+            <div class="rounded-lg bg-zinc-100 p-3 dark:bg-white/5">
                 <div class="text-xs text-zinc-500">Revenue · {{ $this->periodLabel() }}</div>
                 <div class="text-2xl font-bold tabular-nums">{{ $this->money($this->periodStats['revenue']) }}</div>
                 <div class="mt-1 text-[11px] text-zinc-500">Top purpose: {{ $this->periodStats['top_purpose'] ?? '-' }}</div>
             </div>
-            <div class="rounded-lg border border-zinc-200 bg-white p-3 dark:border-zinc-700 dark:bg-zinc-800">
+            <div class="rounded-lg bg-zinc-100 p-3 dark:bg-white/5">
                 <div class="text-xs text-zinc-500">Transactions</div>
                 <div class="text-2xl font-bold tabular-nums">{{ number_format($this->periodStats['count']) }}</div>
                 <div class="mt-1 text-[11px] text-zinc-500">Top method: {{ $this->periodStats['top_method'] ?? '-' }}</div>
             </div>
-            <div class="rounded-lg border border-zinc-200 bg-white p-3 dark:border-zinc-700 dark:bg-zinc-800">
+            <div class="rounded-lg bg-zinc-100 p-3 dark:bg-white/5">
                 <div class="text-xs text-zinc-500">Average order</div>
                 <div class="text-2xl font-bold tabular-nums">{{ $this->money($this->periodStats['avg']) }}</div>
                 <div class="mt-1 text-[11px] text-zinc-500">per transaction</div>
             </div>
-            <div class="rounded-lg border border-zinc-200 bg-white p-3 dark:border-zinc-700 dark:bg-zinc-800">
+            <div class="rounded-lg bg-zinc-100 p-3 dark:bg-white/5">
                 <div class="text-xs text-zinc-500">Refunded</div>
                 <div class="text-2xl font-bold tabular-nums {{ $this->periodStats['refunds'] > 0 ? 'text-sky-500' : '' }}">{{ $this->money($this->periodStats['refunds']) }}</div>
                 <div class="mt-1 text-[11px] text-zinc-500">within period</div>
@@ -697,7 +697,7 @@ new #[Title('Sales')] class extends Component
         </div>
     </div>
 
-    <div class="rounded-lg border border-zinc-200 bg-white p-4 dark:border-zinc-700 dark:bg-zinc-800">
+    <div class="rounded-lg bg-zinc-100 p-4 dark:bg-white/5">
         <div class="flex flex-wrap items-center justify-between gap-3">
             <div class="min-w-0">
                 <flux:heading size="sm">Revenue trend · {{ $this->periodLabel() }}</flux:heading>
@@ -796,7 +796,7 @@ new #[Title('Sales')] class extends Component
                 <div
                     x-show="hover && bucket"
                     x-cloak
-                    class="pointer-events-none absolute z-20 -translate-x-1/2 -translate-y-full rounded-lg border border-zinc-200 bg-white px-3 py-2 text-xs shadow-xl dark:border-zinc-700 dark:bg-zinc-900"
+                    class="pointer-events-none absolute z-20 -translate-x-1/2 -translate-y-full rounded-lg bg-zinc-100 px-3 py-2 text-xs shadow-xl dark:bg-white/5"
                     :style="`left:${x}px; top:${y - 8}px`"
                 >
                     <div class="mb-1 font-semibold text-zinc-900 dark:text-white" x-text="bucket.label"></div>
@@ -816,7 +816,7 @@ new #[Title('Sales')] class extends Component
     </div>
 
     <div class="grid gap-6 lg:grid-cols-2">
-        <div class="rounded-lg border border-zinc-200 bg-white p-3 dark:border-zinc-700 dark:bg-zinc-800">
+        <div class="rounded-lg bg-zinc-100 p-3 dark:bg-white/5">
             <div class="flex items-center justify-between">
                 <flux:heading size="sm">Revenue, last 6 months</flux:heading>
                 <div class="flex items-center gap-3 text-[11px] text-zinc-500">
@@ -847,7 +847,7 @@ new #[Title('Sales')] class extends Component
         </div>
 
         <div class="grid gap-6">
-            <div class="rounded-lg border border-zinc-200 bg-white p-3 dark:border-zinc-700 dark:bg-zinc-800">
+            <div class="rounded-lg bg-zinc-100 p-3 dark:bg-white/5">
                 <flux:heading size="sm">Revenue by purpose</flux:heading>
                 <div class="mt-3 grid gap-2 text-sm">
                     @forelse ($this->purposeBreakdown as $label => $row)
@@ -862,7 +862,7 @@ new #[Title('Sales')] class extends Component
                 </div>
             </div>
 
-            <div class="rounded-lg border border-zinc-200 bg-white p-3 dark:border-zinc-700 dark:bg-zinc-800">
+            <div class="rounded-lg bg-zinc-100 p-3 dark:bg-white/5">
                 <flux:heading size="sm">Revenue by method</flux:heading>
                 <div class="mt-3 grid gap-2 text-sm">
                     @forelse ($this->methodBreakdown as $label => $row)
@@ -946,20 +946,20 @@ new #[Title('Sales')] class extends Component
                 <flux:input icon="magnifying-glass" type="search" placeholder="Search transactions..." wire:model.live.debounce.300ms="search" class="w-full sm:w-72" />
                 @if (count($this->selectedIds) > 0)
                     <span class="text-xs font-medium text-accent">{{ count($this->selectedIds) }} selected</span>
-                    <a href="{{ route('admin.sales.export') }}" class="inline-flex h-9 items-center gap-1.5 rounded-lg border border-zinc-200 px-3 text-sm font-medium text-zinc-700 transition hover:border-accent hover:text-accent dark:border-zinc-700 dark:text-zinc-200">
+                    <a href="{{ route('admin.sales.export') }}" class="inline-flex h-9 items-center gap-1.5 rounded-lg bg-zinc-100 px-3 text-sm font-medium text-zinc-700 transition hover:bg-zinc-200 dark:bg-white/10 dark:text-zinc-200 dark:hover:bg-white/15">
                         <flux:icon name="arrow-down-tray" variant="micro" />
                         CSV
                     </a>
-                    <button type="button" wire:click="exportSelectedPdf" class="inline-flex h-9 items-center gap-1.5 rounded-lg border border-zinc-200 px-3 text-sm font-medium text-zinc-700 transition hover:border-accent hover:text-accent dark:border-zinc-700 dark:text-zinc-200">
+                    <button type="button" wire:click="exportSelectedPdf" class="inline-flex h-9 items-center gap-1.5 rounded-lg bg-zinc-100 px-3 text-sm font-medium text-zinc-700 transition hover:bg-zinc-200 dark:bg-white/10 dark:text-zinc-200 dark:hover:bg-white/15">
                         <flux:icon name="document-arrow-down" variant="micro" />
                         PDF
                     </button>
-                    <button type="button" wire:click="exportSelectedExcel" class="inline-flex h-9 items-center gap-1.5 rounded-lg border border-zinc-200 px-3 text-sm font-medium text-zinc-700 transition hover:border-accent hover:text-accent dark:border-zinc-700 dark:text-zinc-200">
+                    <button type="button" wire:click="exportSelectedExcel" class="inline-flex h-9 items-center gap-1.5 rounded-lg bg-zinc-100 px-3 text-sm font-medium text-zinc-700 transition hover:bg-zinc-200 dark:bg-white/10 dark:text-zinc-200 dark:hover:bg-white/15">
                         <flux:icon name="table-cells" variant="micro" />
                         Excel
                     </button>
                 @else
-                    <a href="{{ route('admin.sales.export') }}" class="inline-flex h-9 items-center gap-1.5 rounded-lg border border-zinc-200 px-3 text-sm font-medium text-zinc-700 transition hover:border-accent hover:text-accent dark:border-zinc-700 dark:text-zinc-200" title="Export the full payment ledger as CSV">
+                    <a href="{{ route('admin.sales.export') }}" class="inline-flex h-9 items-center gap-1.5 rounded-lg bg-zinc-100 px-3 text-sm font-medium text-zinc-700 transition hover:bg-zinc-200 dark:bg-white/10 dark:text-zinc-200 dark:hover:bg-white/15" title="Export the full payment ledger as CSV">
                         <flux:icon name="arrow-down-tray" variant="micro" />
                         Export CSV
                     </a>

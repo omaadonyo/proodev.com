@@ -379,7 +379,7 @@ class extends Component {
                 Paste a repository, live demo or any project page. We'll extract the details, write the engineering story, and score it, all you have to do is review and publish.
             </flux:text>
 
-            <form wire:submit="begin" class="mt-5 rounded-xl border border-zinc-200 bg-white p-[calc(var(--spacing)*2)] dark:border-zinc-700 dark:bg-zinc-800">
+            <form wire:submit="begin" class="mt-5 rounded-xl bg-zinc-100 p-[calc(var(--spacing)*2)] dark:bg-white/5">
                 <div class="flex items-center gap-3">
                     <div class="flex size-9 shrink-0 items-center justify-center rounded-full bg-accent/10 text-accent">
                         <flux:icon name="magnifying-glass" variant="micro" />

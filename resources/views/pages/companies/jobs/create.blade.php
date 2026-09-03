@@ -155,7 +155,7 @@ new #[Title('Post a Job')] class extends Component
         </div>
 
         @if ($company->plan->isPaid())
-            <div class="rounded-xl border border-zinc-200 bg-white p-5 dark:border-zinc-800">
+            <div class="rounded-xl bg-zinc-100 p-5 dark:bg-white/5">
                 <div class="flex items-center justify-between gap-3">
                     <div>
                         <div class="text-sm font-semibold">Job post credits</div>
@@ -164,7 +164,7 @@ new #[Title('Post a Job')] class extends Component
                 </div>
             </div>
         @else
-            <div class="rounded-xl border border-zinc-200 bg-white p-5 dark:border-zinc-800">
+            <div class="rounded-xl bg-zinc-100 p-5 dark:bg-white/5">
                 <div class="flex flex-wrap items-center justify-between gap-3">
                     <div>
                         <div class="text-sm font-semibold">Job post credits</div>

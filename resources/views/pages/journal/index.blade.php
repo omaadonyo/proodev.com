@@ -48,7 +48,7 @@ new #[Title('Engineering Journal')] class extends Component
 
     <div class="grid gap-4 sm:grid-cols-2">
         @forelse ($this->entries as $entry)
-            <a href="{{ route('journal.show', $entry) }}" wire:navigate class="group rounded-xl border border-zinc-200 bg-white p-5 transition hover:border-accent dark:border-zinc-700 dark:bg-zinc-800">
+            <a href="{{ route('journal.show', $entry) }}" wire:navigate class="group rounded-xl bg-zinc-100 p-5 transition hover:border-accent dark:bg-white/5">
                 <div class="flex items-center justify-between gap-2">
                     <flux:badge :color="$entry->visibility->value === 'public' ? 'emerald' : ($entry->visibility->value === 'team' ? 'sky' : 'zinc')" size="sm">
                         {{ ucfirst($entry->visibility->value) }}

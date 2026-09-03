@@ -15,7 +15,7 @@
                 </a>
 
                 <div class="flex flex-col gap-6">
-                    <div class="rounded-xl border bg-white dark:bg-zinc-900/70 dark:border-white/10 text-stone-800 dark:text-zinc-100 shadow-xs backdrop-blur">
+                    <div class="rounded-xl dark:bg-white/5 text-stone-800 dark:text-zinc-100 shadow-xs backdrop-blur">
                         <div class="px-10 py-8">{{ $slot }}</div>
                     </div>
                 </div>

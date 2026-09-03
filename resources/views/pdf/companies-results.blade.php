@@ -14,12 +14,12 @@
     <table class="header"><tr>
         <td style="vertical-align: middle;">
             <img src="{{ public_path('images/logo-black-400.png') }}" alt="ProoDev" class="brand-logo" />
-            <div class="seller">proodev.com | ProoDev<br>Evidence-backed hiring — every candidate is analyzed work, not self-reported claims</div>
+            <div class="seller">proodev.com | ProoDev<br>Evidence-backed hiring every candidate is analyzed work, not self-reported claims</div>
         </td>
         <td style="vertical-align: middle; text-align: right;">
             <div class="doc-label">Evidence search results</div>
             <div class="doc-title">{{ $engineers->count() }} engineers</div>
-            <div class="doc-sub">Generated {{ now()->format('M j, Y g:i A') }} @if($isGuest) · Preview — register for unblurred export @endif</div>
+            <div class="doc-sub">Generated {{ now()->format('M j, Y g:i A') }} @if($isGuest) · Preview register for unblurred export @endif</div>
         </td>
     </tr></table>
 
@@ -31,12 +31,12 @@
             @if($filters['loc']) <span style="margin-right: 10px;">Location: "{{ $filters['loc'] }}"</span> @endif
             @if($filters['verified']) <span>Verified only</span> @endif
             @if($filters['online']) <span>Online now</span> @endif
-            @if(empty($filters['q']) && empty($filters['skills']) && empty($filters['loc']) && !$filters['verified'] && !$filters['online']) No filters — full network @endif
+            @if(empty($filters['q']) && empty($filters['skills']) && empty($filters['loc']) && !$filters['verified'] && !$filters['online']) No filters full network @endif
         </div>
     @endif
 
     <div style="margin: 10px 0; padding: 9px 12px; background: #f0fdf4; border: 1px solid #bbf7d0; border-radius: 8px; font-size: 10px; color: #166534;">
-        <strong>Verification as recruiter or company</strong> gives you access to over <strong>10k developers</strong> and the <strong>top 200 developers</strong> around the world — verified evidence, full contact details and unlimited exports.
+        <strong>Verification as recruiter or company</strong> gives you access to over <strong>Top 10k developers</strong> around the world and all recruitment tools.
     </div>
 
     <table class="items" style="font-size: 9px;">
@@ -56,9 +56,9 @@
                 <tr @class(['alt' => $loop->even]) @if($blur) class="blurred" @endif>
                     <td>{{ $idx + 1 }}</td>
                     <td>
-                        <div style="display: flex; align-items: center; gap: 6px; @if($blur) filter: blur(2.5px); @endif">
-                            <img src="{{ $eng['avatar'] }}" style="width: 22px; height: 22px; border-radius: 50%; object-fit: cover; border: 1px solid #e4e4e7; flex-shrink: 0;" />
-                            <div>
+                        <div style="display: flex; flex-direction:row; align-items: center; gap: 6px; @if($blur) filter: blur(2.5px); @endif">
+                            <img src="{{ $eng['avatar'] }}" style="width: 22px; float:left; height: 22px; border-radius: 50%; object-fit: cover; border: 1px solid #e4e4e7; flex-shrink: 0;" />
+                            <div style="padding-left:1rem;">
                                 <strong style="font-size: 9px;">{{ $eng['name'] }}</strong><br>
                                 <span style="font-size: 8px; color: #71717a;">{{ \Illuminate\Support\Str::limit($eng['headline'] ?? 'Proven engineer', 55) }}</span>
                             </div>
@@ -67,7 +67,7 @@
                     <td @if($blur) style="filter: blur(2.5px);" @endif>{{ $eng['location'] ?? '—' }}</td>
                     <td @if($blur) style="filter: blur(2.5px);" @endif>{{ implode(', ', array_slice($eng['skills'] ?? [], 0, 3)) ?: '—' }}</td>
                     <td style="text-align: center; font-size: 13px;">@if($eng['verified']) <span style="color: #059669;">✓</span> @else <span style="color: #dc2626;">✕</span> @endif</td>
-                    <td style="text-align: center; font-weight: 700;" @if($blur) class="blurred" @endif>{{ $eng['reputation'] ?? 0 }}</td>
+                    <td style="text-align: center; font-weight: 700;" @if($blur) class="blurred" @endif>{{ $eng['reputation'] ?? 0 }}%</td>
                 </tr>
             @empty
                 <tr><td colspan="6" style="text-align: center; padding: 20px; color: #71717a;">No engineers match your filters.</td></tr>

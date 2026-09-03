@@ -142,7 +142,7 @@ new #[Title('Subscription')] class extends Component
         </div>
 
         @if (! $this->company)
-            <div class="rounded-xl border border-zinc-200 bg-white p-8 text-center dark:border-zinc-700 dark:bg-zinc-800">
+            <div class="rounded-xl bg-zinc-100 p-8 text-center dark:bg-white/5">
                 <flux:heading size="sm">No company yet</flux:heading>
                 <p class="mt-2 text-sm text-zinc-500">Create a company profile first to unlock recruiting plans and verification.</p>
                 <flux:button class="mt-4" variant="primary" :href="route('companies.create')">Create your company</flux:button>
@@ -197,7 +197,7 @@ new #[Title('Subscription')] class extends Component
                 <flux:text>Recruiters and companies share one feature set.</flux:text>
 
                 <div class="mt-5 grid gap-4 md:grid-cols-2">
-                    <div class="rounded-lg border border-zinc-200 p-5 dark:border-zinc-700">
+                    <div class="rounded-lg bg-zinc-100 p-5 dark:bg-white/5">
                         <div class="flex items-center justify-between">
                             <span class="font-semibold">Recruiter</span>
                             <flux:badge size="sm" inset="top bottom" color="zinc">Standard</flux:badge>
@@ -214,7 +214,7 @@ new #[Title('Subscription')] class extends Component
                         </flux:button>
                     </div>
 
-                    <div class="rounded-lg border border-zinc-200 p-5 dark:border-zinc-700">
+                    <div class="rounded-lg bg-zinc-100 p-5 dark:bg-white/5">
                         <div class="flex items-center justify-between">
                             <span class="font-semibold">Recruiter Intelligence Suite</span>
                             <flux:badge size="sm" variant="success" inset="top bottom">Most powerful</flux:badge>
@@ -233,7 +233,7 @@ new #[Title('Subscription')] class extends Component
                 </div>
             </div>
 
-            <div class="rounded-lg border border-zinc-200 p-5 dark:border-zinc-700">
+            <div class="rounded-lg bg-zinc-100 p-5 dark:bg-white/5">
                 <div class="flex flex-wrap items-center justify-between gap-3">
                     <div>
                         <div class="font-semibold">Company verification</div>
@@ -259,7 +259,7 @@ new #[Title('Subscription')] class extends Component
                     </div>
                     <div class="mt-3 grid gap-2">
                         @foreach ($this->invoices as $payment)
-                            <div class="flex flex-wrap items-center gap-3 rounded-lg border border-zinc-200 px-4 py-3 text-sm dark:border-zinc-700">
+                            <div class="flex flex-wrap items-center gap-3 rounded-lg bg-zinc-100 px-4 py-3 text-sm dark:bg-white/5">
                                 <div class="min-w-0 flex-1">
                                     <div class="flex flex-wrap items-center gap-2 font-medium text-zinc-900 dark:text-white">
                                         {{ $payment->invoiceNumber() }}

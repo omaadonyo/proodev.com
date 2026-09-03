@@ -59,21 +59,21 @@ new #[Title('Recruiter Intelligence Hub')] class extends Component {
     </div>
 
     <div class="grid gap-4 sm:grid-cols-3">
-        <div class="rounded-xl border border-zinc-200 bg-white p-5 dark:border-zinc-700 dark:bg-zinc-800">
+        <div class="rounded-xl bg-zinc-100 p-5 dark:bg-white/5">
             <div class="flex items-center gap-2 text-sm font-medium text-zinc-500">
                 <flux:icon name="users" variant="micro" />
                 Public engineers
             </div>
             <div class="mt-2 text-3xl font-bold">{{ number_format($this->marketPulse['total']) }}</div>
         </div>
-        <div class="rounded-xl border border-zinc-200 bg-white p-5 dark:border-zinc-700 dark:bg-zinc-800">
+        <div class="rounded-xl bg-zinc-100 p-5 dark:bg-white/5">
             <div class="flex items-center gap-2 text-sm font-medium text-zinc-500">
                 <flux:icon name="document-text" variant="micro" />
                 With analyzed evidence
             </div>
             <div class="mt-2 text-3xl font-bold">{{ number_format($this->marketPulse['with_evidence']) }}</div>
         </div>
-        <div class="rounded-xl border border-zinc-200 bg-white p-5 dark:border-zinc-700 dark:bg-zinc-800">
+        <div class="rounded-xl bg-zinc-100 p-5 dark:bg-white/5">
             <div class="flex items-center gap-2 text-sm font-medium text-zinc-500">
                 <flux:icon name="check-badge" variant="micro" />
                 Verified engineers
@@ -83,7 +83,7 @@ new #[Title('Recruiter Intelligence Hub')] class extends Component {
     </div>
 
     <div class="grid gap-6 lg:grid-cols-2">
-        <div class="rounded-xl border border-zinc-200 bg-white p-5 dark:border-zinc-700 dark:bg-zinc-800">
+        <div class="rounded-xl bg-zinc-100 p-5 dark:bg-white/5">
             <flux:heading size="sm">Top candidates by Engineering Magnitude</flux:heading>
             <flux:text class="mt-1 text-sm">Every point is tied to analyzed evidence.</flux:text>
 
@@ -108,7 +108,7 @@ new #[Title('Recruiter Intelligence Hub')] class extends Component {
         </div>
 
         <div class="grid gap-6">
-            <div class="rounded-xl border border-zinc-200 bg-white p-5 dark:border-zinc-700 dark:bg-zinc-800">
+            <div class="rounded-xl bg-zinc-100 p-5 dark:bg-white/5">
                 <flux:heading size="sm">Your pipeline</flux:heading>
                 <div class="mt-3 grid gap-2">
                     <div class="flex items-center justify-between text-sm">
@@ -130,7 +130,7 @@ new #[Title('Recruiter Intelligence Hub')] class extends Component {
                 </div>
             </div>
 
-            <div class="rounded-xl border border-zinc-200 bg-white p-5 dark:border-zinc-700 dark:bg-zinc-800">
+            <div class="rounded-xl bg-zinc-100 p-5 dark:bg-white/5">
                 <div class="flex items-center justify-between">
                     <flux:heading size="sm">Talent pools</flux:heading>
                     <flux:button size="xs" :href="route('recruiter.workspace')" wire:navigate>Manage</flux:button>

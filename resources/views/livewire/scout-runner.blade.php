@@ -1,6 +1,6 @@
 <div class="w-full">
     @if ($phase === 'input')
-        <form wire:submit="begin" class="rounded-xl border border-zinc-200 bg-white p-[calc(var(--spacing)*2)] dark:border-zinc-700 dark:bg-zinc-800">
+        <form wire:submit="begin" class="rounded-xl bg-zinc-100 p-[calc(var(--spacing)*2)] dark:bg-white/5">
             <div class="flex items-center gap-3">
                 <div class="flex size-9 shrink-0 items-center justify-center rounded-full bg-accent/10 text-accent">
                     <flux:icon name="magnifying-glass" variant="micro" />
@@ -120,7 +120,7 @@
             </div>
 
             {{-- Live passport build --}}
-            <div class="flex h-full max-h-[560px] flex-col overflow-hidden rounded-xl border border-zinc-200 bg-white shadow-lg dark:border-white/10 dark:bg-zinc-950/80">
+            <div class="flex h-full max-h-[560px] flex-col overflow-hidden rounded-xl bg-zinc-100 shadow-lg dark:bg-white/5">
                 <div class="flex shrink-0 items-center justify-between border-b border-zinc-200 px-3 py-2 dark:border-white/10">
                     <span class="inline-flex items-center gap-1.5 text-xs font-semibold text-zinc-700 dark:text-zinc-300">
                         <flux:icon name="check-badge" variant="micro" class="text-emerald-500" />
@@ -170,7 +170,7 @@
                     </div>
 
                     {{-- Level --}}
-                    <div class="rounded-lg border border-zinc-100 p-2.5 dark:border-white/10">
+                    <div class="rounded-lg bg-zinc-100 p-2.5 dark:bg-white/5">
                         <div class="flex items-center justify-between text-xs">
                             <span class="font-semibold text-zinc-700 dark:text-zinc-200">{{ $this->levelSnapshot['title'] }}</span>
                             <span class="tabular-nums text-zinc-500">Lv {{ $this->levelSnapshot['current'] }} · {{ number_format($this->xp) }} XP</span>
@@ -237,7 +237,7 @@
             </div>
         </div>
     @elseif ($phase === 'done')
-        <div class="overflow-hidden rounded-xl border border-zinc-200 bg-white dark:border-zinc-700 dark:bg-zinc-800">
+        <div class="overflow-hidden rounded-xl bg-zinc-100 dark:bg-white/5">
             <div class="flex items-center justify-between border-b border-zinc-200 px-4 py-3 dark:border-white/10">
                 <span class="inline-flex items-center gap-1.5 text-xs font-semibold text-emerald-600 dark:text-emerald-400">
                     <flux:icon name="check" variant="micro" />

@@ -1,6 +1,6 @@
 <div wire:key="workspace-switcher">
     <flux:dropdown position="bottom" align="start">
-        <button type="button" class="group flex {{ $compact ? 'w-auto rounded-md border border-zinc-200 bg-white px-2 py-1 shadow-sm dark:border-zinc-700 dark:bg-zinc-800' : 'w-full' }} items-center gap-2 rounded-lg px-2 py-1.5 text-left text-sm text-zinc-600 transition hover:bg-zinc-100 hover:text-zinc-900 dark:text-zinc-300 dark:hover:bg-zinc-800 dark:hover:text-white">
+        <button type="button" class="group flex {{ $compact ? 'w-auto rounded-md bg-zinc-100 px-2 py-1 shadow-sm dark:bg-white/5' : 'w-full' }} items-center gap-2 rounded-lg px-2 py-1.5 text-left text-sm text-zinc-600 transition hover:bg-zinc-100 hover:text-zinc-900 dark:text-zinc-300 dark:hover:bg-zinc-800 dark:hover:text-white">
             <flux:icon name="building-office" variant="mini" class="size-4 shrink-0 text-zinc-400" />
             <span class="min-w-0 flex-1 truncate font-medium">{{ $this->currentWorkspace?->name ?? 'Personal' }}</span>
             <flux:icon name="chevron-down" variant="micro" class="shrink-0 text-zinc-400" />

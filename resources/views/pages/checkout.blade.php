@@ -210,7 +210,7 @@ new #[Title('Checkout')] class extends Component
             </div>
 
             @if ($this->instructions && $this->payment->payment_method?->isManual())
-                <div class="mt-6 rounded-lg border border-zinc-200 bg-zinc-50 p-4 dark:border-zinc-700 dark:bg-zinc-900/50">
+                <div class="mt-6 rounded-lg bg-zinc-100 p-4 dark:bg-white/5">
                     <div class="flex flex-wrap items-center justify-between gap-2">
                         <div class="font-semibold">{{ $this->payment->payment_method->label() }} instructions</div>
                         @if ($this->payment->payment_method === \App\Enums\PaymentMethod::WorldRemit)

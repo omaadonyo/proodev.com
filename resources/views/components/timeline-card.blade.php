@@ -37,7 +37,7 @@
 @if ($dense)
     <div
         @click="$flux.modal('open-{{ $event->id }}').show()"
-        class="group flex cursor-pointer items-center gap-3 rounded-lg border border-zinc-200 bg-white px-3 py-1.5 transition hover:bg-zinc-50 dark:border-zinc-700 dark:bg-zinc-800 dark:hover:bg-zinc-700/40"
+        class="group flex cursor-pointer items-center gap-3 rounded-lg bg-zinc-100 px-3 py-1.5 transition hover:bg-zinc-200 dark:bg-white/5 dark:hover:bg-white/10"
     >
         <a href="{{ route('devid', $event->user->handle()) }}" wire:navigate @click.stop class="relative shrink-0">
             <flux:avatar :src="$event->user->avatarUrl()" :alt="$event->user->name" size="sm" class="rounded-lg transition group-hover:opacity-75" />
@@ -71,7 +71,7 @@
 @elseif ($compact)
     <div
         @click="$flux.modal('open-{{ $event->id }}').show()"
-        class="group flex h-full cursor-pointer flex-col rounded-xl border border-zinc-200 bg-white p-4 transition hover:bg-zinc-50 dark:border-zinc-700 dark:bg-zinc-800 dark:hover:bg-zinc-800/60"
+        class="group flex h-full cursor-pointer flex-col rounded-xl bg-zinc-100 p-4 transition hover:bg-zinc-200 dark:bg-white/5 dark:hover:bg-white/10"
     >
         <div class="flex items-start gap-3">
             <a href="{{ route('devid', $event->user->handle()) }}" wire:navigate @click.stop class="relative shrink-0">
@@ -119,7 +119,7 @@
         @endif
 
         @if ($targetUrl && (($event->data['title'] ?? null) || ($event->data['tagline'] ?? null)))
-            <div class="mt-3 rounded-xl border border-zinc-100 bg-zinc-50 px-3 py-2 dark:border-zinc-700/60 dark:bg-zinc-900/60">
+            <div class="mt-3 rounded-xl bg-zinc-100 px-3 py-2 dark:bg-white/5">
                 @if (($event->data['title'] ?? null))
                     <div class="truncate text-sm font-medium text-zinc-900 dark:text-zinc-100">{{ $event->data['title'] }}</div>
                 @endif
@@ -144,7 +144,7 @@
 @else
     <div
         @click="$flux.modal('open-{{ $event->id }}').show()"
-        class="group cursor-pointer rounded-xl border border-zinc-200 bg-white p-[calc(var(--spacing)*1)] transition hover:bg-zinc-50 dark:border-zinc-700 dark:bg-zinc-800 dark:hover:bg-zinc-800/60"
+        class="group cursor-pointer rounded-xl bg-zinc-100 p-[calc(var(--spacing)*1)] transition hover:bg-zinc-200 dark:bg-white/5 dark:hover:bg-white/10"
     >
     <div class="flex items-start gap-3">
         <a href="{{ route('devid', $event->user->handle()) }}" wire:navigate @click.stop class="relative shrink-0">
@@ -225,7 +225,7 @@
         <div class="mt-3 grid gap-3">
             <div class="min-w-0 pl-[3.75rem]">
                 @if (($event->data['title'] ?? null))
-                    <div class="mt-2.5 rounded-xl border border-zinc-100 bg-zinc-50 px-3 py-2 dark:border-zinc-700/60 dark:bg-zinc-900/60">
+                    <div class="mt-2.5 rounded-xl bg-zinc-100 px-3 py-2 dark:bg-white/5">
                         <div class="truncate text-sm font-medium text-zinc-900 dark:text-zinc-100">{{ $event->data['title'] }}</div>
                         @if (($event->data['tagline'] ?? null))
                             <div class="mt-0.5 truncate text-xs text-zinc-500 dark:text-zinc-400">{{ \App\Support\Markdown::plain($event->data['tagline']) }}</div>

@@ -177,7 +177,7 @@ new #[Title('Jobs')] class extends Component
             @endif
         </div>
 
-        <div class="overflow-hidden rounded-xl border border-zinc-200 bg-white dark:border-zinc-700 dark:bg-zinc-800">
+        <div class="overflow-hidden rounded-xl bg-zinc-100 dark:bg-white/5">
             @forelse ($this->results as $row)
                 @php($job = $row['job'])
                 @php($match = $row['match'])

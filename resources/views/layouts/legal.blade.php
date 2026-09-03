@@ -58,6 +58,9 @@
         </main>
 
         <footer class="border-t border-zinc-200 dark:border-white/5">
+            <div class="mx-auto max-w-3xl px-4 py-6 text-center sm:px-6">
+                <a href="mailto:info@proodev.com" class="text-sm text-zinc-500 transition hover:text-zinc-900 dark:hover:text-white">For inquiries: info@proodev.com</a>
+            </div>
             <div class="mx-auto flex max-w-3xl flex-col items-center justify-between gap-4 px-4 py-8 sm:flex-row sm:px-6">
                 <p class="text-sm text-zinc-500">(c) {{ date('Y') }} {{ config('app.name', 'ProoDev') }}. Proof over claims.</p>
                 <div class="flex items-center gap-4 text-sm text-zinc-500">

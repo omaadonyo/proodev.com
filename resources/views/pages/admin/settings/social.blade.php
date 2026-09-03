@@ -121,7 +121,7 @@ new #[Title('Social Links')] class extends Component
     </form>
 
     @if (collect([$x, $bsky, $youtube, $tiktok, $pinkary, $github, $linkedin, $discord])->filter()->isNotEmpty())
-        <div class="mt-8 rounded-xl border border-zinc-200 bg-white p-4 dark:border-zinc-700 dark:bg-zinc-800">
+        <div class="mt-8 rounded-xl bg-zinc-100 p-4 dark:bg-white/5">
             <div class="text-xs font-semibold uppercase tracking-widest text-zinc-500">Preview</div>
             <div class="mt-3 flex items-center gap-2">
                 @foreach (collect([['url' => $x, 'label' => 'X'], ['url' => $bsky, 'label' => 'Bsky'], ['url' => $youtube, 'label' => 'YouTube'], ['url' => $tiktok, 'label' => 'TikTok'], ['url' => $pinkary, 'label' => 'Pinkary'], ['url' => $github, 'label' => 'GitHub'], ['url' => $linkedin, 'label' => 'LinkedIn'], ['url' => $discord, 'label' => 'Discord']])->filter(fn ($i) => filled($i['url'])) as $item)

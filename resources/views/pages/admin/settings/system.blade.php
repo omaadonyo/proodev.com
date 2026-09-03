@@ -55,22 +55,22 @@ new #[Title('System Reset')] class extends Component
 <x-pages::admin.settings.layout :heading="__('System reset')" :subheading="__('Wipe demo data and trim the user base back to a clean, presentable state.')">
     <div class="grid gap-6">
         <div class="grid grid-cols-2 gap-4 lg:grid-cols-4">
-        <div class="rounded-lg border border-zinc-200 bg-white p-3 dark:border-zinc-700 dark:bg-zinc-800">
+        <div class="rounded-lg bg-zinc-100 p-3 dark:bg-white/5">
             <div class="text-xs text-zinc-500">Users</div>
             <div class="text-2xl font-bold">{{ number_format($this->counts['users']) }}</div>
             <div class="mt-1 text-xs text-zinc-400">{{ number_format($this->counts['users_removed']) }} will be removed</div>
         </div>
-        <div class="rounded-lg border border-zinc-200 bg-white p-3 dark:border-zinc-700 dark:bg-zinc-800">
+        <div class="rounded-lg bg-zinc-100 p-3 dark:bg-white/5">
             <div class="text-xs text-zinc-500">Developers</div>
             <div class="text-2xl font-bold">{{ number_format($this->counts['developers']) }}</div>
             <div class="mt-1 text-xs text-zinc-400">{{ number_format($this->counts['developers_with_photo']) }} with photo</div>
         </div>
-        <div class="rounded-lg border border-zinc-200 bg-white p-3 dark:border-zinc-700 dark:bg-zinc-800">
+        <div class="rounded-lg bg-zinc-100 p-3 dark:bg-white/5">
             <div class="text-xs text-zinc-500">Companies</div>
             <div class="text-2xl font-bold">{{ number_format($this->counts['companies']) }}</div>
             <div class="mt-1 text-xs text-zinc-400">{{ number_format($this->counts['jobs']) }} open roles</div>
         </div>
-        <div class="rounded-lg border border-zinc-200 bg-white p-3 dark:border-zinc-700 dark:bg-zinc-800">
+        <div class="rounded-lg bg-zinc-100 p-3 dark:bg-white/5">
             <div class="text-xs text-zinc-500">Transactions</div>
             <div class="text-2xl font-bold">{{ number_format($this->counts['payments'] + $this->counts['credit_transactions']) }}</div>
             <div class="mt-1 text-xs text-zinc-400">{{ number_format($this->counts['credit_transactions']) }} credit transactions</div>
@@ -78,19 +78,19 @@ new #[Title('System Reset')] class extends Component
     </div>
 
     <div class="grid grid-cols-2 gap-4 lg:grid-cols-4">
-        <div class="rounded-lg border border-zinc-200 bg-white p-3 dark:border-zinc-700 dark:bg-zinc-800">
+        <div class="rounded-lg bg-zinc-100 p-3 dark:bg-white/5">
             <div class="text-xs text-zinc-500">Evidence</div>
             <div class="text-2xl font-bold">{{ number_format($this->counts['evidence']) }}</div>
         </div>
-        <div class="rounded-lg border border-zinc-200 bg-white p-3 dark:border-zinc-700 dark:bg-zinc-800">
+        <div class="rounded-lg bg-zinc-100 p-3 dark:bg-white/5">
             <div class="text-xs text-zinc-500">Projects</div>
             <div class="text-2xl font-bold">{{ number_format($this->counts['projects']) }}</div>
         </div>
-        <div class="rounded-lg border border-zinc-200 bg-white p-3 dark:border-zinc-700 dark:bg-zinc-800">
+        <div class="rounded-lg bg-zinc-100 p-3 dark:bg-white/5">
             <div class="text-xs text-zinc-500">Vouches</div>
             <div class="text-2xl font-bold">{{ number_format($this->counts['vouches']) }}</div>
         </div>
-        <div class="rounded-lg border border-zinc-200 bg-white p-3 dark:border-zinc-700 dark:bg-zinc-800">
+        <div class="rounded-lg bg-zinc-100 p-3 dark:bg-white/5">
             <div class="text-xs text-zinc-500">Chats</div>
             <div class="text-2xl font-bold">{{ number_format($this->counts['chats']) }}</div>
             <div class="mt-1 text-xs text-zinc-400">{{ number_format($this->counts['messages']) }} messages</div>

@@ -269,7 +269,7 @@ new #[Title('Interview Builder')] class extends Component
         <flux:text>Evidence-grounded interview questions. Pick from your saved candidates or search the network, mark them as compared, and save the approved ones back to your pools.</flux:text>
     </div>
 
-    <div class="rounded-xl border border-zinc-200 bg-white p-5 dark:border-zinc-700 dark:bg-zinc-800">
+    <div class="rounded-xl bg-zinc-100 p-5 dark:bg-white/5">
         <flux:heading size="sm">Candidate</flux:heading>
 
         @if ($this->candidate)
@@ -341,7 +341,7 @@ new #[Title('Interview Builder')] class extends Component
                     <div class="mt-2 grid grid-cols-3 gap-3 sm:grid-cols-4 lg:grid-cols-6">
                         @foreach ($group['members'] as $member)
                             <button type="button" wire:click="selectCandidate({{ $member->candidate->id }})"
-                                class="group flex flex-col items-center gap-1.5 rounded-xl border border-zinc-100 p-3 text-center transition hover:border-accent hover:bg-zinc-50 dark:border-zinc-700 dark:hover:bg-zinc-900">
+                                class="group flex flex-col items-center gap-1.5 rounded-xl bg-zinc-100 p-3 text-center transition hover:bg-zinc-200 dark:bg-white/5 dark:hover:bg-white/10">
                                 <span class="relative">
                                     <flux:avatar :src="$member->candidate->avatarUrl()" :alt="$member->candidate->name" circle class="size-14 group-hover:ring-2 group-hover:ring-accent" />
                                     <span @class([
@@ -369,7 +369,7 @@ new #[Title('Interview Builder')] class extends Component
                 @if ($this->searchResults->isNotEmpty())
                     <div class="mt-2 grid gap-2">
                         @foreach ($this->searchResults as $user)
-                            <button type="button" wire:click="selectCandidate({{ $user->id }})" class="flex items-center gap-3 rounded-lg border border-zinc-100 p-3 text-left transition hover:border-accent dark:border-zinc-700">
+                            <button type="button" wire:click="selectCandidate({{ $user->id }})" class="flex items-center gap-3 rounded-lg bg-zinc-100 p-3 text-left transition hover:bg-zinc-200 dark:bg-white/5 dark:hover:bg-white/10">
                                 <flux:avatar :src="$user->avatarUrl()" :alt="$user->name" circle class="size-8" />
                                 <div class="min-w-0 flex-1">
                                     <div class="flex items-center gap-1.5">
@@ -398,7 +398,7 @@ new #[Title('Interview Builder')] class extends Component
         </div>
     </div>
 
-    <div class="rounded-xl border border-zinc-200 bg-white p-5 dark:border-zinc-700 dark:bg-zinc-800">
+    <div class="rounded-xl bg-zinc-100 p-5 dark:bg-white/5">
         <div class="flex flex-wrap items-center justify-between gap-3">
             <div>
                 <flux:heading size="sm">Weekly calendar</flux:heading>
@@ -485,7 +485,7 @@ new #[Title('Interview Builder')] class extends Component
     </div>
 
     @if ($this->guide)
-        <div class="rounded-xl border border-zinc-200 bg-white p-5 dark:border-zinc-700 dark:bg-zinc-800">
+        <div class="rounded-xl bg-zinc-100 p-5 dark:bg-white/5">
             <div class="flex flex-wrap items-center justify-between gap-3">
                 <flux:heading size="sm">Interview guide for {{ $this->guide['candidate']['name'] }}</flux:heading>
                 @if ($this->guide['role'])
@@ -497,7 +497,7 @@ new #[Title('Interview Builder')] class extends Component
                 <flux:heading size="sm" class="mt-5">Behavioural</flux:heading>
                 <div class="mt-2 grid gap-2">
                     @foreach ($this->guide['sections']['behavioural'] as $question)
-                        <div class="rounded-lg border border-zinc-100 p-3 dark:border-zinc-700">
+                        <div class="rounded-lg bg-zinc-100 p-3 dark:bg-white/5">
                             <div class="text-xs uppercase tracking-wide text-zinc-400">{{ $question['category'] }}</div>
                             <p class="mt-1 text-sm">{{ $question['question'] }}</p>
                         </div>
@@ -508,7 +508,7 @@ new #[Title('Interview Builder')] class extends Component
             <flux:heading size="sm" class="mt-5">Technical (evidence-grounded)</flux:heading>
             <div class="mt-2 grid gap-2">
                 @foreach ($this->guide['sections']['technical'] as $question)
-                    <div class="rounded-lg border border-zinc-100 p-3 dark:border-zinc-700">
+                    <div class="rounded-lg bg-zinc-100 p-3 dark:bg-white/5">
                         <div class="text-xs uppercase tracking-wide text-zinc-400">{{ $question['category'] }}</div>
                         <p class="mt-1 text-sm">{{ $question['question'] }}</p>
                     </div>
@@ -518,7 +518,7 @@ new #[Title('Interview Builder')] class extends Component
             <flux:heading size="sm" class="mt-5">Probing & verification</flux:heading>
             <div class="mt-2 grid gap-2">
                 @foreach ($this->guide['sections']['probing'] as $question)
-                    <div class="rounded-lg border border-zinc-100 p-3 dark:border-zinc-700">
+                    <div class="rounded-lg bg-zinc-100 p-3 dark:bg-white/5">
                         <div class="text-xs uppercase tracking-wide text-zinc-400">{{ $question['category'] }}</div>
                         <p class="mt-1 text-sm">{{ $question['question'] }}</p>
                     </div>
@@ -529,7 +529,7 @@ new #[Title('Interview Builder')] class extends Component
         </div>
     @endif
 
-    <div class="rounded-xl border border-zinc-200 bg-white p-5 dark:border-zinc-700 dark:bg-zinc-800">
+    <div class="rounded-xl bg-zinc-100 p-5 dark:bg-white/5">
         <div class="flex flex-wrap items-center justify-between gap-3">
             <flux:heading size="sm">Upcoming interviews</flux:heading>
             @if ($this->upcomingInterviews->isNotEmpty())
@@ -538,7 +538,7 @@ new #[Title('Interview Builder')] class extends Component
         </div>
         <div class="mt-3 grid gap-2">
             @forelse ($this->upcomingInterviews as $interview)
-                <div class="flex flex-wrap items-center gap-3 rounded-lg border border-zinc-100 p-3 dark:border-zinc-700">
+                <div class="flex flex-wrap items-center gap-3 rounded-lg bg-zinc-100 p-3 dark:bg-white/5">
                     <flux:avatar :src="$interview->candidate->avatarUrl()" :alt="$interview->candidate->name" circle class="size-8" />
                     <div class="min-w-0 flex-1">
                         <div class="flex items-center gap-1.5">

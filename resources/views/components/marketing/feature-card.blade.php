@@ -1,6 +1,6 @@
 @props(['title', 'icon' => null, 'emoji' => null])
 
-<div class="group relative rounded-lg border border-zinc-200 bg-white p-5 transition duration-300 hover:-translate-y-1 hover:border-[#3750eb]/50 hover:shadow-xl hover:shadow-[#3750eb]/10 dark:border-white/10 dark:bg-zinc-950/60 dark:hover:border-[#3750eb]/30 dark:hover:bg-white/[0.04]">
+<div class="group relative rounded-lg bg-zinc-100 p-5 transition duration-300 hover:-translate-y-1 hover:border-[#3750eb]/50 hover:shadow-xl hover:shadow-[#3750eb]/10 dark:bg-white/5 dark:hover:border-[#3750eb]/30 dark:hover:bg-white/[0.04]">
     @if ($emoji)
         <span class="inline-flex size-10 items-center justify-center rounded-lg bg-[#3750eb]/10 text-xl" aria-hidden="true">{{ $emoji }}</span>
     @elseif ($icon)

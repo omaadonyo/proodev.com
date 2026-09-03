@@ -31,6 +31,8 @@ class extends Component
 
     public string $website = '';
 
+    public array $githubRepos = [''];
+
     public string $description = '';
 
     public string $title = '';
@@ -60,6 +62,7 @@ class extends Component
         $this->location = $company->location ?? '';
         $this->size = $company->size ?? '';
         $this->website = $company->website ?? '';
+        $this->githubRepos = $company->github_repos ?: [''];
         $this->description = $company->description ?? '';
     }
 
@@ -100,14 +103,23 @@ class extends Component
             'location' => ['nullable', 'string', 'max:120'],
             'size' => ['nullable', 'string', 'max:40'],
             'website' => ['nullable', 'url', 'max:255'],
+            'githubRepos' => ['nullable', 'array'],
+            'githubRepos.*' => ['nullable', 'url', 'max:255'],
             'description' => ['nullable', 'string', 'max:2000'],
         ]);
+
+        $cleanRepos = collect($validated['githubRepos'] ?? [])
+            ->map(fn ($url) => trim($url))
+            ->filter()
+            ->values()
+            ->all();
 
         $this->company->update([
             'industry' => $validated['industry'] ?: null,
             'location' => $validated['location'] ?: null,
             'size' => $validated['size'] ?: null,
             'website' => $validated['website'] ?: null,
+            'github_repos' => $cleanRepos ?: null,
             'description' => $validated['description'] ?: null,
         ]);
 
@@ -161,6 +173,21 @@ class extends Component
         $this->phase = 'details';
     }
 
+    public function addGithubRepo(): void
+    {
+        $this->githubRepos[] = '';
+    }
+
+    public function removeGithubRepo(int $index): void
+    {
+        unset($this->githubRepos[$index]);
+        $this->githubRepos = array_values($this->githubRepos);
+
+        if (empty($this->githubRepos)) {
+            $this->githubRepos = [''];
+        }
+    }
+
     public function skipJob(): void
     {
         $this->redirectRoute('companies.manage', $this->company, navigate: true);
@@ -190,12 +217,12 @@ class extends Component
 
         @if ($phase === 'details')
             <form wire:submit="saveDetails" class="grid gap-5">
-                <div class="flex flex-wrap items-center gap-5 rounded-xl border border-zinc-200 p-5 dark:border-white/10">
+                <div class="flex flex-wrap items-center gap-5 rounded-xl bg-zinc-100 p-5 dark:bg-white/5">
                     <div class="relative shrink-0">
                         @if ($logo)
-                            <img src="{{ $logo->temporaryUrl() }}" alt="Logo preview" class="size-16 rounded-xl border border-zinc-200 object-cover dark:border-white/10" />
+                            <img src="{{ $logo->temporaryUrl() }}" alt="Logo preview" class="size-16 rounded-xl object-cover" />
                         @elseif ($company->logoUrl())
-                            <img src="{{ $company->logoUrl() }}" alt="{{ $company->name }} logo" class="size-16 rounded-xl border border-zinc-200 object-cover dark:border-white/10" />
+                            <img src="{{ $company->logoUrl() }}" alt="{{ $company->name }} logo" class="size-16 rounded-xl object-cover" />
                         @else
                             <div class="flex size-16 items-center justify-center rounded-xl bg-accent/10 text-lg font-bold text-accent">
                                 {{ \Illuminate\Support\Str::initials($company->name, true) }}
@@ -253,6 +280,29 @@ class extends Component
                         <flux:error name="website" />
                     </flux:field>
                 </div>
+
+                <flux:field>
+                    <flux:label>GitHub Repositories</flux:label>
+                    <flux:text class="mb-2">Add links to your public GitHub repositories (e.g. https://github.com/org/repo).</flux:text>
+                    <div class="grid gap-2">
+                        @foreach ($githubRepos as $index => $repo)
+                            <div class="flex items-center gap-2">
+                                <flux:input wire:model="githubRepos.{{ $index }}" type="url" placeholder="https://github.com/your-org/your-repo" class="flex-1" />
+                                @if (count($githubRepos) > 1)
+                                    <button type="button" wire:click="removeGithubRepo({{ $index }})" class="shrink-0 rounded-lg p-1.5 text-zinc-400 transition hover:bg-zinc-100 hover:text-zinc-600 dark:hover:bg-zinc-800 dark:hover:text-zinc-300">
+                                        <flux:icon name="x-mark" variant="micro" />
+                                    </button>
+                                @endif
+                            </div>
+                        @endforeach
+                    </div>
+                    <button type="button" wire:click="addGithubRepo" class="mt-2 inline-flex items-center gap-1 text-xs font-medium text-accent hover:underline">
+                        <flux:icon name="plus" variant="micro" />
+                        Add another repo
+                    </button>
+                    <flux:error name="githubRepos" />
+                    <flux:error name="githubRepos.*" />
+                </flux:field>
 
                 <flux:field>
                     <flux:label>About the company</flux:label>

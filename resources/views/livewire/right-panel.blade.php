@@ -89,7 +89,7 @@
             </div>
         </flux:modal>
 
-        <div class="min-w-0 overflow-hidden rounded-xl border border-zinc-200 bg-white dark:border-zinc-700 dark:bg-zinc-800">
+        <div class="min-w-0 overflow-hidden rounded-xl bg-zinc-100 dark:bg-white/5">
             <div class="flex items-center justify-between gap-2 border-b border-zinc-100 px-3 py-2 dark:border-zinc-700">
                 <flux:heading size="sm">Advertisement</flux:heading>
                 <flux:icon name="megaphone" variant="mini" class="size-4 text-amber-500" />
@@ -100,7 +100,7 @@
                         href="{{ $ad->target_url ?: '#' }}"
                         target="_blank"
                         rel="noopener noreferrer sponsored"
-                        class="group block overflow-hidden rounded-lg border border-zinc-200 transition hover:border-accent/40 dark:border-zinc-700"
+                        class="group block overflow-hidden rounded-lg bg-zinc-100 transition hover:border-accent/40 dark:bg-white/5"
                     >
                         @if ($ad->image_url)
                             <img src="{{ $ad->image_url }}" alt="{{ $ad->title }}" class="w-full object-contain" style="max-height:140px" loading="lazy" />
@@ -135,7 +135,7 @@
             </div>
         </div>
 
-        <div class="min-w-0 overflow-hidden rounded-xl border border-zinc-200 bg-white dark:border-zinc-700 dark:bg-zinc-800">
+        <div class="min-w-0 overflow-hidden rounded-xl bg-zinc-100 dark:bg-white/5">
             <div class="flex items-center justify-between gap-2 border-b border-zinc-100 px-3 py-2 dark:border-zinc-700">
                 <flux:heading size="sm">Our Sponsors</flux:heading>
                 <flux:icon name="hand-raised" variant="mini" class="size-4 text-amber-500" />
@@ -172,7 +172,7 @@
             </button>
         </div>
 
-        <div class="rounded-xl border border-zinc-200 bg-white p-4 text-center dark:border-zinc-700 dark:bg-zinc-800">
+        <div class="rounded-xl bg-zinc-100 p-4 text-center dark:bg-white/5">
             <div class="text-xs font-medium text-zinc-600 dark:text-zinc-300">© {{ date('Y') }} ProoDev. All rights reserved.</div>
             @php
                 $socialLinks = collect([
@@ -211,7 +211,7 @@
                     @endforeach
                 </div>
             @endif
-            <div class="mt-2 text-[11px] text-zinc-400">Proof over claims. Every engineer backed by evidence.</div>
+            <div class="mt-2 text-[11px] text-zinc-400"><a href="mailto:info@proodev.com" class="transition hover:text-zinc-900 dark:hover:text-white">For inquiries: info@proodev.com</a> · Proof over claims. Every engineer backed by evidence.</div>
         </div>
 
         <flux:modal variant="flyout" name="become-sponsor" class="w-full max-w-md">

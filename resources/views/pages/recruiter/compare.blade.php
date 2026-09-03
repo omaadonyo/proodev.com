@@ -189,7 +189,7 @@ new #[Title('Compare Candidates')] class extends Component
         <flux:text>Side-by-side, evidence-backed comparison of up to three candidates.</flux:text>
     </div>
 
-    <div class="rounded-xl border border-zinc-200 bg-white p-5 dark:border-zinc-700 dark:bg-zinc-800">
+    <div class="rounded-xl bg-zinc-100 p-5 dark:bg-white/5">
         <flux:heading size="sm">1 - Select candidates</flux:heading>
         <div class="mt-3 grid gap-3 sm:grid-cols-3">
             @forelse ($this->selectedCandidates as $candidate)
@@ -279,7 +279,7 @@ new #[Title('Compare Candidates')] class extends Component
     </div>
 
     @if ($this->comparison)
-        <div class="rounded-xl border border-zinc-200 bg-white p-5 dark:border-zinc-700 dark:bg-zinc-800">
+        <div class="rounded-xl bg-zinc-100 p-5 dark:bg-white/5">
             <div class="flex flex-wrap items-center justify-between gap-3">
                 <flux:heading size="sm">2 - Result</flux:heading>
                 <div class="flex items-center gap-2">

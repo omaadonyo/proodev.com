@@ -40,7 +40,7 @@ new class extends Component
 
     public bool $demo = false;
 
-    public const DEFAULT_URL = 'https://github.com/laravel/laravel';
+    public const DEFAULT_URL = 'https://github.com/MrPunyapal';
 
     /** @var array<string, mixed>|null */
     public ?array $material = null;
@@ -474,7 +474,7 @@ new class extends Component
             'profile_url' => $this->url,
             'title' => 'ProoDev',
             'tagline' => 'Evidence-backed engineering identity, proof over claims',
-            'repository_url' => 'https://github.com/MrPunyapal/proodev',
+            'repository_url' => 'https://github.com/MrPunyapal',
             'demo_url' => 'https://proodev.dev',
             'tech_stack' => ['PHP', 'Laravel', 'Livewire', 'Tailwind CSS', 'Redis', 'Vue'],
             'content' => 'ProoDev is an AI-powered developer intelligence platform driven by evidence-backed professional identities. It turns real work, repositories, articles, and projects, into proof. Paste any URL, AI fetches the source, drafts an engineering report, maps your skills, and computes an explainable Engineering Magnitude score from 0 to 1000. Built with Laravel, Livewire and Tailwind CSS, it uses Redis for real-time activity streams and queues for background AI analysis.',
@@ -512,7 +512,7 @@ new class extends Component
             'architecture' => 'A Laravel application with Livewire for reactive UI, Redis for real-time feed events and queues, an evidence pipeline that fetches and classifies source material, and an AI analysis layer with an offline rule-based fallback.',
             'tech_stack' => ['PHP', 'Laravel', 'Livewire', 'Tailwind CSS', 'Redis', 'Vue'],
             'demo_url' => 'https://proodev.dev',
-            'repository_url' => 'https://github.com/MrPunyapal/proodev',
+            'repository_url' => 'https://github.com/MrPunyapal/',
             'generated_by' => 'ai',
         ];
     }
@@ -541,9 +541,9 @@ new class extends Component
 }
 ?>
 
-    <div class="w-full" x-data="{ typed: '', examples: ['https://github.com/laravel/laravel', 'https://github.com/vercel/next.js', 'https://github.com/facebook/react', 'https://github.com/tailwindlabs/tailwindcss'], ei: 0, ci: 0, del: false }" x-init="let t=setInterval(()=>{ let ex=examples[ei]; if(!del){ typed=ex.slice(0,ci+1); ci++; if(ci>=ex.length){ del=true; setTimeout(()=>{},800)} } else { typed=ex.slice(0,ci-1); ci--; if(ci<=0){ del=false; ei=(ei+1)%examples.length } } }, 70)">
+    <div class="w-full" x-data="{ typed: '', examples: ['https://github.com/username', 'https://gitlab.com/username', 'https://project-website.com', 'https://daily.dev/posts/post-slug'], ei: 0, ci: 0, del: false }" x-init="let t=setInterval(()=>{ let ex=examples[ei]; if(!del){ typed=ex.slice(0,ci+1); ci++; if(ci>=ex.length){ del=true; setTimeout(()=>{},1000)} } else { typed=ex.slice(0,ci-1); ci--; if(ci<=0){ del=false; ei=(ei+1)%examples.length } } }, 70)">
     @if ($phase === 'input')
-        <form wire:submit="begin" class="rounded-xl border border-zinc-200 bg-white p-4 shadow-sm dark:border-zinc-700 dark:bg-zinc-800">
+        <form wire:submit="begin" class="rounded-xl bg-zinc-100 p-4 shadow-sm dark:bg-white/5">
             <div class="flex items-center gap-2">
                 <div class="relative flex-1">
                     <flux:icon name="magnifying-glass" variant="mini" class="pointer-events-none absolute left-3 top-1/2 size-4 -translate-y-1/2 text-zinc-400" />
@@ -632,7 +632,7 @@ new class extends Component
             </div>
 
             {{-- Live passport build --}}
-            <div class="flex h-full max-h-[600px] flex-col overflow-hidden rounded-2xl border border-zinc-200 bg-white shadow-lg dark:border-white/10 dark:bg-zinc-950/80">
+            <div class="flex h-full max-h-[600px] flex-col overflow-hidden rounded-2xl bg-zinc-100 shadow-lg dark:bg-white/5">
                 <div class="flex shrink-0 items-center justify-between border-b border-zinc-200 px-4 py-3 dark:border-white/10">
                     <span class="inline-flex items-center gap-1.5 text-xs font-semibold text-zinc-700 dark:text-zinc-300">
                         <flux:icon name="check-badge" variant="micro" class="text-emerald-500" />
@@ -682,7 +682,7 @@ new class extends Component
                     </div>
 
                     {{-- Level --}}
-                    <div class="rounded-lg border border-zinc-100 p-3 dark:border-white/10">
+                    <div class="rounded-lg bg-zinc-100 p-3 dark:bg-white/5">
                         <div class="flex items-center justify-between text-xs">
                             <span class="font-semibold text-zinc-700 dark:text-zinc-200">{{ $this->levelSnapshot['title'] ?? 'Explorer' }}</span>
                             <span class="tabular-nums text-zinc-500">Lv {{ $this->levelSnapshot['current'] ?? 1 }} · {{ number_format($this->xp) }} XP</span>
@@ -773,7 +773,7 @@ new class extends Component
             $accountYears = (int) ($material['account_years'] ?? 0);
         @endphp
 
-        <div class="overflow-hidden rounded-2xl border border-zinc-200 bg-white text-left dark:border-white/10 dark:bg-zinc-950/80">
+        <div class="overflow-hidden rounded-2xl bg-zinc-100 text-left dark:bg-white/5">
             <div class="flex items-center justify-between border-b border-zinc-200 px-5 py-3 dark:border-white/10">
                 <div class="inline-flex items-center gap-1.5 rounded-full bg-emerald-500/10 px-3 py-1 text-xs font-semibold text-emerald-600 dark:text-emerald-400">
                     <flux:icon name="check" variant="micro" />
@@ -889,7 +889,7 @@ new class extends Component
                         <div class="text-[10px] font-semibold uppercase tracking-widest text-zinc-500">Repositories: {{ count($repos) }} scouted</div>
                         <div class="mt-2 grid max-h-96 gap-2 overflow-y-auto">
                             @foreach ($repos as $repo)
-                                <div class="rounded-lg border border-zinc-200 bg-zinc-50 px-3 py-2.5 dark:border-white/10 dark:bg-zinc-900/70">
+                                <div class="rounded-lg bg-zinc-100 px-3 py-2.5 dark:bg-white/5">
                                     <div class="flex items-center gap-3">
                                         <flux:icon name="folder-git-2" variant="micro" class="shrink-0 text-zinc-400 dark:text-zinc-500" />
                                         <div class="min-w-0 flex-1">
@@ -933,7 +933,7 @@ new class extends Component
                 @endif
 
                 @if (($material['pull_requests'] ?? 0) > 0)
-                    <div class="flex items-center gap-2 rounded-lg border border-zinc-200 bg-zinc-50 px-3 py-2.5 text-sm dark:border-white/10 dark:bg-zinc-900/70">
+                    <div class="flex items-center gap-2 rounded-lg bg-zinc-100 px-3 py-2.5 text-sm dark:bg-white/5">
                         <flux:icon name="git-pull-request" variant="micro" class="shrink-0 text-emerald-500" />
                         <span class="min-w-0 flex-1 truncate text-zinc-700 dark:text-zinc-300">
                             {{ $material['pull_requests'] }} pull request{{ ($material['pull_requests'] ?? 0) === 1 ? '' : 's' }} found across the ecosystem

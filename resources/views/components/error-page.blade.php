@@ -94,7 +94,8 @@
         </main>
 
         <footer class="border-t border-zinc-200 py-5 text-center text-xs text-zinc-400 dark:border-white/10">
-            &copy; {{ date('Y') }} {{ config('app.name', 'ProoDev') }} · proof over claims.
+            <div><a href="mailto:info@proodev.com" class="transition hover:text-zinc-900 dark:hover:text-white">For inquiries: info@proodev.com</a></div>
+            <div class="mt-1">&copy; {{ date('Y') }} {{ config('app.name', 'ProoDev') }} · proof over claims.</div>
         </footer>
     </body>
 </html>

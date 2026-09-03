@@ -850,7 +850,7 @@ class extends Component
             </div>
 
             {{-- Live passport build --}}
-            <div class="flex h-full max-h-[640px] flex-col overflow-hidden rounded-2xl border border-zinc-200 bg-white shadow-lg dark:border-white/10 dark:bg-zinc-950/80">
+            <div class="flex h-full max-h-[640px] flex-col overflow-hidden rounded-2xl bg-zinc-100 shadow-lg dark:bg-white/5">
                 <div class="flex shrink-0 items-center justify-between border-b border-zinc-200 px-4 py-3 dark:border-white/10">
                     <span class="inline-flex items-center gap-1.5 text-xs font-semibold text-zinc-700 dark:text-zinc-300">
                         <flux:icon name="check-badge" variant="micro" class="text-emerald-500" />
@@ -900,7 +900,7 @@ class extends Component
                     </div>
 
                     {{-- Level --}}
-                    <div class="rounded-lg border border-zinc-100 p-3 dark:border-white/10">
+                    <div class="rounded-lg bg-zinc-100 p-3 dark:bg-white/5">
                         <div class="flex items-center justify-between text-xs">
                             <span class="font-semibold text-zinc-700 dark:text-zinc-200">{{ $this->levelSnapshot['title'] }}</span>
                             <span class="tabular-nums text-zinc-500">Lv {{ $this->levelSnapshot['current'] }} · {{ number_format($this->xp) }} XP</span>
@@ -991,20 +991,20 @@ class extends Component
             @if ($summary)
                 <div class="mt-6 grid grid-cols-2 gap-3 sm:grid-cols-4">
                     @if ($summary['repos'] !== null)
-                        <div class="rounded-xl border border-zinc-100 bg-zinc-50 p-3 dark:border-zinc-700/60 dark:bg-zinc-900/60">
+                        <div class="rounded-xl bg-zinc-100 p-3 dark:bg-white/5">
                             <div class="text-xl font-bold tabular-nums">{{ number_format($summary['repos']) }}</div>
                             <div class="text-xs text-zinc-500">Repos scanned</div>
                         </div>
                     @endif
-                    <div class="rounded-xl border border-zinc-100 bg-zinc-50 p-3 dark:border-zinc-700/60 dark:bg-zinc-900/60">
+                    <div class="rounded-xl bg-zinc-100 p-3 dark:bg-white/5">
                         <div class="text-xl font-bold tabular-nums">{{ number_format($summary['evidence']) }}</div>
                         <div class="text-xs text-zinc-500">Evidence queued</div>
                     </div>
-                    <div class="rounded-xl border border-zinc-100 bg-zinc-50 p-3 dark:border-zinc-700/60 dark:bg-zinc-900/60">
+                    <div class="rounded-xl bg-zinc-100 p-3 dark:bg-white/5">
                         <div class="text-xl font-bold tabular-nums">{{ number_format($summary['projects']) }}</div>
                         <div class="text-xs text-zinc-500">Projects published</div>
                     </div>
-                    <div class="rounded-xl border border-zinc-100 bg-zinc-50 p-3 dark:border-zinc-700/60 dark:bg-zinc-900/60">
+                    <div class="rounded-xl bg-zinc-100 p-3 dark:bg-white/5">
                         <div class="text-xl font-bold tabular-nums">{{ number_format($summary['journal']) }}</div>
                         <div class="text-xs text-zinc-500">Journal entries</div>
                     </div>
@@ -1012,15 +1012,15 @@ class extends Component
 
                 @if ($summary['stars'] !== null)
                     <div class="mt-3 grid grid-cols-3 gap-3">
-                        <div class="rounded-xl border border-zinc-100 bg-zinc-50 p-3 dark:border-zinc-700/60 dark:bg-zinc-900/60">
+                        <div class="rounded-xl bg-zinc-100 p-3 dark:bg-white/5">
                             <div class="text-lg font-bold tabular-nums">★ {{ number_format($summary['stars']) }}</div>
                             <div class="text-xs text-zinc-500">GitHub stars found</div>
                         </div>
-                        <div class="rounded-xl border border-zinc-100 bg-zinc-50 p-3 dark:border-zinc-700/60 dark:bg-zinc-900/60">
+                        <div class="rounded-xl bg-zinc-100 p-3 dark:bg-white/5">
                             <div class="text-lg font-bold tabular-nums">{{ number_format($summary['followers']) }}</div>
                             <div class="text-xs text-zinc-500">Followers</div>
                         </div>
-                        <div class="rounded-xl border border-zinc-100 bg-zinc-50 p-3 dark:border-zinc-700/60 dark:bg-zinc-900/60">
+                        <div class="rounded-xl bg-zinc-100 p-3 dark:bg-white/5">
                             <div class="text-lg font-bold tabular-nums">{{ number_format($summary['xp']) }}</div>
                             <div class="text-xs text-zinc-500">XP earned</div>
                         </div>
@@ -1047,7 +1047,7 @@ class extends Component
             @endif
 
             @if (auth()->user()->bio)
-                <div class="mt-6 rounded-xl border border-zinc-100 bg-zinc-50 p-4 dark:border-zinc-700/60 dark:bg-zinc-900/60">
+                <div class="mt-6 rounded-xl bg-zinc-100 p-4 dark:bg-white/5">
                     <div class="mb-1.5 flex items-center gap-1.5 text-xs font-semibold text-accent">
                         <flux:icon name="sparkles" variant="micro" />
                         Written by AI

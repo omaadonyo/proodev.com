@@ -238,7 +238,7 @@ new #[Title('Talent Alerts')] class extends Component {
                     <flux:input type="number" wire:model="minMagnitude" min="0" max="1000" placeholder="e.g. 450" />
                 </flux:field>
                 <flux:field class="sm:col-span-2">
-                    <div class="flex items-center justify-between rounded-lg border border-zinc-200 px-3 py-2 dark:border-zinc-700">
+                    <div class="flex items-center justify-between rounded-lg bg-zinc-100 px-3 py-2 dark:bg-white/5">
                         <span class="text-sm">Verified candidates only</span>
                         <flux:switch wire:model="verifiedOnly" />
                     </div>
@@ -297,7 +297,7 @@ new #[Title('Talent Alerts')] class extends Component {
 
     <div class="grid gap-4">
         @forelse ($this->alerts as $alert)
-            <div class="flex flex-wrap items-center gap-4 rounded-xl border border-zinc-200 bg-white p-5 dark:border-zinc-700 dark:bg-zinc-800">
+            <div class="flex flex-wrap items-center gap-4 rounded-xl bg-zinc-100 p-5 dark:bg-white/5">
                 <div class="min-w-0 flex-1">
                     <div class="flex items-center gap-2 font-medium">
                         {{ $alert->name }}

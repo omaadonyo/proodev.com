@@ -187,7 +187,7 @@ new #[Title('AI Models')] class extends Component {
         <flux:text>Pick a free AI model that scouts and reads page content, then add your API key. Changes apply immediately.</flux:text>
     </div>
 
-    <div class="rounded-lg border border-zinc-200 bg-white p-3 dark:border-zinc-700 dark:bg-zinc-800">
+        <div class="rounded-lg bg-zinc-100 p-3 dark:bg-white/5">
         <div class="flex flex-wrap items-center gap-3">
             <div class="flex size-10 shrink-0 items-center justify-center rounded-lg bg-accent/10 text-accent">
                 <flux:icon name="sparkles" />
@@ -222,7 +222,7 @@ new #[Title('AI Models')] class extends Component {
                 @class([
                     'cursor-pointer rounded-lg border p-3 transition',
                     'border-accent bg-accent/5 ring-1 ring-accent' => $row['active'],
-                    'border-zinc-200 bg-white hover:border-accent dark:border-zinc-700 dark:bg-zinc-800' => ! $row['active'],
+                    'bg-zinc-100 hover:border-accent dark:bg-white/5' => ! $row['active'],
                 ])
             >
                 <div class="flex items-start gap-3">
@@ -258,7 +258,7 @@ new #[Title('AI Models')] class extends Component {
 
     @if ($this->editing)
         @php($editingProvider = \App\Enums\AiProvider::tryFrom($this->editing))
-        <div class="rounded-lg border border-zinc-200 bg-white p-3 dark:border-zinc-700 dark:bg-zinc-800">
+    <div class="rounded-lg bg-zinc-100 p-3 dark:bg-white/5">
             <div class="flex flex-wrap items-center justify-between gap-3">
                 <div>
                     <flux:heading size="sm">Configure {{ $editingProvider?->label() }}</flux:heading>

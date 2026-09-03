@@ -279,7 +279,7 @@ new #[Title('Agency Workspace')] class extends Component
     @endif
 
     <div class="grid gap-6 lg:grid-cols-4">
-        <div class="rounded-xl border border-zinc-200 bg-white p-5 dark:border-zinc-700 dark:bg-zinc-800 lg:col-span-1">
+        <div class="rounded-xl bg-zinc-100 p-5 dark:bg-white/5 lg:col-span-1">
             <flux:heading size="sm">Talent pools</flux:heading>
             <div class="mt-3 grid gap-1">
                 @forelse ($this->pools as $pool)
@@ -318,7 +318,7 @@ new #[Title('Agency Workspace')] class extends Component
 
         <div class="grid gap-6 lg:col-span-3">
             @if ($this->activePool)
-                <div class="rounded-xl border border-zinc-200 bg-white p-5 dark:border-zinc-700 dark:bg-zinc-800">
+                <div class="rounded-xl bg-zinc-100 p-5 dark:bg-white/5">
                     <div class="flex flex-wrap items-center justify-between gap-3">
                         <div>
                             <flux:heading size="sm">{{ $this->activePool->name }}</flux:heading>
@@ -433,7 +433,7 @@ new #[Title('Agency Workspace')] class extends Component
                     @elseif ($this->view === 'detailed')
                         <div class="mt-4 grid gap-3">
                             @foreach ($members as $member)
-                                <div class="rounded-xl border border-zinc-200 p-4 transition hover:border-accent dark:border-zinc-700">
+                                <div class="rounded-xl bg-zinc-100 p-4 transition hover:border-accent dark:bg-white/5">
                                     <div class="flex flex-wrap items-start gap-4">
                                         <a href="{{ route('recruiter.candidates.show', $member->candidate_id) }}" wire:navigate class="shrink-0">
                                             <flux:avatar :src="$member->candidate->avatarUrl()" :alt="$member->candidate->name" circle class="size-16" />
@@ -494,7 +494,7 @@ new #[Title('Agency Workspace')] class extends Component
                     @else
                         <div class="mt-4 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
                             @foreach ($members as $member)
-                                <div class="group relative rounded-xl border border-zinc-200 p-5 transition hover:border-accent dark:border-zinc-700">
+                                <div class="group relative rounded-xl bg-zinc-100 p-5 transition hover:border-accent dark:bg-white/5">
                                     <a href="{{ route('recruiter.candidates.show', $member->candidate_id) }}" wire:navigate class="absolute inset-0 rounded-xl" aria-label="View {{ $member->candidate->name }}'s report"></a>
                                     <div class="flex items-center gap-3">
                                         <flux:avatar :src="$member->candidate->avatarUrl()" :alt="$member->candidate->name" circle class="size-11" />
@@ -541,7 +541,7 @@ new #[Title('Agency Workspace')] class extends Component
             @endif
 
             <div class="grid gap-6 sm:grid-cols-2">
-                <div class="rounded-xl border border-zinc-200 bg-white p-5 dark:border-zinc-700 dark:bg-zinc-800">
+                <div class="rounded-xl bg-zinc-100 p-5 dark:bg-white/5">
                     <flux:heading size="sm">Scheduled interviews</flux:heading>
                     <div class="mt-3 grid gap-2">
                         @forelse ($this->overview['active_interviews'] as $interview)
@@ -561,7 +561,7 @@ new #[Title('Agency Workspace')] class extends Component
                     </div>
                 </div>
 
-                <div class="rounded-xl border border-zinc-200 bg-white p-5 dark:border-zinc-700 dark:bg-zinc-800">
+                <div class="rounded-xl bg-zinc-100 p-5 dark:bg-white/5">
                     <flux:heading size="sm">Recent placements</flux:heading>
                     <div class="mt-3 grid gap-2">
                         @forelse ($this->overview['recent_placements'] as $placement)
